@@ -25,4 +25,11 @@ public interface IssueProcessingAction {
      * @return String info
      */
     String infoAboutIssueProcessingAction();
+
+    /**
+     * Information about the result of applying this data processing action.
+     *
+     * @return String info
+     */
+    String infoAboutApplicationResult();
 }

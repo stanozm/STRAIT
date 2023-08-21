@@ -20,6 +20,11 @@ public class LabelsToLowerCaseProcessor implements IssuesProcessor {
     public String infoAboutIssueProcessingAction() {
         return "LabelsToLowerCaseProcessor used to lowercase all lables of issues.";
     }
+
+    @Override
+    public String infoAboutApplicationResult(){
+        return "Labels now use lowercase.";
+    }
     
     @Override
     public String toString() {

@@ -28,7 +28,7 @@ public class FilterFactory {
      */
     public static List<String> getFiltersRanWithInfoAsList(ArgsParser parser) {
         List<String> list = new ArrayList<>();
-        for (Filter filter: getFilters(parser)) {
+        for (IssueProcessingAction filter: getFilters(parser)) {
             list.add(filter.infoAboutIssueProcessingAction());
         }
         return list;
@@ -40,8 +40,8 @@ public class FilterFactory {
      * @param parser  parsed CommandLine.
      * @return list of Filters.
      */
-    public static List<Filter> getFilters(ArgsParser parser) {
-        List<Filter> listOfFilters = new ArrayList<>();
+    public static List<IssueProcessingAction> getFilters(ArgsParser parser) {
+        List<IssueProcessingAction> listOfFilters = new ArrayList<>();
         
         if (parser.hasOptionFilterLabels()) {
             if (parser.getOptionValuesFilterLabels() == null) {

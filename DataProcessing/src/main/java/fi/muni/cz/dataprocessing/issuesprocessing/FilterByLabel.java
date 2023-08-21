@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class FilterByLabel implements Filter, Serializable {
 
+    private int issueAmountBefore;
+    private int issueAmountAfter;
     private final List<String> filteringWords;
 
     /**
@@ -26,10 +28,14 @@ public class FilterByLabel implements Filter, Serializable {
     
     @Override
     public List<GeneralIssue> apply(List<GeneralIssue> list) {
+        issueAmountBefore = list.size();
         if (filteringWords.isEmpty()) {
             throw new DataProcessingException("No filtering words");
         }
-        return filterByLabels(allLabelsToLowerCase(list));
+
+        List<GeneralIssue> result = filterByLabels(allLabelsToLowerCase(list));
+        issueAmountAfter = result.size();
+        return result;
     }
     
     /**
@@ -77,6 +83,11 @@ public class FilterByLabel implements Filter, Serializable {
     @Override
     public String infoAboutIssueProcessingAction() {
         return "FilterByLabel used, with filtering words: " + filteringWords;
+    }
+
+    @Override
+    public String infoAboutApplicationResult(){
+        return String.format("Removed %d issue reports", issueAmountBefore - issueAmountAfter);
     }
 
     @Override

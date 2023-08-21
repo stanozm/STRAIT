@@ -17,9 +17,12 @@ public class FilterDefects implements Filter {
 
     private static final List<String> FILTERING_WORDS = Arrays.asList("bug","error","fail","fault","defect");
     private static final FilterByLabel FILTER_BY_LABELS = new FilterByLabel(FILTERING_WORDS);
+    private int issueAmountBefore;
+    private int issueAmountAfter;
 
     @Override
     public List<GeneralIssue> apply(List<GeneralIssue> list) {
+        issueAmountBefore = list.size();
         Set<GeneralIssue> filteredList = new HashSet<>(FILTER_BY_LABELS.apply(list));
         for (GeneralIssue issue: list) {
             if (issue.getBody() == null) {
@@ -29,6 +32,7 @@ public class FilterDefects implements Filter {
                 filteredList.add(issue);
             }
         }
+        issueAmountAfter = filteredList.size();
         return filteredList.stream()
                 .sorted((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt())).collect(Collectors.toList());
     }
@@ -36,6 +40,11 @@ public class FilterDefects implements Filter {
     @Override
     public String infoAboutIssueProcessingAction() {
         return "FilterDefects used to get only defects.";
+    }
+
+    @Override
+    public String infoAboutApplicationResult(){
+        return String.format("Removed %d issue reports", issueAmountBefore - issueAmountAfter);
     }
 
     @Override
