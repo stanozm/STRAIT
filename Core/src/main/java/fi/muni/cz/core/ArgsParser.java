@@ -490,7 +490,7 @@ public class ArgsParser {
      * 
      * @return argument values.
      */
-    public String[] getOptionValuesFilterLables() {
+    public String[] getOptionValuesFilterLabels() {
         return cmdl.getOptionValues(OPT_FILTER_LABELS);
     }
     

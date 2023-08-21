@@ -44,11 +44,11 @@ public class FilterFactory {
         List<Filter> listOfFilters = new ArrayList<>();
         
         if (parser.hasOptionFilterLabels()) {
-            if (parser.getOptionValuesFilterLables() == null) {   
+            if (parser.getOptionValuesFilterLabels() == null) {
                 listOfFilters.add(new FilterByLabel(FILTERING_WORDS));
             } else {
                 listOfFilters.add(new FilterByLabel(
-                        Arrays.asList(parser.getOptionValuesFilterLables())));
+                        Arrays.asList(parser.getOptionValuesFilterLabels())));
             }
         }
         
