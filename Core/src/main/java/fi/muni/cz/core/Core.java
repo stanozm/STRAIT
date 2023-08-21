@@ -168,7 +168,7 @@ public class Core {
         filteredList.addAll(listOfGeneralIssues);
         List<Filter> listOfFilters = FilterFactory.getFilters(PARSER);
         for (Filter filter: listOfFilters) {
-            filteredList = filter.filter(filteredList);
+            filteredList = filter.apply(filteredList);
         }
         return filteredList;
     } 
@@ -247,7 +247,7 @@ public class Core {
         processedList.addAll(listOfGeneralIssues);
         List<IssuesProcessor> listOfProcessors = ProcessorFactory.getProcessors(PARSER);
         for (IssuesProcessor processor: listOfProcessors) {
-            processedList = processor.process(processedList);
+            processedList = processor.apply(processedList);
         }
         return processedList;
     }

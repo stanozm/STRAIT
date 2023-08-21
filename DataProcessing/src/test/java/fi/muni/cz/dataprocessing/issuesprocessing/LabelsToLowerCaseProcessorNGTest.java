@@ -26,8 +26,8 @@ public class LabelsToLowerCaseProcessorNGTest {
     
     @Test
     public void testLabelsToLowerCase() {
-        assertEquals(processor.process(listOfIssues).get(0).getLabels().get(0), "bug");
-        assertEquals(processor.process(listOfIssues).get(0).getLabels().get(1), "error");
-        assertEquals(processor.process(listOfIssues).get(0).getLabels().get(2), "fault");
+        assertEquals(processor.apply(listOfIssues).get(0).getLabels().get(0), "bug");
+        assertEquals(processor.apply(listOfIssues).get(0).getLabels().get(1), "error");
+        assertEquals(processor.apply(listOfIssues).get(0).getLabels().get(2), "fault");
     }
 }

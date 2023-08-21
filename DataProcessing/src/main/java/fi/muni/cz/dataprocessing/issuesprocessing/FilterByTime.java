@@ -25,7 +25,7 @@ public class FilterByTime implements Filter {
     }
     
     @Override
-    public List<GeneralIssue> filter(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list) {
         List<GeneralIssue> filteredList = new ArrayList<>();
         for (GeneralIssue issue: list) {
             if (issue.getCreatedAt().after(startOfTesting) && issue.getCreatedAt().before(endOfTesting)) {
@@ -36,7 +36,7 @@ public class FilterByTime implements Filter {
     }
 
     @Override
-    public String infoAboutFilter() {
+    public String infoAboutIssueProcessingAction() {
         return "FilterByTime start of testing = " + startOfTesting 
                 + ", end of testing = " + endOfTesting;
     }

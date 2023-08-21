@@ -14,7 +14,7 @@ import java.util.List;
 public class FilterClosed implements Filter, Serializable {
 
     @Override
-    public List<GeneralIssue> filter(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list) {
         List<GeneralIssue> cloesedIssues = new ArrayList<>();
         for (GeneralIssue issue: list) {
             if (issue.getState().equals("closed")) {
@@ -25,7 +25,7 @@ public class FilterClosed implements Filter, Serializable {
     }
 
     @Override
-    public String infoAboutFilter() {
+    public String infoAboutIssueProcessingAction() {
         return "FilterClosed used to filter out opened issues.";
     }
     

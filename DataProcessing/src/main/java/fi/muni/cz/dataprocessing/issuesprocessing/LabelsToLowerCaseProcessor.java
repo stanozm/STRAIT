@@ -9,7 +9,7 @@ import java.util.List;
 public class LabelsToLowerCaseProcessor implements IssuesProcessor {
     
     @Override
-    public List<GeneralIssue> process(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list) {
         for (GeneralIssue issue: list) {
             issue.allLabelsToLowerCase();
         } 
@@ -17,7 +17,7 @@ public class LabelsToLowerCaseProcessor implements IssuesProcessor {
     }
 
     @Override
-    public String infoAboutProcessor() {
+    public String infoAboutIssueProcessingAction() {
         return "LabelsToLowerCaseProcessor used to lowercase all lables of issues.";
     }
     

@@ -19,7 +19,7 @@ public class ProcessorFactory {
     public static List<String> getProcessorsRanWithInfoAsList(ArgsParser parser) {
         List<String> list = new ArrayList<>();
         for (IssuesProcessor processor: getProcessors(parser)) {
-            list.add(processor.infoAboutProcessor());
+            list.add(processor.infoAboutIssueProcessingAction());
         }
         return list;
     }

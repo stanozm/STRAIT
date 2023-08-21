@@ -29,7 +29,7 @@ public class FilterFactory {
     public static List<String> getFiltersRanWithInfoAsList(ArgsParser parser) {
         List<String> list = new ArrayList<>();
         for (Filter filter: getFilters(parser)) {
-            list.add(filter.infoAboutFilter());
+            list.add(filter.infoAboutIssueProcessingAction());
         }
         return list;
     }

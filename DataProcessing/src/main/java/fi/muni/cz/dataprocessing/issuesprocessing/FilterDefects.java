@@ -19,8 +19,8 @@ public class FilterDefects implements Filter {
     private static final FilterByLabel FILTER_BY_LABELS = new FilterByLabel(FILTERING_WORDS);
 
     @Override
-    public List<GeneralIssue> filter(List<GeneralIssue> list) {
-        Set<GeneralIssue> filteredList = new HashSet<>(FILTER_BY_LABELS.filter(list));
+    public List<GeneralIssue> apply(List<GeneralIssue> list) {
+        Set<GeneralIssue> filteredList = new HashSet<>(FILTER_BY_LABELS.apply(list));
         for (GeneralIssue issue: list) {
             if (issue.getBody() == null) {
                 continue;
@@ -34,7 +34,7 @@ public class FilterDefects implements Filter {
     }
 
     @Override
-    public String infoAboutFilter() {
+    public String infoAboutIssueProcessingAction() {
         return "FilterDefects used to get only defects.";
     }
 

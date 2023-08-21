@@ -11,7 +11,7 @@ import java.util.List;
 public class FilterDuplications implements Filter {
 
     @Override
-    public List<GeneralIssue> filter(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list) {
         List<GeneralIssue> filteredList = new ArrayList<>();
         for (GeneralIssue issue: allLabelsToLowerCase(list)) {
             if (issue.getLabels().stream()
@@ -23,7 +23,7 @@ public class FilterDuplications implements Filter {
     }
 
     @Override
-    public String infoAboutFilter() {
+    public String infoAboutIssueProcessingAction() {
         return "FilterDuplications used to remove duplication issues.";
     }
 
@@ -34,6 +34,6 @@ public class FilterDuplications implements Filter {
 
     private List<GeneralIssue> allLabelsToLowerCase(List<GeneralIssue> list) {
         IssuesProcessor toLowerCaseProcessor = new LabelsToLowerCaseProcessor();
-        return toLowerCaseProcessor.process(list);
+        return toLowerCaseProcessor.apply(list);
     }
 }

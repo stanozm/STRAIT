@@ -25,7 +25,7 @@ public class FilterByLabel implements Filter, Serializable {
     }
     
     @Override
-    public List<GeneralIssue> filter(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list) {
         if (filteringWords.isEmpty()) {
             throw new DataProcessingException("No filtering words");
         }
@@ -71,11 +71,11 @@ public class FilterByLabel implements Filter, Serializable {
      */
     private List<GeneralIssue> allLabelsToLowerCase(List<GeneralIssue> list) {
         IssuesProcessor toLowerCaseProcessor = new LabelsToLowerCaseProcessor();
-        return toLowerCaseProcessor.process(list);
+        return toLowerCaseProcessor.apply(list);
     }
 
     @Override
-    public String infoAboutFilter() {
+    public String infoAboutIssueProcessingAction() {
         return "FilterByLabel used, with filtering words: " + filteringWords;
     }
 
