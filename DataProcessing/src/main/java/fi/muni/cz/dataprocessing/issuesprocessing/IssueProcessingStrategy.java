@@ -2,6 +2,8 @@ package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Class that represents an issue processing strategy.
@@ -36,6 +38,19 @@ public class IssueProcessingStrategy {
             issueList = checkListForEmpty(action.apply(issues));
         }
         return issueList;
+    }
+
+    /**
+     * Get info about issue processing action results.
+     * Should be used after strategy has been applied on data.
+     * @return Issue processing strategy action results.
+     */
+    public Map<String, String> getIssueProcessingActionResults() {
+        return issueProcessingActionList.stream()
+                .collect(Collectors.toMap(
+                        IssueProcessingAction::toString,
+                        IssueProcessingAction::infoAboutApplicationResult
+                ));
     }
 
     private static List<GeneralIssue> checkListForEmpty(List<GeneralIssue> issueList) {

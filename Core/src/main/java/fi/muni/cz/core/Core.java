@@ -239,9 +239,14 @@ public class Core {
                                 ? parsedUrlData.getRepositoryName() : PARSER.getOptionValueEvaluation());
     }
     
-    private static List<OutputData> prepareOutputData(int initialNumberOfIssues, 
-            List<GeneralIssue> listOfGeneralIssues, List<Pair<Integer, Integer>> countedWeeksWithTotal, 
-            TrendTest trendTest, RepositoryInformation repositoryInformation) throws InvalidInputException {
+    private static List<OutputData> prepareOutputData(
+            int initialNumberOfIssues,
+            List<GeneralIssue> listOfGeneralIssues,
+            List<Pair<Integer, Integer>> countedWeeksWithTotal,
+            TrendTest trendTest,
+            RepositoryInformation repositoryInformation,
+            IssueProcessingStrategy issueProcessingStrategy)
+            throws InvalidInputException {
         List<OutputData> outputDataList = new ArrayList<>();
         OutputData outputData;
         for (Model model: runModels(countedWeeksWithTotal, getGoodnessOfFitTest())) {
@@ -263,6 +268,7 @@ public class Core {
                     .setInitialNumberOfIssues(initialNumberOfIssues)
                     .setFiltersUsed(FilterFactory.getFiltersRanWithInfoAsList(PARSER))
                     .setProcessorsUsed(ProcessorFactory.getProcessorsRanWithInfoAsList(PARSER))
+                    .setIssueProcessingActionResults(issueProcessingStrategy.getIssueProcessingActionResults())
                     .setTestingPeriodsUnit(getPeriodOfTesting())
                     .setTimeBetweenDefectsUnit(getTimeBetweenIssuesUnit())
                     .setSolver(getSolver())
@@ -282,7 +288,7 @@ public class Core {
 
         if (outputDataList.isEmpty()) {
             outputData = getOutputDataForNoModels(initialNumberOfIssues, listOfGeneralIssues,
-                    countedWeeksWithTotal, trendTest, repositoryInformation);
+                    countedWeeksWithTotal, trendTest, repositoryInformation, issueProcessingStrategy);
             outputDataList.add(outputData);
         }
 
@@ -293,7 +299,8 @@ public class Core {
                                                        List<GeneralIssue> listOfGeneralIssues,
                                                        List<Pair<Integer, Integer>> countedWeeksWithTotal,
                                                        TrendTest trendTest,
-                                                       RepositoryInformation repositoryInformation) {
+                                                       RepositoryInformation repositoryInformation,
+                                                       IssueProcessingStrategy issueProcessingStrategy) {
         return new OutputData.OutputDataBuilder()
                 .setCreatedAt(new Date())
                 .setRepositoryName(parsedUrlData.getRepositoryName())
@@ -308,6 +315,7 @@ public class Core {
                 .setInitialNumberOfIssues(initialNumberOfIssues)
                 .setFiltersUsed(FilterFactory.getFiltersRanWithInfoAsList(PARSER))
                 .setProcessorsUsed(ProcessorFactory.getProcessorsRanWithInfoAsList(PARSER))
+                .setIssueProcessingActionResults(issueProcessingStrategy.getIssueProcessingActionResults())
                 .setTestingPeriodsUnit(getPeriodOfTesting())
                 .setTimeBetweenDefectsUnit(getTimeBetweenIssuesUnit())
                 .setSolver(getSolver())
@@ -346,7 +354,11 @@ public class Core {
         TrendTest trendTest = runTrendTest(filteredAndProcessedList); 
         List<OutputData> outputDataList = 
                 prepareOutputData(listOfGeneralIssues.size(), 
-                        filteredAndProcessedList, countedWeeksWithTotal, trendTest, repositoryInformation);
+                        filteredAndProcessedList,
+                        countedWeeksWithTotal,
+                        trendTest,
+                        repositoryInformation,
+                        issueProcessingStrategy);
         writeOutput(outputDataList);
     }
 

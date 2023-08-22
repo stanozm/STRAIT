@@ -52,6 +52,6 @@ public class FilterByTime implements Filter {
 
     @Override
     public String toString() {
-        return "FilterByTime";
+        return "FilterByTime: " + startOfTesting + " - " + endOfTesting;
     }
 }
