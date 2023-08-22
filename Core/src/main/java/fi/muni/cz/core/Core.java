@@ -1,5 +1,7 @@
 package fi.muni.cz.core;
 
+import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
+import fi.muni.cz.core.configuration.DataSource;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.*;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
@@ -27,6 +29,7 @@ import org.rosuda.JRI.Rengine;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -78,6 +81,10 @@ public class Core {
                break;
             case HELP:
                 PARSER.printHelp();
+                break;
+            case BATCH_AND_EVALUATE:
+                doBatchAnalysis();
+                break;
             case URL_AND_SAVE:
                 checkUrl(PARSER.getOptionValueUrl());
                 doSaveToFileFromUrl();
@@ -114,6 +121,20 @@ public class Core {
         }
         System.out.println("Done! Duration - " + Duration.between(start, Instant.now()).toMinutes() + "min");
         System.exit(0);
+    }
+
+    private static void doBatchAnalysis() throws InvalidInputException {
+        System.out.println("Starting batch processing");
+        List<String> errors = Collections.EMPTY_LIST;
+        String filePath = PARSER.getOptionValueBatchConfigurationFile();
+        BatchAnalysisConfiguration batchConfiguration =
+                PARSER.parseBatchAnalysisConfigurationFromFile(filePath, errors);
+        if(errors.isEmpty()){
+            for(DataSource dataSource : batchConfiguration.getDataSources()){
+                checkUrl(dataSource.getLocation());
+                doEvaluateForUrl();
+            }
+        }
     }
     
     private static void  doEvaluateForUrl() throws InvalidInputException {

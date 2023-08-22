@@ -1,5 +1,7 @@
 package fi.muni.cz.core;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.FilterFactory;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
@@ -9,8 +11,11 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static fi.muni.cz.core.RunConfiguration.*;
 
@@ -25,6 +30,8 @@ public class ArgsParser {
     public static final String OPT_LIST_ALL_SNAPSHOTS = "asl";
     public static final String OPT_HELP = "h";
     public static final String OPT_CONFIG_FILE = "cf";
+
+    public static final String OPT_BATCH_CONFIG_FILE = "bcf";
     
     //Rest of Mandatory options
     public static final String OPT_LIST_SNAPSHOTS = "sl";
@@ -46,6 +53,8 @@ public class ArgsParser {
     
     //Configuraton file option
     private static final String FLAG_CONFIG_FILE = "-cf";
+
+    private static final String FLAG_BATCH_CONFIG_FILE = "-bcf";
     
     private CommandLine cmdl;
     private Options options;
@@ -108,6 +117,24 @@ public class ArgsParser {
         }
         return args[0].equals(ArgsParser.FLAG_CONFIG_FILE);
     }
+
+    /**
+     * @param filePath file path
+     * @param errors  errors
+     * @return Batch analysis configuration
+     *
+     * */
+    public BatchAnalysisConfiguration parseBatchAnalysisConfigurationFromFile(String filePath, List<String> errors){
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(Files.newInputStream(Paths.get(filePath))))
+        ) {
+            String fileContent = reader.lines().collect(Collectors.joining());
+            return new ObjectMapper().readerFor(BatchAnalysisConfiguration.class).readValue(fileContent);
+        } catch (IOException ex) {
+            errors.add(ex.getMessage());
+            return null;
+        }
+    }
     
     private void getConfiguredOptions() {
         options = new Options();
@@ -115,6 +142,10 @@ public class ArgsParser {
         OptionGroup mandatoryOptionGroup = new OptionGroup();
         Option option = Option.builder(OPT_CONFIG_FILE).hasArg().
                 argName("Path to file").desc("Configuration file.").build();
+        mandatoryOptionGroup.addOption(option);
+        option = Option.builder(OPT_BATCH_CONFIG_FILE)
+                .hasArg().argName("Path to file")
+                .desc("Configuration file for batch analysis").build();
         mandatoryOptionGroup.addOption(option);
         option = Option.builder(OPT_URL).hasArg().argName("URL of repository").build();
         mandatoryOptionGroup.addOption(option);
@@ -204,6 +235,8 @@ public class ArgsParser {
             return LIST_ALL_SNAPSHOTS;
         } else if (hasOptionHelp()) {
             return HELP;
+        } else if (hasOptionBatchConfigFile() && hasOptionEvaluate()) {
+            return BATCH_AND_EVALUATE;
         } else if (hasOptionUrl() && hasOptionSave()) {
             return URL_AND_SAVE;
         } else if (hasOptionUrl() && hasOptionListSnapshots()) {
@@ -231,6 +264,15 @@ public class ArgsParser {
      */
     public boolean hasOptionConfigFile() {
         return cmdl.hasOption(OPT_CONFIG_FILE);
+    }
+
+    /**
+     * Check if option 'bcf' is on command line.
+     *
+     * @return true if there is 'bcf', false otherwise.
+     */
+    public boolean hasOptionBatchConfigFile() {
+        return cmdl.hasOption(OPT_BATCH_CONFIG_FILE);
     }
     
     /**
@@ -528,5 +570,14 @@ public class ArgsParser {
      */
     public String getOptionValueOut() {
         return cmdl.getOptionValue(OPT_OUT);
+    }
+
+    /**
+     * Get argument value for 'bcf'.
+     *
+     * @return argument value
+     * */
+    public String getOptionValueBatchConfigurationFile() {
+        return cmdl.getOptionValue(OPT_BATCH_CONFIG_FILE);
     }
 }
