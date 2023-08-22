@@ -35,7 +35,7 @@ public class IssueProcessingStrategy {
     public List<GeneralIssue> apply(List<GeneralIssue> issues){
         List<GeneralIssue> issueList = issues;
         for(IssueProcessingAction action : issueProcessingActionList){
-            issueList = checkListForEmpty(action.apply(issues));
+            issueList = checkListForEmpty(action.apply(issueList));
         }
         return issueList;
     }

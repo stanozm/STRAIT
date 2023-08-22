@@ -92,8 +92,8 @@
             </p>
         <h3>Data processing overview</h3>
         <p>
-            Initial number of total defects = ${dataList[0].initialNumberOfIssues}<br>
-            Total defects in repository after processing and filtering = ${dataList[0].totalNumberOfDefects}<br>
+            Initial number of total defects = ${noModelsData.initialNumberOfIssues}<br>
+            Total defects in repository after processing and filtering = ${noModelsData.totalNumberOfDefects}<br>
         </p>
         <b>Issue processing action results:</b><br>
         <table>
@@ -101,8 +101,8 @@
                 <th>Issue processing action</th>
                 <th>Issue processing action result</th>
             </tr>
-            <#if dataList[0].issueProcessingActionResults?size != 0>
-                <#list dataList[0].issueProcessingActionResults as key, value>
+            <#if noModelsData.issueProcessingActionResults?size != 0>
+                <#list noModelsData.issueProcessingActionResults as key, value>
                     <tr>
                         <td>${key}</td>
                         <td>${value}</td>
