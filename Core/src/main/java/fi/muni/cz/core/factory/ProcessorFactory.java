@@ -1,7 +1,7 @@
 package fi.muni.cz.core.factory;
 
 import fi.muni.cz.core.ArgsParser;
-import fi.muni.cz.dataprocessing.issuesprocessing.IssuesProcessor;
+import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +18,8 @@ public class ProcessorFactory {
      */
     public static List<String> getProcessorsRanWithInfoAsList(ArgsParser parser) {
         List<String> list = new ArrayList<>();
-        for (IssuesProcessor processor: getProcessors(parser)) {
-            list.add(processor.infoAboutProcessor());
+        for (IssueProcessingAction processor: getProcessors(parser)) {
+            list.add(processor.infoAboutIssueProcessingAction());
         }
         return list;
     }
@@ -30,8 +30,8 @@ public class ProcessorFactory {
      * @param parser  parsed CommandLine.
      * @return list of Processors.
      */
-    public static List<IssuesProcessor> getProcessors(ArgsParser parser) {
-        List<IssuesProcessor> listOfProcessors = new ArrayList<>();
+    public static List<IssueProcessingAction> getProcessors(ArgsParser parser) {
+        List<IssueProcessingAction> listOfProcessors = new ArrayList<>();
 
         //Implement for processors
 

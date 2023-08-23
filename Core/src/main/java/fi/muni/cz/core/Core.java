@@ -2,8 +2,7 @@ package fi.muni.cz.core;
 
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.*;
-import fi.muni.cz.dataprocessing.issuesprocessing.Filter;
-import fi.muni.cz.dataprocessing.issuesprocessing.IssuesProcessor;
+import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.CumulativeIssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.TimeBetweenIssuesCounter;
@@ -32,6 +31,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -162,17 +162,7 @@ public class Core {
         System.out.println("On repository - " + snapshot.getUrl());
         doEvaluate(snapshot.getListOfGeneralIssues(), snapshot.getRepositoryInformation());
     }
-    
-    private static List<GeneralIssue> runFilters(List<GeneralIssue> listOfGeneralIssues) {
-        List<GeneralIssue> filteredList = new ArrayList<>();
-        filteredList.addAll(listOfGeneralIssues);
-        List<Filter> listOfFilters = FilterFactory.getFilters(PARSER);
-        for (Filter filter: listOfFilters) {
-            filteredList = filter.filter(filteredList);
-        }
-        return filteredList;
-    } 
-    
+
     private static String getPeriodOfTesting() {
         if (PARSER.hasOptionPeriodOfTestiong()) {
             return PARSER.getOptionValuePeriodOfTesting();
@@ -242,16 +232,6 @@ public class Core {
         return 0;
     }
     
-    private static List<GeneralIssue> runProcessors(List<GeneralIssue> listOfGeneralIssues) {
-        List<GeneralIssue> processedList = new ArrayList<>();
-        processedList.addAll(listOfGeneralIssues);
-        List<IssuesProcessor> listOfProcessors = ProcessorFactory.getProcessors(PARSER);
-        for (IssuesProcessor processor: listOfProcessors) {
-            processedList = processor.process(processedList);
-        }
-        return processedList;
-    }
-    
     private static void writeOutput(List<OutputData> outputDataList) throws InvalidInputException {
         OutputWriterFactory.getIssuesWriter(PARSER)
                 .writeOutputDataToFile(outputDataList,
@@ -259,23 +239,14 @@ public class Core {
                                 ? parsedUrlData.getRepositoryName() : PARSER.getOptionValueEvaluation());
     }
     
-    private static List<GeneralIssue> runFiltersAndProcessors(List<GeneralIssue> listOfGeneralIssues) {
-        List<GeneralIssue> filteredList = checkFilteredListForEmpty(runFilters(listOfGeneralIssues));
-        filteredList = runProcessors(filteredList);
-        return filteredList;
-    }
-    
-    private static List<GeneralIssue> checkFilteredListForEmpty(List<GeneralIssue> filteredList) {
-        if (filteredList.isEmpty()) {
-            System.out.println("[There are no issues after filtering]");
-            System.exit(1);
-        }
-        return filteredList;
-    }
-    
-    private static List<OutputData> prepareOutputData(int initialNumberOfIssues, 
-            List<GeneralIssue> listOfGeneralIssues, List<Pair<Integer, Integer>> countedWeeksWithTotal, 
-            TrendTest trendTest, RepositoryInformation repositoryInformation) throws InvalidInputException {
+    private static List<OutputData> prepareOutputData(
+            int initialNumberOfIssues,
+            List<GeneralIssue> listOfGeneralIssues,
+            List<Pair<Integer, Integer>> countedWeeksWithTotal,
+            TrendTest trendTest,
+            RepositoryInformation repositoryInformation,
+            IssueProcessingStrategy issueProcessingStrategy)
+            throws InvalidInputException {
         List<OutputData> outputDataList = new ArrayList<>();
         OutputData outputData;
         for (Model model: runModels(countedWeeksWithTotal, getGoodnessOfFitTest())) {
@@ -297,6 +268,7 @@ public class Core {
                     .setInitialNumberOfIssues(initialNumberOfIssues)
                     .setFiltersUsed(FilterFactory.getFiltersRanWithInfoAsList(PARSER))
                     .setProcessorsUsed(ProcessorFactory.getProcessorsRanWithInfoAsList(PARSER))
+                    .setIssueProcessingActionResults(issueProcessingStrategy.getIssueProcessingActionResults())
                     .setTestingPeriodsUnit(getPeriodOfTesting())
                     .setTimeBetweenDefectsUnit(getTimeBetweenIssuesUnit())
                     .setSolver(getSolver())
@@ -316,7 +288,7 @@ public class Core {
 
         if (outputDataList.isEmpty()) {
             outputData = getOutputDataForNoModels(initialNumberOfIssues, listOfGeneralIssues,
-                    countedWeeksWithTotal, trendTest, repositoryInformation);
+                    countedWeeksWithTotal, trendTest, repositoryInformation, issueProcessingStrategy);
             outputDataList.add(outputData);
         }
 
@@ -327,7 +299,8 @@ public class Core {
                                                        List<GeneralIssue> listOfGeneralIssues,
                                                        List<Pair<Integer, Integer>> countedWeeksWithTotal,
                                                        TrendTest trendTest,
-                                                       RepositoryInformation repositoryInformation) {
+                                                       RepositoryInformation repositoryInformation,
+                                                       IssueProcessingStrategy issueProcessingStrategy) {
         return new OutputData.OutputDataBuilder()
                 .setCreatedAt(new Date())
                 .setRepositoryName(parsedUrlData.getRepositoryName())
@@ -342,6 +315,7 @@ public class Core {
                 .setInitialNumberOfIssues(initialNumberOfIssues)
                 .setFiltersUsed(FilterFactory.getFiltersRanWithInfoAsList(PARSER))
                 .setProcessorsUsed(ProcessorFactory.getProcessorsRanWithInfoAsList(PARSER))
+                .setIssueProcessingActionResults(issueProcessingStrategy.getIssueProcessingActionResults())
                 .setTestingPeriodsUnit(getPeriodOfTesting())
                 .setTimeBetweenDefectsUnit(getTimeBetweenIssuesUnit())
                 .setSolver(getSolver())
@@ -372,13 +346,29 @@ public class Core {
     private static void doEvaluate(List<GeneralIssue> listOfGeneralIssues,
                                    RepositoryInformation repositoryInformation) throws InvalidInputException {
         System.out.println("Evaluating ...");
-        List<GeneralIssue> filteredAndProcessedList = runFiltersAndProcessors(listOfGeneralIssues);
+
+        IssueProcessingStrategy issueProcessingStrategy = getStrategyFromParser();
+
+        List<GeneralIssue> filteredAndProcessedList = issueProcessingStrategy.apply(listOfGeneralIssues);
         List<Pair<Integer, Integer>> countedWeeksWithTotal = getCumulativeIssuesList(filteredAndProcessedList); 
         TrendTest trendTest = runTrendTest(filteredAndProcessedList); 
         List<OutputData> outputDataList = 
                 prepareOutputData(listOfGeneralIssues.size(), 
-                        filteredAndProcessedList, countedWeeksWithTotal, trendTest, repositoryInformation);
+                        filteredAndProcessedList,
+                        countedWeeksWithTotal,
+                        trendTest,
+                        repositoryInformation,
+                        issueProcessingStrategy);
         writeOutput(outputDataList);
+    }
+
+    private static IssueProcessingStrategy getStrategyFromParser(){
+        return new IssueProcessingStrategy(
+                Stream.concat(
+                        FilterFactory.getFilters(PARSER).stream(),
+                        ProcessorFactory.getProcessors(PARSER).stream()).collect(
+                        Collectors.toList()),
+                "");
     }
 
     private static void doSaveToFileFromUrl() throws InvalidInputException {
@@ -394,7 +384,11 @@ public class Core {
     
     private static void doSaveToFile(List<GeneralIssue> listOfInitialIssues, String fileName) 
             throws InvalidInputException {
-        IssuesWriterFactory.getIssuesWriter(PARSER).writeToFile(runFilters(listOfInitialIssues), fileName);
+        IssuesWriterFactory
+                .getIssuesWriter(PARSER)
+                .writeToFile(
+                        getStrategyFromParser().apply(listOfInitialIssues), fileName
+                );
     }
 
     private static void doListAllSnapshots() {

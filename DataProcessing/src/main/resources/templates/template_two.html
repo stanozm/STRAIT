@@ -116,29 +116,26 @@
                     <p>
                         Estimated at <b>${dataList[0].createdAt?datetime}</b>.
                     </p>
+                    <h3>Data processing overview</h3>
                     <p>
                         Initial number of total defects = ${dataList[0].initialNumberOfIssues}<br>
                         Total defects in repository after processing and filtering = ${dataList[0].totalNumberOfDefects}<br>
                     </p>
-                    <h3>Filters and Processors:</h3>
-                    <p> 
-                        <b>Filters:</b><br>
-                            <#if dataList[0].filtersUsed?size != 0>
-                                <#list dataList[0].filtersUsed as value> 
-                                    - ${value}<br>
-                                </#list>
-                            <#else>
-                                - None<br>
-                            </#if>
-                        <b>Processors:</b><br>
-                            <#if dataList[0].processorsUsed?size != 0>
-                                <#list dataList[0].processorsUsed as value> 
-                                    - ${value}<br>
-                                </#list>
-                            <#else>
-                                - None<br>
-                            </#if>
-                    </p>
+                    <b>Issue processing action results:</b><br>
+                    <table>
+                        <tr>
+                            <th>Issue processing action</th>
+                            <th>Issue processing action result</th>
+                        </tr>
+                        <#if dataList[0].issueProcessingActionResults?size != 0>
+                            <#list dataList[0].issueProcessingActionResults as key, value>
+                                <tr>
+                                    <td>${key}</td>
+                                    <td>${value}</td>
+                                </tr>
+                            </#list>
+                        </#if>
+                    </table>
                     <h3>Trend test:</h3> 
                     <p>
                         Trend ${dataList[0].existTrend?string("exists", "does not exist")} .<br>

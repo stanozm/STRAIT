@@ -43,6 +43,8 @@ public class OutputData implements Serializable {
     private String testingPeriodsUnit;
     private List<String> filtersUsed;
     private List<String> processorsUsed;
+
+    private Map<String, String> issueProcessingActionResults;
     private String solver;
 
     private List<ReleaseDTO> releases;
@@ -73,6 +75,7 @@ public class OutputData implements Serializable {
         this.testingPeriodsUnit = builder.testingPeriodsUnit;
         this.filtersUsed = builder.filtersUsed;
         this.processorsUsed = builder.processorsUsed;
+        this.issueProcessingActionResults = builder.issueProcessingActionResults;
         this.solver = builder.solver;
         this.repositoryContributors = builder.repositoryContributors;
         this.repositoryDescription = builder.repositoryDescription;
@@ -133,6 +136,14 @@ public class OutputData implements Serializable {
 
     public void setProcessorsUsed(List<String> processorsUsed) {
         this.processorsUsed = processorsUsed;
+    }
+
+    public Map<String, String> getIssueProcessingActionResults() {
+        return issueProcessingActionResults;
+    }
+
+    public void setIssueProcessingActionResults(Map<String, String> actionResults) {
+        this.issueProcessingActionResults = actionResults;
     }
     
     public boolean isExistTrend() {
@@ -389,6 +400,8 @@ public class OutputData implements Serializable {
         private String testingPeriodsUnit;
         private List<String> filtersUsed;
         private List<String> processorsUsed;
+
+        private Map<String, String> issueProcessingActionResults;
         private String solver;
 
         private List<ReleaseDTO> releases;
@@ -610,6 +623,17 @@ public class OutputData implements Serializable {
          */
         public OutputDataBuilder setProcessorsUsed(List<String> processorsUsed) {
             this.processorsUsed = processorsUsed;
+            return this;
+        }
+
+        /**
+         * Set issue processing action results.
+         *
+         * @param actionResults list of processors used.
+         * @return this builder, to allow method chaining.
+         */
+        public OutputDataBuilder setIssueProcessingActionResults(Map<String, String> actionResults) {
+            this.issueProcessingActionResults = actionResults;
             return this;
         }
 

@@ -23,5 +23,11 @@ hs_err_pid*
 
 nbproject/
 target/
+output/
+.idea/
+.vscode/
+git_hub_authentication_file.properties
+log.out
+.DS_store
 Reliability-Tool-Core/IssuesDB/
 *.txt

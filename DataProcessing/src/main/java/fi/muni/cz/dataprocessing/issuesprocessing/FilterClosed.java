@@ -13,22 +13,31 @@ import java.util.List;
  */
 public class FilterClosed implements Filter, Serializable {
 
+    private int issueAmountBefore;
+    private int issueAmountAfter;
+
     @Override
-    public List<GeneralIssue> filter(List<GeneralIssue> list) {
-        List<GeneralIssue> cloesedIssues = new ArrayList<>();
+    public List<GeneralIssue> apply(List<GeneralIssue> list) {
+        issueAmountBefore = list.size();
+        List<GeneralIssue> closedIssues = new ArrayList<>();
         for (GeneralIssue issue: list) {
             if (issue.getState().equals("closed")) {
-                cloesedIssues.add(issue);
+                closedIssues.add(issue);
             }
         }
-        return cloesedIssues;
+        issueAmountAfter = closedIssues.size();
+        return closedIssues;
     }
 
     @Override
-    public String infoAboutFilter() {
+    public String infoAboutIssueProcessingAction() {
         return "FilterClosed used to filter out opened issues.";
     }
-    
+
+    @Override
+    public String infoAboutApplicationResult(){
+        return String.format("Removed %d issue reports", issueAmountBefore - issueAmountAfter);
+    }
     @Override
     public String toString() {
         return "FilterClosed";

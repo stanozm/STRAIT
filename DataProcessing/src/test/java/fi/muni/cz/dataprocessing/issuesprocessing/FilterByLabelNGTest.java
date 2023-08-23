@@ -37,12 +37,12 @@ public class FilterByLabelNGTest {
     
     @Test(expectedExceptions = DataProcessingException.class)
     public void testFilterWithNoWords() {
-        filterWithNoWords.filter(listOfIssues);
+        filterWithNoWords.apply(listOfIssues);
     }
     
     @Test
     public void testFilterWithWords() {
-        assertEquals(filterForWordError.filter(listOfIssues).size(), 1);
-        assertEquals(filterForSomeWord.filter(listOfIssues).size(), 0);
+        assertEquals(filterForWordError.apply(listOfIssues).size(), 1);
+        assertEquals(filterForSomeWord.apply(listOfIssues).size(), 0);
     }
 }
