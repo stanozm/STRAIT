@@ -8,6 +8,7 @@ import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.CumulativeIssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.TimeBetweenIssuesCounter;
+import fi.muni.cz.dataprocessing.output.CsvFileBatchAnalysisReportWriter;
 import fi.muni.cz.dataprocessing.output.OutputData;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshot;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
@@ -129,15 +130,16 @@ public class Core {
         String filePath = PARSER.getOptionValueBatchConfigurationFile();
         BatchAnalysisConfiguration batchConfiguration =
                 PARSER.parseBatchAnalysisConfigurationFromFile(filePath, errors);
-        if(errors.isEmpty()){
-            for(DataSource dataSource : batchConfiguration.getDataSources()){
-                checkUrl(dataSource.getLocation());
-                doEvaluateForUrl();
-            }
+        List<List<OutputData>> outputs = new ArrayList<>();
+        for(DataSource dataSource : batchConfiguration.getDataSources()){
+            checkUrl(dataSource.getLocation());
+            outputs.add(doEvaluateForUrl());
         }
+        System.out.println("Writing batch report");
+        new CsvFileBatchAnalysisReportWriter().writeBatchOutputDataToFile(outputs, "batchAnalysisReport");
     }
     
-    private static void  doEvaluateForUrl() throws InvalidInputException {
+    private static List<OutputData>  doEvaluateForUrl() throws InvalidInputException {
         System.out.println("On repository - " + parsedUrlData.getUrl());
         List<GeneralIssue> listOfGeneralIssues = null;
         RepositoryInformation repositoryInformation = null;
@@ -157,7 +159,7 @@ public class Core {
             repositoryInformation = REPOSITORY_DATA_PROVIDER
                     .getRepositoryInformation(parsedUrlData.getUrl().toString());
         }
-        doEvaluate(listOfGeneralIssues, repositoryInformation);
+        return doEvaluate(listOfGeneralIssues, repositoryInformation);
     }
     
     private static void prepareGeneralIssuesSnapshotAndSave(List<GeneralIssue> listOfGeneralIssues,
@@ -364,8 +366,9 @@ public class Core {
         return "Least Squares";
     }
     
-    private static void doEvaluate(List<GeneralIssue> listOfGeneralIssues,
-                                   RepositoryInformation repositoryInformation) throws InvalidInputException {
+    private static List<OutputData> doEvaluate(List<GeneralIssue> listOfGeneralIssues,
+                                               RepositoryInformation repositoryInformation)
+            throws InvalidInputException {
         System.out.println("Evaluating ...");
 
         IssueProcessingStrategy issueProcessingStrategy = getStrategyFromParser();
@@ -381,6 +384,7 @@ public class Core {
                         repositoryInformation,
                         issueProcessingStrategy);
         writeOutput(outputDataList);
+        return outputDataList;
     }
 
     private static IssueProcessingStrategy getStrategyFromParser(){

@@ -1,5 +1,10 @@
 package fi.muni.cz.dataprocessing.output;
 
+import static fi.muni.cz.dataprocessing.output.CsvUtil.CSV_FILE_SUFFIX;
+import static fi.muni.cz.dataprocessing.output.CsvUtil.NEW_LINE_SEPARATOR;
+import static fi.muni.cz.dataprocessing.output.CsvUtil.eliminateSeparatorAndCheckNullValue;
+import static fi.muni.cz.dataprocessing.output.CsvUtil.writeElementWithDelimiter;
+
 import fi.muni.cz.dataprocessing.exception.DataProcessingException;
 import fi.muni.cz.dataprovider.GeneralIssue;
 import java.io.File;
@@ -11,10 +16,6 @@ import java.util.List;
  * @author Radoslav Micko, 445611@muni.cz
  */
 public class CsvFileIssuesWriter implements IssuesWriter {
-    private static final String CSV_FILE_SUFFIX = ".csv";
-    private static final String COMMA_DELIMITER = "\t";
-    private static final String NEW_LINE_SEPARATOR = "\n";
-
     private static final String FILE_HEADER = "Created at\tClosed at\tUpdated at\tState\tLabels"
             + "\tComments\tNumber\tTitle\tUrl\tHtml url\tBody\tUser name\tUser email\tMilestone created at"
             + "\tMilestone due on\tMilestone descrtiption\tMilestone state\tMilestone title";
@@ -69,17 +70,5 @@ public class CsvFileIssuesWriter implements IssuesWriter {
             throw new DataProcessingException("Error while creating csv file.", ex);
         }
     } 
-    
-    private static String checkNullValueToString(Object obj) {
-        return obj == null ? "null" : obj.toString();
-    }
-    
-    private static void writeElementWithDelimiter(String element, FileWriter fileWriter) throws IOException {
-        fileWriter.append(element);
-        fileWriter.append(COMMA_DELIMITER);
-    }
 
-    private static String eliminateSeparatorAndCheckNullValue(Object obj) {
-        return checkNullValueToString(obj).replaceAll("\\t", " ").replaceAll("\\n", " ").replaceAll("\\v", " ");
-    }
 }
