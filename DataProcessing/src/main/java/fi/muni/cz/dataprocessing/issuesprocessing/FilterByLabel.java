@@ -24,6 +24,9 @@ public class FilterByLabel implements Filter, Serializable {
      * Initialize List of filteringWords.
      * 
      * @param filteringWords words for filter
+     * @param negativeMode boolean.
+     *                     Includes issues that match filter if false.
+     *                     Includes issues that do not match filter if false.
      */
     public FilterByLabel(List<String> filteringWords, boolean negativeMode) {
         this.filteringWords = filteringWords;
