@@ -16,15 +16,21 @@ public class FilterByLabel implements Filter, Serializable {
 
     private int issueAmountBefore;
     private int issueAmountAfter;
+
+    private boolean negativeMode;
     private final List<String> filteringWords;
 
     /**
      * Initialize List of filteringWords.
      * 
      * @param filteringWords words for filter
+     * @param negativeMode boolean.
+     *                     Includes issues that match filter if false.
+     *                     Includes issues that do not match filter if false.
      */
-    public FilterByLabel(List<String> filteringWords) {
+    public FilterByLabel(List<String> filteringWords, boolean negativeMode) {
         this.filteringWords = filteringWords;
+        this.negativeMode = negativeMode;
     }
     
     @Override
@@ -48,7 +54,11 @@ public class FilterByLabel implements Filter, Serializable {
     private List<GeneralIssue> filterByLabels(List<GeneralIssue> list) {
         List<GeneralIssue> filteredList = new ArrayList<>();
         for (GeneralIssue issue: list) {
-            if (checkLabelsForMatchWithFilteringWords(issue.getLabels())) {
+            if (!negativeMode && checkLabelsForMatchWithFilteringWords(issue.getLabels())) {
+                filteredList.add(issue);
+            }
+
+            if (negativeMode && !checkLabelsForMatchWithFilteringWords(issue.getLabels())) {
                 filteredList.add(issue);
             }
         }

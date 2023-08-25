@@ -17,7 +17,11 @@ public class FilterDuplications implements Filter {
         List<GeneralIssue> filteredList = new ArrayList<>();
         for (GeneralIssue issue: allLabelsToLowerCase(list)) {
             if (issue.getLabels().stream()
-                    .noneMatch(label -> label.contains("duplicate") ||  label.contains("duplication"))) {
+                    .noneMatch(label ->
+                            label.contains("duplicate")
+                                    || label.contains("duplication")
+                                    || label.contains("duplicated"))
+            ) {
                 filteredList.add(issue);
             }
         }

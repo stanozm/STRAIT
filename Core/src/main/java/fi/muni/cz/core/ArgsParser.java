@@ -43,6 +43,12 @@ public class ArgsParser {
     public static final String OPT_FILTER_TIME = "ft";
     public static final String OPT_FILTER_DUPLICATIONS = "fdu";
     public static final String OPT_FILTER_DEFECTS = "fde";
+
+    public static final String OPT_FILTER_INVALID_ISSUES = "fi";
+    public static final String OPT_FILTER_ISSUES_WITH_LOW_CRITICALITY = "flc";
+    public static final String OPT_FILTER_ISSUES_WITH_NO_FIX = "fnf";
+    public static final String OPT_FILTER_TEST_RELATED_ISSUES = "fte";
+
     public static final String OPT_MODELS = "ms";
     public static final String OPT_OUT = "out";
     public static final String OPT_GRAPH_MULTIPLE = "gm";
@@ -183,6 +189,18 @@ public class ArgsParser {
         option = Option.builder(OPT_FILTER_TIME).longOpt("filterTime").hasArgs()
                 .argName("Time").numberOfArgs(2).desc("Filter by start time and end time. Format: " 
                         + FilterFactory.DATE_FORMAT).build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_INVALID_ISSUES).longOpt("filterInvalid")
+                .desc("Filter out invalid issues based on labels and creation / closing time").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_ISSUES_WITH_LOW_CRITICALITY).longOpt("filterLowCriticality")
+                .desc("Filter out low criticality issues based on labels").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_TEST_RELATED_ISSUES).longOpt("filterTestRelatedIssues")
+                .desc("Filter out test related issues based on labels").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_ISSUES_WITH_NO_FIX).longOpt("filterIssuesWithNoFix")
+                .desc("Filter out issues with no fix based on labels").build();
         options.addOption(option);
         option = Option.builder(OPT_FILTER_DUPLICATIONS).longOpt("filterDuplications")
                 .desc("Filter out duplications.").build();
@@ -390,6 +408,42 @@ public class ArgsParser {
      */
     public boolean hasOptionFilterDefects() {
         return cmdl.hasOption(OPT_FILTER_DEFECTS);
+    }
+
+    /**
+     * Check if option 'fi' is on command line.
+     *
+     * @return true if there is 'fi' command line, false otherwise.
+     */
+    public boolean hasOptionFilterInvalidIssues() {
+        return cmdl.hasOption(OPT_FILTER_INVALID_ISSUES);
+    }
+
+    /**
+     * Check if option 'fte' is on command line.
+     *
+     * @return true if there is 'fte' command line, false otherwise.
+     */
+    public boolean hasOptionFilterTestRelatedissues() {
+        return cmdl.hasOption(OPT_FILTER_TEST_RELATED_ISSUES);
+    }
+
+    /**
+     * Check if option 'fnf' is on command line.
+     *
+     * @return true if there is 'fnf' command line, false otherwise.
+     */
+    public boolean hasOptionFilterIssuesWithoutFix() {
+        return cmdl.hasOption(OPT_FILTER_ISSUES_WITH_NO_FIX);
+    }
+
+    /**
+     * Check if option 'flc' is on command line.
+     *
+     * @return true if there is 'flc' command line, false otherwise.
+     */
+    public boolean hasOptionFilterIssuesWithLowCriticality() {
+        return cmdl.hasOption(OPT_FILTER_ISSUES_WITH_LOW_CRITICALITY);
     }
 
     /**
