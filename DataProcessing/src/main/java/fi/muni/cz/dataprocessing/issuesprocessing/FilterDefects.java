@@ -16,7 +16,11 @@ import java.util.stream.Collectors;
 public class FilterDefects implements Filter {
 
     private static final List<String> FILTERING_WORDS = Arrays.asList("bug","error","fail","fault","defect");
-    private static final List<String> NEGATIVE_FILTERING_WORDS = Arrays.asList("not-a-bug", "not a bug", "not a defect");
+    private static final List<String> NEGATIVE_FILTERING_WORDS = Arrays.asList(
+            "not-a-bug",
+            "not a bug",
+            "not a defect"
+    );
     private static final FilterByLabel FILTER_BY_LABELS = new FilterByLabel(FILTERING_WORDS, false);
 
     private static final FilterByLabel NEGATIVE_FILTER_BY_LABELS = new FilterByLabel(

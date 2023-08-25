@@ -36,7 +36,8 @@ public class FilterOutIssuesWithLowCriticality implements Filter {
 
     @Override
     public String infoAboutIssueProcessingAction() {
-        return "FilterOutIssuesWithLowCriticality used to remove issue reports which have a stated low criticality level";
+        return "FilterOutIssuesWithLowCriticality used to remove issue reports " +
+                "which have a stated low criticality level";
     }
 
     @Override
