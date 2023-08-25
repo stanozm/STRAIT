@@ -6,6 +6,7 @@ package fi.muni.cz.core;
 public enum RunConfiguration {
     HELP,
     LIST_ALL_SNAPSHOTS,
+    BATCH_AND_EVALUATE,
     URL_AND_SAVE,
     URL_AND_LIST_SNAPSHOTS,
     URL_AND_EVALUATE,

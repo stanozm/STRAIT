@@ -1,0 +1,24 @@
+{
+  "dataSources": [
+    {
+      "type": "github",
+      "location": "https://github.com/ToolJet/ToolJet"
+    },
+    {
+      "type": "github",
+      "location": "https://github.com/huggingface/transformers"
+    },
+    {
+      "type": "github",
+      "location": "https://github.com/neovim/neovim"
+    },
+    {
+      "type": "github",
+      "location": "https://github.com/curl/curl"
+    },
+    {
+      "type": "github",
+      "location": "https://github.com/Gallopsled/pwntools"
+    }
+  ]
+}

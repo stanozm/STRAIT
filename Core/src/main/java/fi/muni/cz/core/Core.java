@@ -1,11 +1,14 @@
 package fi.muni.cz.core;
 
+import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
+import fi.muni.cz.core.configuration.DataSource;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.*;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.CumulativeIssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.TimeBetweenIssuesCounter;
+import fi.muni.cz.dataprocessing.output.CsvFileBatchAnalysisReportWriter;
 import fi.muni.cz.dataprocessing.output.OutputData;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshot;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
@@ -27,6 +30,7 @@ import org.rosuda.JRI.Rengine;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -78,6 +82,10 @@ public class Core {
                break;
             case HELP:
                 PARSER.printHelp();
+                break;
+            case BATCH_AND_EVALUATE:
+                doBatchAnalysis();
+                break;
             case URL_AND_SAVE:
                 checkUrl(PARSER.getOptionValueUrl());
                 doSaveToFileFromUrl();
@@ -115,8 +123,23 @@ public class Core {
         System.out.println("Done! Duration - " + Duration.between(start, Instant.now()).toMinutes() + "min");
         System.exit(0);
     }
+
+    private static void doBatchAnalysis() throws InvalidInputException {
+        System.out.println("Starting batch processing");
+        List<String> errors = Collections.EMPTY_LIST;
+        String filePath = PARSER.getOptionValueBatchConfigurationFile();
+        BatchAnalysisConfiguration batchConfiguration =
+                PARSER.parseBatchAnalysisConfigurationFromFile(filePath, errors);
+        List<List<OutputData>> outputs = new ArrayList<>();
+        for(DataSource dataSource : batchConfiguration.getDataSources()){
+            checkUrl(dataSource.getLocation());
+            outputs.add(doEvaluateForUrl());
+        }
+        System.out.println("Writing batch report");
+        new CsvFileBatchAnalysisReportWriter().writeBatchOutputDataToFile(outputs, "batchAnalysisReport");
+    }
     
-    private static void  doEvaluateForUrl() throws InvalidInputException {
+    private static List<OutputData>  doEvaluateForUrl() throws InvalidInputException {
         System.out.println("On repository - " + parsedUrlData.getUrl());
         List<GeneralIssue> listOfGeneralIssues = null;
         RepositoryInformation repositoryInformation = null;
@@ -136,7 +159,7 @@ public class Core {
             repositoryInformation = REPOSITORY_DATA_PROVIDER
                     .getRepositoryInformation(parsedUrlData.getUrl().toString());
         }
-        doEvaluate(listOfGeneralIssues, repositoryInformation);
+        return doEvaluate(listOfGeneralIssues, repositoryInformation);
     }
     
     private static void prepareGeneralIssuesSnapshotAndSave(List<GeneralIssue> listOfGeneralIssues,
@@ -343,8 +366,9 @@ public class Core {
         return "Least Squares";
     }
     
-    private static void doEvaluate(List<GeneralIssue> listOfGeneralIssues,
-                                   RepositoryInformation repositoryInformation) throws InvalidInputException {
+    private static List<OutputData> doEvaluate(List<GeneralIssue> listOfGeneralIssues,
+                                               RepositoryInformation repositoryInformation)
+            throws InvalidInputException {
         System.out.println("Evaluating ...");
 
         IssueProcessingStrategy issueProcessingStrategy = getStrategyFromParser();
@@ -360,6 +384,7 @@ public class Core {
                         repositoryInformation,
                         issueProcessingStrategy);
         writeOutput(outputDataList);
+        return outputDataList;
     }
 
     private static IssueProcessingStrategy getStrategyFromParser(){

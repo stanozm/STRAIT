@@ -5,6 +5,7 @@ import fi.muni.cz.dataprovider.GeneralIssue;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Filtering list of GeneralIssue by labels
@@ -92,6 +93,6 @@ public class FilterByLabel implements Filter, Serializable {
 
     @Override
     public String toString() {
-        return "FilterByLabel" + filteringWords;
+        return "FilterByLabel" + filteringWords.stream().map(str -> str + " ").collect(Collectors.joining());
     }
 }
