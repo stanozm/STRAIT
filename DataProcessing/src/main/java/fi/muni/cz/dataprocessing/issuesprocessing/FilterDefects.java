@@ -16,14 +16,22 @@ import java.util.stream.Collectors;
 public class FilterDefects implements Filter {
 
     private static final List<String> FILTERING_WORDS = Arrays.asList("bug","error","fail","fault","defect");
-    private static final FilterByLabel FILTER_BY_LABELS = new FilterByLabel(FILTERING_WORDS);
+    private static final List<String> NEGATIVE_FILTERING_WORDS = Arrays.asList("not-a-bug", "not a bug", "not a defect");
+    private static final FilterByLabel FILTER_BY_LABELS = new FilterByLabel(FILTERING_WORDS, false);
+
+    private static final FilterByLabel NEGATIVE_FILTER_BY_LABELS = new FilterByLabel(
+            NEGATIVE_FILTERING_WORDS,
+            true
+    );
+
     private int issueAmountBefore;
     private int issueAmountAfter;
 
     @Override
     public List<GeneralIssue> apply(List<GeneralIssue> list) {
         issueAmountBefore = list.size();
-        Set<GeneralIssue> filteredList = new HashSet<>(FILTER_BY_LABELS.apply(list));
+        Set<GeneralIssue> filteredList = new HashSet<>(NEGATIVE_FILTER_BY_LABELS.apply(FILTER_BY_LABELS.apply(list)));
+
         for (GeneralIssue issue: list) {
             if (issue.getBody() == null) {
                 continue;
@@ -32,6 +40,7 @@ public class FilterDefects implements Filter {
                 filteredList.add(issue);
             }
         }
+
         issueAmountAfter = filteredList.size();
         return filteredList.stream()
                 .sorted((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt())).collect(Collectors.toList());

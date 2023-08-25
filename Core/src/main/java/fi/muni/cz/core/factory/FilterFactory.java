@@ -45,10 +45,10 @@ public class FilterFactory {
         
         if (parser.hasOptionFilterLabels()) {
             if (parser.getOptionValuesFilterLabels() == null) {
-                listOfFilters.add(new FilterByLabel(FILTERING_WORDS));
+                listOfFilters.add(new FilterByLabel(FILTERING_WORDS, false));
             } else {
                 listOfFilters.add(new FilterByLabel(
-                        Arrays.asList(parser.getOptionValuesFilterLabels())));
+                        Arrays.asList(parser.getOptionValuesFilterLabels()), false));
             }
         }
         
