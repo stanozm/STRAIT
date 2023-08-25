@@ -14,9 +14,9 @@ import org.testng.annotations.Test;
  */
 public class FilterByLabelNGTest {
     
-    private final Filter filterWithNoWords = new FilterByLabel(new ArrayList<>());
-    private final Filter filterForWordError = new FilterByLabel(Arrays.asList("error"));
-    private final Filter filterForSomeWord = new FilterByLabel(Arrays.asList("some"));
+    private final Filter filterWithNoWords = new FilterByLabel(new ArrayList<>(), false);
+    private final Filter filterForWordError = new FilterByLabel(Arrays.asList("error"), false);
+    private final Filter filterForSomeWord = new FilterByLabel(Arrays.asList("some"), false);
     
     private final List<GeneralIssue> listOfIssues = new ArrayList<>();
     
