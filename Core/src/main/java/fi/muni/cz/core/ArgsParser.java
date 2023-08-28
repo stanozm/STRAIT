@@ -50,6 +50,7 @@ public class ArgsParser {
     public static final String OPT_FILTER_TEST_RELATED_ISSUES = "fte";
 
     public static final String OPT_MODELS = "ms";
+    public static final String OPT_MOVING_AVERAGE = "ma";
     public static final String OPT_OUT = "out";
     public static final String OPT_GRAPH_MULTIPLE = "gm";
     public static final String OPT_NEW_SNAPSHOT = "ns";
@@ -206,6 +207,10 @@ public class ArgsParser {
                 .desc("Filter out duplications.").build();
         options.addOption(option);
         option = Option.builder(OPT_FILTER_DEFECTS).longOpt("filterDefects").desc("Filter defects.").build();
+        options.addOption(option);
+        option = Option.builder(OPT_MOVING_AVERAGE).longOpt("--movingaverage").desc(
+                "Use moving average on cumulative issue counts before fitting model."
+        ).build();
         options.addOption(option);
         option = Option.builder(OPT_MODELS).longOpt("models").hasArgs().argName("Model name").
                 desc("Models to evaluate. Available models: go, gos, mo, du, hd, we, ye, yr, ll, em.").build();
@@ -463,6 +468,15 @@ public class ArgsParser {
     public boolean hasOptionOut() {
         return cmdl.hasOption(OPT_OUT);
     }
+
+    /**
+     * Check if option ma is on command line.
+     *
+     * @return true if there is 'ma' command line, false otherwise.
+     */
+    public boolean hasOptionMovingAverage() {
+        return cmdl.hasOption(OPT_MOVING_AVERAGE);
+    }
     
     /**
      * Check if option 'pt' is on command line.
@@ -633,5 +647,14 @@ public class ArgsParser {
      * */
     public String getOptionValueBatchConfigurationFile() {
         return cmdl.getOptionValue(OPT_BATCH_CONFIG_FILE);
+    }
+
+    /**
+     * Get argument value for 'ma'.
+     *
+     * @return argument value
+     * */
+    public String getOptionValueMovingAverage() {
+        return cmdl.getOptionValue(OPT_MOVING_AVERAGE);
     }
 }

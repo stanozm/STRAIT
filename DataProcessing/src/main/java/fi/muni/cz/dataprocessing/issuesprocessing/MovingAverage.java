@@ -4,7 +4,20 @@ import org.apache.commons.math3.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
+ */
 public class MovingAverage {
+
+    /**
+     * Calculate a simple moving average over the given data.
+     * Current element is the last element of the moving average window.
+     * Float-type average is rounded to the nearest integer.
+     *
+     * @param inputData Input data
+     * @param windowSize Size of the moving average window
+     * @return Data to which the moving average has been applied to
+     * */
     public static List<Pair<Integer, Integer>> calculateMovingAverage(
             List<Pair<Integer, Integer>> inputData,
             int windowSize
