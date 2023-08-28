@@ -49,12 +49,12 @@ public class CumulativeIssuesCounterNGTest {
     
     @Test
     public void testCumulativeIssuesCounter() {
-        when(counter.prepareIssuesDataForModel(listOfIssues)).thenReturn(listOfPairs);
-        assertEquals(cumulativeIssuesCounter.prepareIssuesDataForModel(listOfIssues).get(0).getSecond(), 
+        when(counter.countIssues(listOfIssues)).thenReturn(listOfPairs);
+        assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues).get(0).getSecond(),
                 new Integer(1));
-        assertEquals(cumulativeIssuesCounter.prepareIssuesDataForModel(listOfIssues).get(1).getSecond(), 
+        assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues).get(1).getSecond(),
                 new Integer(2));
-        assertEquals(cumulativeIssuesCounter.prepareIssuesDataForModel(listOfIssues).get(3).getSecond(), 
+        assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues).get(3).getSecond(),
                 new Integer(2));
     } 
 }

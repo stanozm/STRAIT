@@ -27,7 +27,7 @@ public class LaplaceTrendTest implements TrendTest {
     public void executeTrendTest(List<GeneralIssue> listOfGeneralIssues) {
         IssuesCounter timeBetweenCounter = new TimeBetweenIssuesCounter(timeUnit);
         List<Pair<Integer, Integer>> timeBetweenIssues = timeBetweenCounter
-                .prepareIssuesDataForModel(listOfGeneralIssues);
+                .countIssues(listOfGeneralIssues);
         double totalNumberOfIssues = timeBetweenIssues.size();
         double sumOfDuration = timeBetweenIssues.stream().mapToDouble(a -> a.getSecond().doubleValue()).sum();
         double numerator = (sumOfDuration / totalNumberOfIssues - timeBetweenIssues.get(timeBetweenIssues.size() - 1)

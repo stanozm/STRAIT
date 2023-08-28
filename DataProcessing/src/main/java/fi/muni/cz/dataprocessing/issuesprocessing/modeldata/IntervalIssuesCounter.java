@@ -34,14 +34,14 @@ public class IntervalIssuesCounter implements IssuesCounter {
     }
 
     @Override
-    public List<Pair<Integer, Integer>> prepareIssuesDataForModel(List<GeneralIssue> rawIssues) {
-        if (rawIssues == null || rawIssues.isEmpty()) {
+    public List<Pair<Integer, Integer>> countIssues(List<GeneralIssue> issues) {
+        if (issues == null || issues.isEmpty()) {
             throw new NullPointerException("listOfIssues is null or empty.");
         }
-        Date startOfTesting  = getDateFromMidNight(rawIssues.get(0).getCreatedAt());
+        Date startOfTesting  = getDateFromMidNight(issues.get(0).getCreatedAt());
         Date endOfTesting = getDateFromMidNight(
-                addSpecificTimeToDate(rawIssues.get(rawIssues.size() - 1).getCreatedAt(), WEEKS));
-        return sortingIssuesIntoTimePeriods(rawIssues, startOfTesting, endOfTesting);
+                addSpecificTimeToDate(issues.get(issues.size() - 1).getCreatedAt(), WEEKS));
+        return sortingIssuesIntoTimePeriods(issues, startOfTesting, endOfTesting);
     }
     
     /**

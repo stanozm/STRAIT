@@ -21,10 +21,10 @@ public interface IssuesCounter {
     
     
     /**
-     * Prepare issues data for model.
-     * 
-     * @param rawIssues List to prepare.
-     * @return          List of counted pairs.
+     * Count issues.
+     *
+     * @param issues Issues to count.
+     * @return List of counted pairs.
      */
-    List<Pair<Integer, Integer>> prepareIssuesDataForModel(List<GeneralIssue> rawIssues);
+    List<Pair<Integer, Integer>> countIssues(List<GeneralIssue> issues);
 }

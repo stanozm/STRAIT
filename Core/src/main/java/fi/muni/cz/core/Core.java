@@ -202,11 +202,11 @@ public class Core {
     
     private static List<Pair<Integer, Integer>> getTimeBetweenIssuesList(List<GeneralIssue> listOfGeneralIssues) {
         return new TimeBetweenIssuesCounter(getTimeBetweenIssuesUnit())
-                        .prepareIssuesDataForModel(listOfGeneralIssues);
+                        .countIssues(listOfGeneralIssues);
     }
     
     private static List<Pair<Integer, Integer>> getCumulativeIssuesList(List<GeneralIssue> listOfGeneralIssues) {
-        return new CumulativeIssuesCounter(getPeriodOfTesting()).prepareIssuesDataForModel(listOfGeneralIssues);
+        return new CumulativeIssuesCounter(getPeriodOfTesting()).countIssues(listOfGeneralIssues);
     }
     
     private static List<Model> runModels(List<Pair<Integer, Integer>> countedWeeksWithTotal, 
