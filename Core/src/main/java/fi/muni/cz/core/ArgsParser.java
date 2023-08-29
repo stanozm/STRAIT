@@ -210,7 +210,7 @@ public class ArgsParser {
         options.addOption(option);
         option = Option.builder(OPT_MOVING_AVERAGE).longOpt("--movingaverage").desc(
                 "Use moving average on cumulative issue counts before fitting model."
-        ).build();
+        ).hasArgs().argName("Moving average window size").build();
         options.addOption(option);
         option = Option.builder(OPT_MODELS).longOpt("models").hasArgs().argName("Model name").
                 desc("Models to evaluate. Available models: go, gos, mo, du, hd, we, ye, yr, ll, em.").build();
