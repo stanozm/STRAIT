@@ -1,25 +1,22 @@
 package fi.muni.cz.dataprovider;
 
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+
 import fi.muni.cz.dataprovider.exception.DataProviderException;
-import java.io.IOException;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import org.eclipse.egit.github.core.Issue;
-
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.service.IssueService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

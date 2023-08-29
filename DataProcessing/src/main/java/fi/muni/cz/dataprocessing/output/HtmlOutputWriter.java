@@ -41,7 +41,7 @@ public class HtmlOutputWriter implements OutputWriter {
     }
     
     @Override
-    public void writeOutputDataToFile(List<OutputData> outputData, String fileName) {
+    public void writeOutputDataToFile(List<ModelResult> outputData, String fileName) {
         Map<String, Object> root = new HashMap<>();
         if (outputData.size() == 1) {
             if (outputData.get(0).getModelName() == null) {

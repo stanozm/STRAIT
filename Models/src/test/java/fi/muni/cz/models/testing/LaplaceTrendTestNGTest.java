@@ -1,16 +1,17 @@
 package fi.muni.cz.models.testing;
 
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import fi.muni.cz.dataprovider.GeneralIssue;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

@@ -1,9 +1,9 @@
 package fi.muni.cz.models.leastsquaresolver;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.Rengine;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

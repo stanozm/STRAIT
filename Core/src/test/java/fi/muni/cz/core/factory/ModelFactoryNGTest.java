@@ -1,8 +1,21 @@
 package fi.muni.cz.core.factory;
 
+import static fi.muni.cz.core.ArgsParser.OPT_MODELS;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.exception.InvalidInputException;
-import fi.muni.cz.models.*;
+import fi.muni.cz.models.DuaneModelImpl;
+import fi.muni.cz.models.GOModelImpl;
+import fi.muni.cz.models.GOSShapedModelImpl;
+import fi.muni.cz.models.HossainDahiyaModelImpl;
+import fi.muni.cz.models.LogLogisticModelImpl;
+import fi.muni.cz.models.MusaOkumotoModelImpl;
+import fi.muni.cz.models.WeibullModelImpl;
+import fi.muni.cz.models.YamadaExponentialModelImpl;
+import fi.muni.cz.models.YamadaRaleighModelImpl;
 import fi.muni.cz.models.testing.ChiSquareGoodnessOfFitTest;
 import org.apache.commons.cli.CommandLine;
 import org.mockito.InjectMocks;
@@ -10,13 +23,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import java.util.ArrayList;
-
-import static fi.muni.cz.core.ArgsParser.OPT_MODELS;
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

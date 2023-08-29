@@ -1,10 +1,10 @@
 package fi.muni.cz.dataprovider.mapping;
 
+import org.dozer.DozerBeanMapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import org.dozer.DozerBeanMapper;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

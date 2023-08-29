@@ -19,7 +19,7 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
     private static final String FILE_HEADER = "Project name,Trend test,Total issues,Defects used for fitting,";
 
     @Override
-    public void writeBatchOutputDataToFile(List<List<OutputData>> list, String fileName) {
+    public void writeBatchOutputDataToFile(List<List<ModelResult>> list, String fileName) {
         String filePath = "./output/" + fileName + CSV_FILE_SUFFIX;
         File file = new File(filePath);
         System.out.println("Writing batch result report to path " + filePath);
@@ -56,7 +56,7 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
 
             fileWriter.append(extendedHeader);
             fileWriter.append(NEW_LINE_SEPARATOR);
-            for (List<OutputData> outputs : list) {
+            for (List<ModelResult> outputs : list) {
                 writeElementWithDelimiter(
                         eliminateSeparatorAndCheckNullValue(outputs.get(0).getRepositoryName()), fileWriter);
                 writeElementWithDelimiter(
@@ -66,7 +66,7 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
                 writeElementWithDelimiter(
                         eliminateSeparatorAndCheckNullValue(outputs.get(0).getTotalNumberOfDefects()), fileWriter);
 
-                for (OutputData output : outputs) {
+                for (ModelResult output : outputs) {
                     for (String testName : goodnessOfFitKeys){
                         writeElementWithDelimiter(eliminateSeparatorAndCheckNullValue(
                                 output.getGoodnessOfFit().get(testName)), fileWriter);

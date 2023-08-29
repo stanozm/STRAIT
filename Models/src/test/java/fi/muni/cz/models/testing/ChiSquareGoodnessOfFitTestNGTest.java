@@ -1,15 +1,10 @@
 package fi.muni.cz.models.testing;
 
-import fi.muni.cz.models.testing.GoodnessOfFitTest;
-import fi.muni.cz.models.testing.ChiSquareGoodnessOfFitTest;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.commons.math3.util.Pair;
-
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 
+import org.apache.commons.math3.util.Pair;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -17,6 +12,8 @@ import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

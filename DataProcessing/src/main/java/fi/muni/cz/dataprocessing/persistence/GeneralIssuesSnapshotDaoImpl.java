@@ -1,13 +1,12 @@
 package fi.muni.cz.dataprocessing.persistence;
 
-import java.util.List;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import java.util.List;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -25,42 +24,42 @@ public class GeneralIssuesSnapshotDaoImpl implements GeneralIssuesSnapshotDao {
     }
 
     @Override
-    public List<GeneralIssuesSnapshot> getAllSnapshotsForUserAndRepository(String user, String repository) {
+    public List<GeneralIssuesCollection> getAllSnapshotsForUserAndRepository(String user, String repository) {
         beginTransaction();
-        Query query = session.createQuery("FROM GeneralIssuesSnapshot "
+        Query query = session.createQuery("FROM GeneralIssuesCollection "
                 + "WHERE userName = ? AND repositoryName = ?");
-        List<GeneralIssuesSnapshot> result = query.setString(0, user).setString(1, repository).list();
+        List<GeneralIssuesCollection> result = query.setString(0, user).setString(1, repository).list();
         endTransaction();
         return result;
     }
 
     @Override
-    public GeneralIssuesSnapshot getSnapshotByName(String name) {
+    public GeneralIssuesCollection getSnapshotByName(String name) {
         beginTransaction();
-        Query query = session.createQuery("FROM GeneralIssuesSnapshot WHERE snapshotName = ?");
-        List<GeneralIssuesSnapshot> result = query.setString(0, name).list();
-        GeneralIssuesSnapshot snapshot;
+        Query query = session.createQuery("FROM GeneralIssuesCollection WHERE snapshotName = ?");
+        List<GeneralIssuesCollection> result = query.setString(0, name).list();
+        GeneralIssuesCollection snapshot;
         if (result.isEmpty()) {
             snapshot = null;
         } else {
-            snapshot = (GeneralIssuesSnapshot) result.get(0);
+            snapshot = (GeneralIssuesCollection) result.get(0);
         }
         endTransaction();
         return snapshot;
     }
     
     @Override
-    public void save(GeneralIssuesSnapshot snapshot) {
+    public void save(GeneralIssuesCollection snapshot) {
         beginTransaction();
         session.merge(snapshot);
         endTransaction();
     } 
     
     @Override
-    public List<GeneralIssuesSnapshot> getAllSnapshots() {
+    public List<GeneralIssuesCollection> getAllSnapshots() {
         beginTransaction();
-        Query query = session.createQuery("FROM GeneralIssuesSnapshot");
-        List<GeneralIssuesSnapshot> list = query.list();
+        Query query = session.createQuery("FROM GeneralIssuesCollection");
+        List<GeneralIssuesCollection> list = query.list();
         endTransaction();
         return list;
     }

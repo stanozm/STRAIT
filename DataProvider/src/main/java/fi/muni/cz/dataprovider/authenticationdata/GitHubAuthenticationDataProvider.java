@@ -3,14 +3,13 @@ package fi.muni.cz.dataprovider.authenticationdata;
 import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
 import fi.muni.cz.dataprovider.exception.AuthenticationException;
 import fi.muni.cz.dataprovider.exception.AuthenticationFileErrorException;
-
+import org.eclipse.egit.github.core.client.GitHubClient;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.egit.github.core.client.GitHubClient;
 
 
 /**

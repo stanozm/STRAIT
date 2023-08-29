@@ -5,16 +5,26 @@ import static fi.muni.cz.dataprocessing.issuesprocessing.MovingAverage.calculate
 import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
 import fi.muni.cz.core.configuration.DataSource;
 import fi.muni.cz.core.exception.InvalidInputException;
-import fi.muni.cz.core.factory.*;
+import fi.muni.cz.core.factory.FilterFactory;
+import fi.muni.cz.core.factory.IssuesWriterFactory;
+import fi.muni.cz.core.factory.ModelFactory;
+import fi.muni.cz.core.factory.OutputWriterFactory;
+import fi.muni.cz.core.factory.ProcessorFactory;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.CumulativeIssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.TimeBetweenIssuesCounter;
 import fi.muni.cz.dataprocessing.output.CsvFileBatchAnalysisReportWriter;
-import fi.muni.cz.dataprocessing.output.OutputData;
-import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshot;
+import fi.muni.cz.dataprocessing.output.ModelResult;
+import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
-import fi.muni.cz.dataprovider.*;
+import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.GeneralIssueDataProvider;
+import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
+import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
+import fi.muni.cz.dataprovider.Release;
+import fi.muni.cz.dataprovider.RepositoryInformation;
+import fi.muni.cz.dataprovider.RepositoryInformationDataProvider;
 import fi.muni.cz.dataprovider.authenticationdata.GitHubAuthenticationDataProvider;
 import fi.muni.cz.dataprovider.utils.GitHubUrlParser;
 import fi.muni.cz.dataprovider.utils.ParsedUrlData;
@@ -28,7 +38,6 @@ import fi.muni.cz.models.testing.TrendTest;
 import org.apache.commons.math3.util.Pair;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.rosuda.JRI.Rengine;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -132,7 +141,7 @@ public class Core {
         String filePath = PARSER.getOptionValueBatchConfigurationFile();
         BatchAnalysisConfiguration batchConfiguration =
                 PARSER.parseBatchAnalysisConfigurationFromFile(filePath, errors);
-        List<List<OutputData>> outputs = new ArrayList<>();
+        List<List<ModelResult>> outputs = new ArrayList<>();
         for(DataSource dataSource : batchConfiguration.getDataSources()){
             checkUrl(dataSource.getLocation());
             outputs.add(doEvaluateForUrl());
@@ -141,7 +150,7 @@ public class Core {
         new CsvFileBatchAnalysisReportWriter().writeBatchOutputDataToFile(outputs, "batchAnalysisReport");
     }
     
-    private static List<OutputData>  doEvaluateForUrl() throws InvalidInputException {
+    private static List<ModelResult>  doEvaluateForUrl() throws InvalidInputException {
         System.out.println("On repository - " + parsedUrlData.getUrl());
         List<GeneralIssue> listOfGeneralIssues = null;
         RepositoryInformation repositoryInformation = null;
@@ -166,7 +175,7 @@ public class Core {
     
     private static void prepareGeneralIssuesSnapshotAndSave(List<GeneralIssue> listOfGeneralIssues,
                                                             RepositoryInformation repositoryInformation) {
-        DAO.save(new GeneralIssuesSnapshot.GeneralIssuesSnapshotBuilder()
+        DAO.save(new GeneralIssuesCollection.GeneralIssuesSnapshotBuilder()
                     .setCreatedAt(new Date())
                     .setListOfGeneralIssues(listOfGeneralIssues)
                     .setRepositoryName(parsedUrlData.getRepositoryName())
@@ -178,7 +187,7 @@ public class Core {
     }
     
     private static void doEvaluateForSnapshot() throws InvalidInputException {
-        GeneralIssuesSnapshot snapshot = DAO.getSnapshotByName(PARSER.getOptionValueSnapshotName());
+        GeneralIssuesCollection snapshot = DAO.getSnapshotByName(PARSER.getOptionValueSnapshotName());
         if (snapshot == null) {
             System.out.println("No such snapshot '" + PARSER.getOptionValueSnapshotName() + "' in database.");
             System.exit(1);
@@ -263,14 +272,14 @@ public class Core {
         return 0;
     }
     
-    private static void writeOutput(List<OutputData> outputDataList) throws InvalidInputException {
+    private static void writeOutput(List<ModelResult> outputDataList) throws InvalidInputException {
         OutputWriterFactory.getIssuesWriter(PARSER)
                 .writeOutputDataToFile(outputDataList,
                         PARSER.getOptionValueEvaluation() == null
                                 ? parsedUrlData.getRepositoryName() : PARSER.getOptionValueEvaluation());
     }
     
-    private static List<OutputData> prepareOutputData(
+    private static List<ModelResult> prepareOutputData(
             int initialNumberOfIssues,
             List<GeneralIssue> listOfGeneralIssues,
             List<Pair<Integer, Integer>> countedWeeksWithTotal,
@@ -278,10 +287,10 @@ public class Core {
             RepositoryInformation repositoryInformation,
             IssueProcessingStrategy issueProcessingStrategy)
             throws InvalidInputException {
-        List<OutputData> outputDataList = new ArrayList<>();
-        OutputData outputData;
+        List<ModelResult> outputDataList = new ArrayList<>();
+        ModelResult outputData;
         for (Model model: runModels(countedWeeksWithTotal, getGoodnessOfFitTest())) {
-            outputData = new OutputData.OutputDataBuilder()
+            outputData = new ModelResult.OutputDataBuilder()
                     .setCreatedAt(new Date())
                     .setRepositoryName(parsedUrlData.getRepositoryName())
                     .setUrl(parsedUrlData.getUrl().toString())
@@ -326,13 +335,13 @@ public class Core {
         return outputDataList;
     }
 
-    private static OutputData getOutputDataForNoModels(int initialNumberOfIssues,
+    private static ModelResult getOutputDataForNoModels(int initialNumberOfIssues,
                                                        List<GeneralIssue> listOfGeneralIssues,
                                                        List<Pair<Integer, Integer>> countedWeeksWithTotal,
                                                        TrendTest trendTest,
                                                        RepositoryInformation repositoryInformation,
                                                        IssueProcessingStrategy issueProcessingStrategy) {
-        return new OutputData.OutputDataBuilder()
+        return new ModelResult.OutputDataBuilder()
                 .setCreatedAt(new Date())
                 .setRepositoryName(parsedUrlData.getRepositoryName())
                 .setUrl(parsedUrlData.getUrl().toString())
@@ -374,7 +383,7 @@ public class Core {
         return "Least Squares";
     }
     
-    private static List<OutputData> doEvaluate(List<GeneralIssue> listOfGeneralIssues,
+    private static List<ModelResult> doEvaluate(List<GeneralIssue> listOfGeneralIssues,
                                                RepositoryInformation repositoryInformation)
             throws InvalidInputException {
         System.out.println("Evaluating ...");
@@ -384,7 +393,7 @@ public class Core {
         List<GeneralIssue> filteredAndProcessedList = issueProcessingStrategy.apply(listOfGeneralIssues);
         List<Pair<Integer, Integer>> countedWeeksWithTotal = getCumulativeIssuesList(filteredAndProcessedList); 
         TrendTest trendTest = runTrendTest(filteredAndProcessedList); 
-        List<OutputData> outputDataList = 
+        List<ModelResult> outputDataList =
                 prepareOutputData(listOfGeneralIssues.size(), 
                         filteredAndProcessedList,
                         countedWeeksWithTotal,
@@ -425,11 +434,11 @@ public class Core {
     }
 
     private static void doListAllSnapshots() {
-        List<GeneralIssuesSnapshot> listFromDB = DAO.getAllSnapshots();
+        List<GeneralIssuesCollection> listFromDB = DAO.getAllSnapshots();
         if (listFromDB.isEmpty()) {
             System.out.println("No snapshots in Database.");
         } else {
-            for (GeneralIssuesSnapshot snap: listFromDB) {
+            for (GeneralIssuesCollection snap: listFromDB) {
                 System.out.println(snap);
             }
         }
@@ -445,10 +454,10 @@ public class Core {
     }
 
     private static void doListSnapshotsForUrl() {
-        List<GeneralIssuesSnapshot> listFromDB = DAO.
+        List<GeneralIssuesCollection> listFromDB = DAO.
                 getAllSnapshotsForUserAndRepository(parsedUrlData.getUserName(), 
                         parsedUrlData.getRepositoryName());
-        for (GeneralIssuesSnapshot snap: listFromDB) {
+        for (GeneralIssuesCollection snap: listFromDB) {
             System.out.println(snap);
         }
     }

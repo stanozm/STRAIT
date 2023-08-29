@@ -3,8 +3,8 @@ package fi.muni.cz.models.testing;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.TimeBetweenIssuesCounter;
 import fi.muni.cz.dataprovider.GeneralIssue;
-import java.util.List;
 import org.apache.commons.math3.util.Pair;
+import java.util.List;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

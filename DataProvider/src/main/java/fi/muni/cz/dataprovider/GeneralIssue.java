@@ -1,10 +1,5 @@
 package fi.muni.cz.dataprovider;
 
-import java.io.Serializable;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -15,6 +10,10 @@ import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
