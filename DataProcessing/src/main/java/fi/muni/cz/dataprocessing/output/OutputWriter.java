@@ -13,5 +13,5 @@ public interface OutputWriter {
      * @param outputData data to write 
      * @param fileName name of file
      */
-    void writeOutputDataToFile(List<OutputData> outputData, String fileName);
+    void writeOutputDataToFile(List<ModelResult> outputData, String fileName);
 }

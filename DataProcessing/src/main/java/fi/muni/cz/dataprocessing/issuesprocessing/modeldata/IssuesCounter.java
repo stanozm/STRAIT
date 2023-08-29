@@ -1,8 +1,8 @@
 package fi.muni.cz.dataprocessing.issuesprocessing.modeldata;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
-import java.util.List;
 import org.apache.commons.math3.util.Pair;
+import java.util.List;
 
 /**
  * Prepare data for model as needed.

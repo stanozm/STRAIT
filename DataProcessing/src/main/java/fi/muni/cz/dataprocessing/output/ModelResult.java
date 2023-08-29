@@ -1,18 +1,17 @@
 package fi.muni.cz.dataprocessing.output;
 
+import fi.muni.cz.dataprovider.ReleaseDTO;
+import org.apache.commons.math3.util.Pair;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import fi.muni.cz.dataprovider.ReleaseDTO;
-import org.apache.commons.math3.util.Pair;
-
 /**
  * @author Radoslav Micko, 445611@muni.cz
  */
-public class OutputData implements Serializable {
+public class ModelResult implements Serializable {
     
     private String url;
     private String userName;
@@ -52,10 +51,10 @@ public class OutputData implements Serializable {
     /**
      * Default constructor.
      */
-    public OutputData() {
+    public ModelResult() {
     }
     
-    private OutputData(OutputDataBuilder builder) {
+    private ModelResult(OutputDataBuilder builder) {
         this.url = builder.url;
         this.userName = builder.userName;
         this.repositoryName = builder.repositoryName;
@@ -343,10 +342,10 @@ public class OutputData implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (obj instanceof OutputData) {
+        if (obj instanceof ModelResult) {
             return false;
         }
-        final OutputData other = (OutputData) obj;
+        final ModelResult other = (ModelResult) obj;
         if (!Objects.equals(this.userName, other.userName)) {
             return false;
         }
@@ -361,7 +360,7 @@ public class OutputData implements Serializable {
 
     @Override
     public String toString() {
-        return "OutputData for repository{" + "userName=" 
+        return "ModelResult for repository{" + "userName="
                 + userName + ", repositoryName=" + repositoryName 
                 + ", createdAt=" + createdAt + ", totalNumberOfDefects=" 
                 + totalNumberOfDefects + '}';
@@ -737,12 +736,12 @@ public class OutputData implements Serializable {
         }
 
         /**
-         * Constructs an OutputData with the values declared by this OutputData.OutputDataBuilder
+         * Constructs an ModelResult with the values declared by this ModelResult.OutputDataBuilder
          * 
-         * @return the new OutputData.
+         * @return the new ModelResult.
          */
-        public OutputData build() {
-            return new OutputData(this);
+        public ModelResult build() {
+            return new ModelResult(this);
         }
     }
 }

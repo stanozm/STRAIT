@@ -2,11 +2,11 @@ package fi.muni.cz.dataprocessing.issuesprocessing.modeldata;
 
 import fi.muni.cz.dataprocessing.exception.DataProcessingException;
 import fi.muni.cz.dataprovider.GeneralIssue;
+import org.apache.commons.math3.util.Pair;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.math3.util.Pair;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

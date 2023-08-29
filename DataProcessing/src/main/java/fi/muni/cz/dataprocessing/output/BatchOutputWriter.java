@@ -14,5 +14,5 @@ public interface BatchOutputWriter {
      * @param outputData data to write 
      * @param fileName name of file
      */
-    void writeBatchOutputDataToFile(List<List<OutputData>> outputData, String fileName);
+    void writeBatchOutputDataToFile(List<List<ModelResult>> outputData, String fileName);
 }

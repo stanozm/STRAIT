@@ -3,7 +3,6 @@ package fi.muni.cz.models.testing;
 import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
-
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;

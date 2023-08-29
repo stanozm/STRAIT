@@ -48,7 +48,7 @@ Contributor(s):
     <property name="dialect">org.hibernate.dialect.DerbyTenSevenDialect</property>
     <property name="show_sql">false</property>
     <property name="hbm2ddl.auto">update</property>
-    <mapping class="fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshot"/>
+    <mapping class="fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection"/>
     <mapping class="fi.muni.cz.dataprovider.GeneralIssue"/>
     <mapping class="fi.muni.cz.dataprovider.RepositoryInformation"/>
     <mapping class="fi.muni.cz.dataprovider.Release"/>

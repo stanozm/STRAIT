@@ -1,11 +1,15 @@
 package fi.muni.cz.dataprovider;
 
-import fi.muni.cz.dataprovider.mapping.BeanMapping;
 import fi.muni.cz.dataprovider.exception.AuthenticationException;
+import fi.muni.cz.dataprovider.mapping.BeanMapping;
 import fi.muni.cz.dataprovider.mapping.GitHubMapping;
 import fi.muni.cz.dataprovider.utils.GitHubUrlParser;
 import fi.muni.cz.dataprovider.utils.ParsedUrlData;
 import fi.muni.cz.dataprovider.utils.UrlParser;
+import org.eclipse.egit.github.core.Issue;
+import org.eclipse.egit.github.core.client.GitHubClient;
+import org.eclipse.egit.github.core.client.RequestException;
+import org.eclipse.egit.github.core.service.IssueService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,10 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.eclipse.egit.github.core.Issue;
-import org.eclipse.egit.github.core.client.GitHubClient;
-import org.eclipse.egit.github.core.client.RequestException;
-import org.eclipse.egit.github.core.service.IssueService;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

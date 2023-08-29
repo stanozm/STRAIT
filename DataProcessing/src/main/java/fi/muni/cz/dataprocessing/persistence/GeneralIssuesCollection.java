@@ -2,8 +2,18 @@ package fi.muni.cz.dataprocessing.persistence;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
 import fi.muni.cz.dataprovider.RepositoryInformation;
-
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +24,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "GENERALISSUE_SNAPSHOT")
-public class GeneralIssuesSnapshot implements Serializable {
+public class GeneralIssuesCollection implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,10 +50,10 @@ public class GeneralIssuesSnapshot implements Serializable {
     /**
      * Default constructor.
      */
-    public GeneralIssuesSnapshot() {
+    public GeneralIssuesCollection() {
     }
 
-    private GeneralIssuesSnapshot(GeneralIssuesSnapshotBuilder builder) {
+    private GeneralIssuesCollection(GeneralIssuesSnapshotBuilder builder) {
         this.listOfGeneralIssues = builder.listOfGeneralIssues;
         this.url = builder.url;
         this.userName = builder.userName;
@@ -131,10 +141,10 @@ public class GeneralIssuesSnapshot implements Serializable {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof GeneralIssuesSnapshot)) {
+        if (!(obj instanceof GeneralIssuesCollection)) {
             return false;
         }
-        final GeneralIssuesSnapshot other = (GeneralIssuesSnapshot) obj;
+        final GeneralIssuesCollection other = (GeneralIssuesCollection) obj;
         
         if (!Objects.equals(this.url, other.url)) {
             return false;
@@ -248,13 +258,13 @@ public class GeneralIssuesSnapshot implements Serializable {
         }
 
         /**
-         * Constructs an GeneralIssuesSnapshot with the values declared by 
-         * this GeneralIssuesSnapshot.GeneralIssuesSnapshotBuilder
+         * Constructs an GeneralIssuesCollection with the values declared by
+         * this GeneralIssuesCollection.GeneralIssuesSnapshotBuilder
          * 
-         * @return the new GeneralIssuesSnapshot.
+         * @return the new GeneralIssuesCollection.
          */
-        public GeneralIssuesSnapshot build() {
-            return new GeneralIssuesSnapshot(this);
+        public GeneralIssuesCollection build() {
+            return new GeneralIssuesCollection(this);
         } 
     }
 }
