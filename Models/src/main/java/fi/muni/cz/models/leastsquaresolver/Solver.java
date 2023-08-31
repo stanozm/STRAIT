@@ -1,7 +1,7 @@
 package fi.muni.cz.models.leastsquaresolver;
 
-import java.util.List;
 import org.apache.commons.math3.util.Pair;
+import java.util.List;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

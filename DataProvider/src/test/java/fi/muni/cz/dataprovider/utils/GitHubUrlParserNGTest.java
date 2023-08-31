@@ -1,13 +1,11 @@
 package fi.muni.cz.dataprovider.utils;
 
-import fi.muni.cz.dataprovider.utils.UrlParser;
-import fi.muni.cz.dataprovider.utils.GitHubUrlParser;
-import fi.muni.cz.dataprovider.utils.ParsedUrlData;
+import static org.testng.Assert.assertEquals;
+
 import fi.muni.cz.dataprovider.exception.DataProviderException;
+import org.testng.annotations.Test;
 import java.net.MalformedURLException;
 import java.net.URL;
-import static org.testng.Assert.assertEquals;
-import org.testng.annotations.Test;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

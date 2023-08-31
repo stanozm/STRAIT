@@ -1,26 +1,21 @@
 package fi.muni.cz.models;
 
-import fi.muni.cz.models.GOSShapedModelImpl;
-import fi.muni.cz.models.GOModelImpl;
-import fi.muni.cz.models.HossainDahiyaModelImpl;
-import fi.muni.cz.models.DuaneModelImpl;
-import fi.muni.cz.models.MusaOkumotoModelImpl;
-import fi.muni.cz.models.Model;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+
 import fi.muni.cz.models.leastsquaresolver.Solver;
 import fi.muni.cz.models.testing.GoodnessOfFitTest;
+import org.apache.commons.math3.util.Pair;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.math3.util.Pair;
-import static org.mockito.ArgumentMatchers.any;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
-import static org.testng.Assert.assertEquals;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 /**
  *  @author Radoslav Micko, 445611@muni.cz

@@ -1,7 +1,5 @@
 package fi.muni.cz.dataprovider.utils;
 
-import java.net.URL;
-
 /**
  * Represents parsed URL.
  * 
@@ -9,7 +7,7 @@ import java.net.URL;
  */
 public class ParsedUrlData {
     
-    private URL url;
+    private String url;
     private String userName;
     private String repositoryName;
 
@@ -20,17 +18,17 @@ public class ParsedUrlData {
      * @param userName user name
      * @param repositoryName repository name
      */
-    public ParsedUrlData(URL url, String userName, String repositoryName) {
+    public ParsedUrlData(String url, String userName, String repositoryName) {
         this.url = url;
         this.userName = userName;
         this.repositoryName = repositoryName;
     }
     
-    public URL getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(URL url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
@@ -52,7 +50,7 @@ public class ParsedUrlData {
 
     @Override
     public String toString() {
-        return "ParsedUrlData{" + "url=" + url.toString() + ", userName=" 
+        return "ParsedUrlData{" + "url=" + url + ", userName="
                 + userName + ", repositoryName=" + repositoryName + '}';
     }
 }

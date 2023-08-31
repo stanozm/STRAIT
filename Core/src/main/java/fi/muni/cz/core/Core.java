@@ -5,7 +5,11 @@ import static fi.muni.cz.dataprocessing.issuesprocessing.MovingAverage.calculate
 import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
 import fi.muni.cz.core.configuration.DataSource;
 import fi.muni.cz.core.exception.InvalidInputException;
-import fi.muni.cz.core.factory.*;
+import fi.muni.cz.core.factory.FilterFactory;
+import fi.muni.cz.core.factory.IssuesWriterFactory;
+import fi.muni.cz.core.factory.ModelFactory;
+import fi.muni.cz.core.factory.OutputWriterFactory;
+import fi.muni.cz.core.factory.ProcessorFactory;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.CumulativeIssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
@@ -14,7 +18,14 @@ import fi.muni.cz.dataprocessing.output.CsvFileBatchAnalysisReportWriter;
 import fi.muni.cz.dataprocessing.output.OutputData;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshot;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
-import fi.muni.cz.dataprovider.*;
+import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.GeneralIssueDataProvider;
+import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
+import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
+import fi.muni.cz.dataprovider.JiraGeneralIssueDataProvider;
+import fi.muni.cz.dataprovider.Release;
+import fi.muni.cz.dataprovider.RepositoryInformation;
+import fi.muni.cz.dataprovider.RepositoryInformationDataProvider;
 import fi.muni.cz.dataprovider.authenticationdata.GitHubAuthenticationDataProvider;
 import fi.muni.cz.dataprovider.utils.GitHubUrlParser;
 import fi.muni.cz.dataprovider.utils.ParsedUrlData;
@@ -28,7 +39,6 @@ import fi.muni.cz.models.testing.TrendTest;
 import org.apache.commons.math3.util.Pair;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.rosuda.JRI.Rengine;
-
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -46,7 +56,9 @@ public class Core {
 
     private static final ArgsParser PARSER = new ArgsParser();
     private static final GitHubClient CLIENT = new GitHubAuthenticationDataProvider().getGitHubClientWithCreditials();
-    private static final GeneralIssueDataProvider ISSUES_DATA_PROVIDER = new GitHubGeneralIssueDataProvider(CLIENT);
+    private static final GeneralIssueDataProvider GITHUB_ISSUES_DATA_PROVIDER =
+            new GitHubGeneralIssueDataProvider(CLIENT);
+    private static final GeneralIssueDataProvider JIRA_ISSUES_DATA_PROVIDER = new JiraGeneralIssueDataProvider();
     private static final RepositoryInformationDataProvider REPOSITORY_DATA_PROVIDER =
             new GitHubRepositoryInformationDataProvider(CLIENT);
     private static ParsedUrlData parsedUrlData;
@@ -99,7 +111,7 @@ public class Core {
                 break;
             case URL_AND_EVALUATE:
                 checkUrl(PARSER.getOptionValueUrl());
-                doEvaluateForUrl();
+                doEvaluateForGithubUrl();
                 System.out.println("Evaluated to file.");
                 break;
             case SNAPSHOT_NAME_AND_SAVE:
@@ -134,14 +146,46 @@ public class Core {
                 PARSER.parseBatchAnalysisConfigurationFromFile(filePath, errors);
         List<List<OutputData>> outputs = new ArrayList<>();
         for(DataSource dataSource : batchConfiguration.getDataSources()){
-            checkUrl(dataSource.getLocation());
-            outputs.add(doEvaluateForUrl());
+            if(dataSource.getType().equals("github")){
+                checkUrl(dataSource.getLocation());
+                outputs.add(doEvaluateForGithubUrl());
+            }
+            if(dataSource.getType().equals("jira")){
+                outputs.add(doEvaluateForJiraPath(dataSource.getLocation()));
+            }
         }
         System.out.println("Writing batch report");
         new CsvFileBatchAnalysisReportWriter().writeBatchOutputDataToFile(outputs, "batchAnalysisReport");
     }
-    
-    private static List<OutputData>  doEvaluateForUrl() throws InvalidInputException {
+
+
+    private static List<OutputData> doEvaluateForJiraPath(String jiraPath) throws InvalidInputException {
+        System.out.println("On Jira CSV file - " + jiraPath);
+        ParsedUrlData urlData = new ParsedUrlData(jiraPath, "Jira", jiraPath);
+        parsedUrlData = urlData;
+        List<GeneralIssue> listOfGeneralIssues = JIRA_ISSUES_DATA_PROVIDER.getIssuesByUrl(jiraPath);
+
+        RepositoryInformation repositoryInformation = getRepositoryInformationForJira(jiraPath, listOfGeneralIssues);
+
+        return doEvaluate(listOfGeneralIssues, repositoryInformation);
+    }
+
+    private static RepositoryInformation getRepositoryInformationForJira(
+            String jiraPath,
+            List<GeneralIssue> listOfGeneralIssues
+    ) {
+        RepositoryInformation repositoryInformation = new RepositoryInformation();
+        repositoryInformation.setName(jiraPath);
+        repositoryInformation.setContributors(1);
+        repositoryInformation.setDescription("Jira repository");
+        repositoryInformation.setForks(0);
+        repositoryInformation.setSize(0);
+        repositoryInformation.setPushedAtFirst(listOfGeneralIssues.get(0).getCreatedAt());
+        repositoryInformation.setPushedAt(listOfGeneralIssues.get(listOfGeneralIssues.size()-1).getCreatedAt());
+        return repositoryInformation;
+    }
+
+    private static List<OutputData> doEvaluateForGithubUrl() throws InvalidInputException {
         System.out.println("On repository - " + parsedUrlData.getUrl());
         List<GeneralIssue> listOfGeneralIssues = null;
         RepositoryInformation repositoryInformation = null;
@@ -151,13 +195,13 @@ public class Core {
                         + PARSER.getOptionValueNewSnapshot() + "' already exists]");
                 System.exit(1);
             } else {
-                listOfGeneralIssues = ISSUES_DATA_PROVIDER.getIssuesByUrl(parsedUrlData.getUrl().toString());
+                listOfGeneralIssues = GITHUB_ISSUES_DATA_PROVIDER.getIssuesByUrl(parsedUrlData.getUrl().toString());
                 repositoryInformation = REPOSITORY_DATA_PROVIDER
                         .getRepositoryInformation(parsedUrlData.getUrl().toString());
                 prepareGeneralIssuesSnapshotAndSave(listOfGeneralIssues, repositoryInformation);
             }
         } else {
-            listOfGeneralIssues = ISSUES_DATA_PROVIDER.getIssuesByUrl(parsedUrlData.getUrl().toString());
+            listOfGeneralIssues = GITHUB_ISSUES_DATA_PROVIDER.getIssuesByUrl(parsedUrlData.getUrl().toString());
             repositoryInformation = REPOSITORY_DATA_PROVIDER
                     .getRepositoryInformation(parsedUrlData.getUrl().toString());
         }
@@ -405,7 +449,7 @@ public class Core {
     }
 
     private static void doSaveToFileFromUrl() throws InvalidInputException {
-        List<GeneralIssue> listOfInitialIssues = ISSUES_DATA_PROVIDER.
+        List<GeneralIssue> listOfInitialIssues = GITHUB_ISSUES_DATA_PROVIDER.
                 getIssuesByUrl(PARSER.getOptionValueUrl());
         doSaveToFile(listOfInitialIssues, parsedUrlData.getRepositoryName());
     }

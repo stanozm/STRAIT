@@ -19,7 +19,7 @@ public class GitHubUrlParser implements UrlParser {
             if (ownerAndRepositoryName.length < 3 || !url.getHost().equals(HOST)) {
                 throw new DataProviderException("Incorrect URL.");
             }
-            return new ParsedUrlData(url, ownerAndRepositoryName[1], ownerAndRepositoryName[2]);
+            return new ParsedUrlData(url.toString(), ownerAndRepositoryName[1], ownerAndRepositoryName[2]);
         } catch (MalformedURLException ex) {
             throw new DataProviderException("Incorrect URL.");
         } 
