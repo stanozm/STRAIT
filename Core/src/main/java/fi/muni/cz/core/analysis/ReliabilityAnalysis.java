@@ -1,4 +1,4 @@
-package fi.muni.cz.core;
+package fi.muni.cz.core.analysis;
 
 import fi.muni.cz.core.configuration.ReliabilityAnalysisConfiguration;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;

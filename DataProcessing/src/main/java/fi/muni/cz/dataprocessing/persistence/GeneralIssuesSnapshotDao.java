@@ -39,4 +39,12 @@ public interface GeneralIssuesSnapshotDao {
      * @return      list of  GeneralIssuesCollection for repository.
      */
     List<GeneralIssuesCollection> getAllSnapshotsForUserAndRepository(String user, String repository);
+
+    /**
+     * Delete snapshot by name.
+     *
+     * @param snapshot snapshot.
+     * @throws DataProcessingException  When there is no such snapshot.
+     */
+    void deleteSnapshot(GeneralIssuesCollection snapshot) throws DataProcessingException;
 }
