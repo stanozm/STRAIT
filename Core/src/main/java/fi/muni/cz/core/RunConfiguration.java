@@ -7,6 +7,7 @@ public enum RunConfiguration {
     HELP,
     LIST_ALL_SNAPSHOTS,
     BATCH_AND_EVALUATE,
+    BATCH_AND_SAVE,
     URL_AND_SAVE,
     URL_AND_LIST_SNAPSHOTS,
     URL_AND_EVALUATE,

@@ -47,6 +47,15 @@ public class GeneralIssuesSnapshotDaoImpl implements GeneralIssuesSnapshotDao {
         endTransaction();
         return snapshot;
     }
+
+    @Override
+    public void deleteSnapshot(GeneralIssuesSnapshot snapshot) {
+        GeneralIssuesSnapshot idSnapshot = new GeneralIssuesSnapshot();
+        idSnapshot.setId(snapshot.getId());
+        beginTransaction();
+        session.delete(idSnapshot);
+        endTransaction();
+    }
     
     @Override
     public void save(GeneralIssuesSnapshot snapshot) {

@@ -104,16 +104,16 @@ public class Core {
                 doBatchAnalysis();
                 break;
             case URL_AND_SAVE:
-                checkUrl(PARSER.getOptionValueUrl());
+                checkGithubUrl(PARSER.getOptionValueUrl());
                 doSaveToFileFromUrl();
                 System.out.println("Saved to file.");
                 break;
             case URL_AND_LIST_SNAPSHOTS:
-                checkUrl(PARSER.getOptionValueUrl());
+                checkGithubUrl(PARSER.getOptionValueUrl());
                 doListSnapshotsForUrl();
                 break;
             case URL_AND_EVALUATE:
-                checkUrl(PARSER.getOptionValueUrl());
+                checkGithubUrl(PARSER.getOptionValueUrl());
                 doEvaluateForGithubUrl();
                 System.out.println("Evaluated to file.");
                 break;
@@ -143,54 +143,70 @@ public class Core {
 
     private static void doBatchAnalysis() throws InvalidInputException {
         System.out.println("Starting batch processing");
-        List<String> errors = Collections.EMPTY_LIST;
-        String filePath = PARSER.getOptionValueBatchConfigurationFile();
-        BatchAnalysisConfiguration batchConfiguration =
-                PARSER.parseBatchAnalysisConfigurationFromFile(filePath, errors);
+        BatchAnalysisConfiguration batchConfiguration = getBatchAnalysisConfiguration();
         List<List<OutputData>> outputs = new ArrayList<>();
         for(DataSource dataSource : batchConfiguration.getDataSources()){
             if(dataSource.getType().equals("github")){
-                checkUrl(dataSource.getLocation());
+                checkGithubUrl(dataSource.getLocation());
                 outputs.add(doEvaluateForGithubUrl());
             }
             if(dataSource.getType().equals("jira")){
-                outputs.add(doEvaluateForJiraPath(dataSource.getLocation()));
+                checkJiraPath(dataSource.getLocation());
+                outputs.add(doEvaluateForJiraPath());
             }
             if(dataSource.getType().equals("bugzilla")){
-                outputs.add(doEvaluateForBugzillaPath(dataSource.getLocation()));
+                checkBugzillaPath(dataSource.getLocation());
+                outputs.add(doEvaluateForBugzillaPath());
             }
         }
         System.out.println("Writing batch report");
         new CsvFileBatchAnalysisReportWriter().writeBatchOutputDataToFile(outputs, "batchAnalysisReport");
     }
 
+    private static BatchAnalysisConfiguration getBatchAnalysisConfiguration() {
+        List<String> errors = Collections.EMPTY_LIST;
+        String filePath = PARSER.getOptionValueBatchConfigurationFile();
+        BatchAnalysisConfiguration batchConfiguration =
+                PARSER.parseBatchAnalysisConfigurationFromFile(filePath, errors);
+        return batchConfiguration;
+    }
 
-    private static List<OutputData> doEvaluateForJiraPath(String jiraPath) throws InvalidInputException {
-        System.out.println("On Jira CSV file - " + jiraPath);
-        ParsedUrlData urlData = new ParsedUrlData(jiraPath, "Jira", jiraPath);
-        parsedUrlData = urlData;
-        List<GeneralIssue> listOfGeneralIssues = JIRA_ISSUES_DATA_PROVIDER.getIssuesByUrl(jiraPath);
+
+    private static List<OutputData> doEvaluateForJiraPath() throws InvalidInputException {
+        String url = parsedUrlData.getUrl();
+        System.out.println("On Jira CSV file - " + url);
+
+        List<GeneralIssue> listOfGeneralIssues = JIRA_ISSUES_DATA_PROVIDER.getIssuesByUrl(url);
 
         RepositoryInformation repositoryInformation = getRepositoryInformationForFileEvaluation(
-                jiraPath,
+                url,
                 listOfGeneralIssues
         );
 
         return doEvaluate(listOfGeneralIssues, repositoryInformation);
     }
 
-    private static List<OutputData> doEvaluateForBugzillaPath(String bugzillaPath) throws InvalidInputException {
-        System.out.println("On Bugzilla CSV file - " + bugzillaPath);
-        ParsedUrlData urlData = new ParsedUrlData(bugzillaPath, "Bugzilla", bugzillaPath);
+    private static void checkJiraPath(String jiraPath) {
+        ParsedUrlData urlData = new ParsedUrlData(jiraPath, "Jira", jiraPath);
         parsedUrlData = urlData;
-        List<GeneralIssue> listOfGeneralIssues = BUGZILLA_ISSUES_DATA_PROVIDER.getIssuesByUrl(bugzillaPath);
+    }
+
+    private static List<OutputData> doEvaluateForBugzillaPath() throws InvalidInputException {
+        String url = parsedUrlData.getUrl();
+        System.out.println("On Bugzilla CSV file - " + url);
+        List<GeneralIssue> listOfGeneralIssues = BUGZILLA_ISSUES_DATA_PROVIDER.getIssuesByUrl(url);
 
         RepositoryInformation repositoryInformation = getRepositoryInformationForFileEvaluation(
-                bugzillaPath,
+                url,
                 listOfGeneralIssues
         );
 
         return doEvaluate(listOfGeneralIssues, repositoryInformation);
+    }
+
+    private static void checkBugzillaPath(String bugzillaPath) {
+        ParsedUrlData urlData = new ParsedUrlData(bugzillaPath, "Bugzilla", bugzillaPath);
+        parsedUrlData = urlData;
     }
 
     private static RepositoryInformation getRepositoryInformationForFileEvaluation(
@@ -211,36 +227,62 @@ public class Core {
 
     private static List<OutputData> doEvaluateForGithubUrl() throws InvalidInputException {
         System.out.println("On repository - " + parsedUrlData.getUrl());
-        List<GeneralIssue> listOfGeneralIssues = null;
-        RepositoryInformation repositoryInformation = null;
+
+        String snapshotName = parsedUrlData.getRepositoryName() + " " + parsedUrlData.getUrl();
+
+        List<GeneralIssue> listOfGeneralIssues = new ArrayList<>();
+        RepositoryInformation repositoryInformation = new RepositoryInformation();
+
+        if(!PARSER.hasOptionNewSnapshot()) {
+            GeneralIssuesSnapshot oldSnapshot = DAO.getSnapshotByName(snapshotName);
+
+            listOfGeneralIssues = oldSnapshot != null ?
+                    oldSnapshot.getListOfGeneralIssues() :
+                    GITHUB_ISSUES_DATA_PROVIDER.getIssuesByUrl(parsedUrlData.getUrl());
+
+            repositoryInformation = oldSnapshot != null ?
+                    oldSnapshot.getRepositoryInformation() :
+                    REPOSITORY_DATA_PROVIDER.getRepositoryInformation(parsedUrlData.getUrl());
+        }
+
         if (PARSER.hasOptionNewSnapshot()) {
-            if (DAO.getSnapshotByName(PARSER.getOptionValueNewSnapshot()) != null) {
-                System.out.println("[-name <New name> should be unique name. '" 
-                        + PARSER.getOptionValueNewSnapshot() + "' already exists]");
-                System.exit(1);
-            } else {
-                listOfGeneralIssues = GITHUB_ISSUES_DATA_PROVIDER.getIssuesByUrl(parsedUrlData.getUrl().toString());
-                repositoryInformation = REPOSITORY_DATA_PROVIDER
-                        .getRepositoryInformation(parsedUrlData.getUrl().toString());
-                prepareGeneralIssuesSnapshotAndSave(listOfGeneralIssues, repositoryInformation);
+            GeneralIssuesSnapshot oldSnapshot = DAO.getSnapshotByName(snapshotName);
+            boolean doOverWrite = PARSER.getOptionValueNewSnapshot().equals("overwrite");
+
+            if (oldSnapshot != null && doOverWrite) {
+                System.out.println("Deleting old snapshot...");
+                DAO.deleteSnapshot(oldSnapshot);
             }
-        } else {
-            listOfGeneralIssues = GITHUB_ISSUES_DATA_PROVIDER.getIssuesByUrl(parsedUrlData.getUrl().toString());
-            repositoryInformation = REPOSITORY_DATA_PROVIDER
-                    .getRepositoryInformation(parsedUrlData.getUrl().toString());
+
+            if (oldSnapshot == null || doOverWrite){
+                listOfGeneralIssues = GITHUB_ISSUES_DATA_PROVIDER.getIssuesByUrl(parsedUrlData.getUrl());
+                repositoryInformation = REPOSITORY_DATA_PROVIDER
+                        .getRepositoryInformation(parsedUrlData.getUrl());
+
+                System.out.println("Preparing new snapshot... " + listOfGeneralIssues.size());
+                prepareGeneralIssuesSnapshotAndSave(listOfGeneralIssues, repositoryInformation, snapshotName);
+            }
+
+            if (oldSnapshot != null && !doOverWrite) {
+                listOfGeneralIssues = oldSnapshot.getListOfGeneralIssues();
+                repositoryInformation = oldSnapshot.getRepositoryInformation();
+            }
         }
         return doEvaluate(listOfGeneralIssues, repositoryInformation);
     }
     
-    private static void prepareGeneralIssuesSnapshotAndSave(List<GeneralIssue> listOfGeneralIssues,
-                                                            RepositoryInformation repositoryInformation) {
+    private static void prepareGeneralIssuesSnapshotAndSave(
+            List<GeneralIssue> listOfGeneralIssues,
+            RepositoryInformation repositoryInformation,
+            String snapshotName
+    ) {
         DAO.save(new GeneralIssuesSnapshot.GeneralIssuesSnapshotBuilder()
                     .setCreatedAt(new Date())
                     .setListOfGeneralIssues(listOfGeneralIssues)
-                    .setRepositoryName(parsedUrlData.getRepositoryName())
-                    .setUrl(parsedUrlData.getUrl().toString())
+                    .setRepositoryName(repositoryInformation.getName())
+                    .setUrl(parsedUrlData.getUrl())
                     .setUserName(parsedUrlData.getUserName())
-                    .setSnapshotName(PARSER.getOptionValueNewSnapshot())
+                    .setSnapshotName(snapshotName)
                     .setRepositoryInformation(repositoryInformation)
                     .build());
     }
@@ -251,7 +293,7 @@ public class Core {
             System.out.println("No such snapshot '" + PARSER.getOptionValueSnapshotName() + "' in database.");
             System.exit(1);
         }
-        checkUrl(snapshot.getUrl());
+        checkGithubUrl(snapshot.getUrl());
         System.out.println("On repository - " + snapshot.getUrl());
         doEvaluate(snapshot.getListOfGeneralIssues(), snapshot.getRepositoryInformation());
     }
@@ -507,7 +549,7 @@ public class Core {
         return new GitHubUrlParser();
     }
     
-    private static void checkUrl(String url) {
+    private static void checkGithubUrl(String url) {
         UrlParser urlParser = getUrlParser();
         parsedUrlData = urlParser.parseUrlAndCheck(url);
     }

@@ -1,6 +1,7 @@
 package fi.muni.cz.core;
 
 import static fi.muni.cz.core.RunConfiguration.BATCH_AND_EVALUATE;
+import static fi.muni.cz.core.RunConfiguration.BATCH_AND_SAVE;
 import static fi.muni.cz.core.RunConfiguration.HELP;
 import static fi.muni.cz.core.RunConfiguration.LIST_ALL_SNAPSHOTS;
 import static fi.muni.cz.core.RunConfiguration.NOT_SUPPORTED;
@@ -275,6 +276,8 @@ public class ArgsParser {
             return HELP;
         } else if (hasOptionBatchConfigFile() && hasOptionEvaluate()) {
             return BATCH_AND_EVALUATE;
+        } else if (hasOptionBatchConfigFile() && hasOptionSave()) {
+            return BATCH_AND_SAVE;
         } else if (hasOptionUrl() && hasOptionSave()) {
             return URL_AND_SAVE;
         } else if (hasOptionUrl() && hasOptionListSnapshots()) {
