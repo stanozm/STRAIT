@@ -1,6 +1,7 @@
 package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.RepositoryInformation;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -31,9 +32,9 @@ public class FilterDefects implements Filter {
     private int issueAmountAfter;
 
     @Override
-    public List<GeneralIssue> apply(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
         issueAmountBefore = list.size();
-        Set<GeneralIssue> filteredList = new HashSet<>(NEGATIVE_FILTER_BY_LABELS.apply(FILTER_BY_LABELS.apply(list)));
+        Set<GeneralIssue> filteredList = new HashSet<>(NEGATIVE_FILTER_BY_LABELS.apply(FILTER_BY_LABELS.apply(list, ), ));
 
         for (GeneralIssue issue: list) {
             if (issue.getBody() == null) {

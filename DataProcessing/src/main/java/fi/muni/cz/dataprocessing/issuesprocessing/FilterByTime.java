@@ -1,6 +1,7 @@
 package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.RepositoryInformation;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,7 @@ public class FilterByTime implements Filter {
     }
     
     @Override
-    public List<GeneralIssue> apply(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
         issueAmountBefore = list.size();
         List<GeneralIssue> filteredList = new ArrayList<>();
         for (GeneralIssue issue: list) {

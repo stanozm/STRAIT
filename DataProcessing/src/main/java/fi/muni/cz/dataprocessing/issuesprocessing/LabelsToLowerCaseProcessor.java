@@ -1,6 +1,7 @@
 package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.RepositoryInformation;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
 public class LabelsToLowerCaseProcessor implements IssuesProcessor {
     
     @Override
-    public List<GeneralIssue> apply(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
         for (GeneralIssue issue: list) {
             issue.allLabelsToLowerCase();
         } 

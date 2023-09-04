@@ -55,16 +55,16 @@ public class FilterByTimeNGTest {
         Date end = cal.getTime();
         
         Filter filter = new FilterByTime(start, end);
-        assertEquals(filter.apply(listOfIssues).size(), 1);
+        assertEquals(filter.apply(listOfIssues, ).size(), 1);
         
         cal.set(2018, 10, 8, 0, 0, 0);
         end = cal.getTime();
         filter = new FilterByTime(start, end);
-        assertEquals(filter.apply(listOfIssues).size(), 4);
+        assertEquals(filter.apply(listOfIssues, ).size(), 4);
         
         cal.set(2018, 10, 2, 0, 0, 0);
         start = cal.getTime();
         filter = new FilterByTime(start, end);
-        assertEquals(filter.apply(listOfIssues).size(), 2);
+        assertEquals(filter.apply(listOfIssues, ).size(), 2);
     }
 }
