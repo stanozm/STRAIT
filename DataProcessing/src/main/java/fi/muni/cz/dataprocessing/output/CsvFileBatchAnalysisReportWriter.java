@@ -21,25 +21,32 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
     @Override
     public void writeBatchOutputDataToFile(List<List<OutputData>> list, String fileName) {
         String filePath = "./output/" + fileName + CSV_FILE_SUFFIX;
+
+        List<List<OutputData>> notEmptyResults =
+                list.stream()
+                .filter(l -> !l.isEmpty())
+                .collect(Collectors.toList());
+
+        if(notEmptyResults.isEmpty()){
+            System.out.println("Will not write batch report because there is no output data available");
+            return;
+        }
+
         File file = new File(filePath);
         System.out.println("Writing batch result report to path " + filePath);
         try (FileWriter fileWriter = new FileWriter(file)){
-            if(list.isEmpty() || list.get(0).isEmpty()){
-                System.out.println("Batch report writing failed.");
-                throw new DataProcessingException("No output data with which to write batch report");
-            }
 
             List<String> goodnessOfFitKeys = new ArrayList<>(
-                    list.get(0).get(0)
+                    notEmptyResults.get(0).get(0)
                             .getGoodnessOfFit().keySet()
             ).stream().sorted().collect(Collectors.toList());
 
             List<String> issueProcessingStrategyResultKeys = new ArrayList<>(
-                    list.get(0).get(0)
+                    notEmptyResults.get(0).get(0)
                             .getIssueProcessingActionResults().keySet()
             ).stream().sorted().collect(Collectors.toList());
 
-            String modelResultHeaders = list.get(0).stream().flatMap(outputData -> {
+            String modelResultHeaders = notEmptyResults.get(0).stream().flatMap(outputData -> {
                 String modelName = outputData.getModelName();
                 List<String> headers = goodnessOfFitKeys.stream().map(testName -> modelName + " " +  testName + ",")
                         .collect(Collectors.toList());
@@ -56,7 +63,7 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
 
             fileWriter.append(extendedHeader);
             fileWriter.append(NEW_LINE_SEPARATOR);
-            for (List<OutputData> outputs : list) {
+            for (List<OutputData> outputs : notEmptyResults) {
                 writeElementWithDelimiter(
                         eliminateSeparatorAndCheckNullValue(outputs.get(0).getRepositoryName()), fileWriter);
                 writeElementWithDelimiter(
@@ -69,7 +76,7 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
                 for (OutputData output : outputs) {
                     for (String testName : goodnessOfFitKeys){
                         writeElementWithDelimiter(eliminateSeparatorAndCheckNullValue(
-                                output.getGoodnessOfFit().get(testName)), fileWriter);
+                                output.getGoodnessOfFit().getOrDefault(testName, "N/A")), fileWriter);
                     }
                 }
 

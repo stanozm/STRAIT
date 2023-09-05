@@ -32,7 +32,7 @@ public class FilterClosedNGTest {
     
     @Test
     public void testFilterClosed() {
-        assertEquals(filter.apply(listOfIssues, ).size(), 1);
-        assertEquals(filter.apply(listOfIssuesNoClosed, ).size(), 0);
+        assertEquals(filter.apply(listOfIssues, null).size(), 1);
+        assertEquals(filter.apply(listOfIssuesNoClosed, null).size(), 0);
     }
 }

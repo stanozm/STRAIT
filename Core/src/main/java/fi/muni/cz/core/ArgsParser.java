@@ -65,6 +65,8 @@ public class ArgsParser {
     public static final String OPT_FILTER_ISSUES_WITH_NO_FIX = "fnf";
     public static final String OPT_FILTER_TEST_RELATED_ISSUES = "fte";
 
+    public static final String OPT_FILTER_LATEST_RELEASE = "flr";
+
     public static final String OPT_MODELS = "ms";
     public static final String OPT_MOVING_AVERAGE = "ma";
     public static final String OPT_OUT = "out";
@@ -224,6 +226,9 @@ public class ArgsParser {
                 .desc("Filter out duplications.").build();
         options.addOption(option);
         option = Option.builder(OPT_FILTER_DEFECTS).longOpt("filterDefects").desc("Filter defects.").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_LATEST_RELEASE).longOpt("filterLatestRelease")
+                .desc("Filter issue reports from most recent release period.").build();
         options.addOption(option);
         option = Option.builder(OPT_MOVING_AVERAGE).longOpt("--movingaverage").desc(
                 "Use moving average on cumulative issue counts before fitting model."
@@ -471,6 +476,15 @@ public class ArgsParser {
     }
 
     /**
+     * Check if option 'flr' is on command line.
+     *
+     * @return true if there is 'flr' command line, false otherwise.
+     */
+    public boolean hasOptionFilterLatestRelease() {
+        return cmdl.hasOption(OPT_FILTER_LATEST_RELEASE);
+    }
+
+    /**
      * Check if option 'ms' is on command line.
      * 
      * @return true if there is 'ms' command line, false otherwise.
@@ -541,7 +555,7 @@ public class ArgsParser {
     public boolean hasOptionNewSnapshot() {
         return cmdl.hasOption(OPT_NEW_SNAPSHOT);
     }
-    
+
     /**
      * Get argument value for 'url'.
      * 

@@ -491,7 +491,16 @@ public class Core {
 
         IssueProcessingStrategy issueProcessingStrategy = getStrategyFromParser();
 
-        List<GeneralIssue> filteredAndProcessedList = issueProcessingStrategy.apply(listOfGeneralIssues);
+        List<GeneralIssue> filteredAndProcessedList = issueProcessingStrategy.apply(listOfGeneralIssues,
+                repositoryInformation
+        );
+
+        if(filteredAndProcessedList.isEmpty()){
+            List<OutputData> outputList = new ArrayList<>();
+            System.out.println("No issues left for analysis. Skipping project.");
+            return outputList;
+        }
+
         List<Pair<Integer, Integer>> countedWeeksWithTotal = getCumulativeIssuesList(filteredAndProcessedList); 
         TrendTest trendTest = runTrendTest(filteredAndProcessedList); 
         List<OutputData> outputDataList = 
@@ -530,7 +539,7 @@ public class Core {
         IssuesWriterFactory
                 .getIssuesWriter(PARSER)
                 .writeToFile(
-                        getStrategyFromParser().apply(listOfInitialIssues), fileName
+                        getStrategyFromParser().apply(listOfInitialIssues, null), fileName
                 );
     }
 

@@ -45,6 +45,6 @@ public class FilterDuplications implements Filter {
 
     private List<GeneralIssue> allLabelsToLowerCase(List<GeneralIssue> list) {
         IssuesProcessor toLowerCaseProcessor = new LabelsToLowerCaseProcessor();
-        return toLowerCaseProcessor.apply(list, );
+        return toLowerCaseProcessor.apply(list, null);
     }
 }

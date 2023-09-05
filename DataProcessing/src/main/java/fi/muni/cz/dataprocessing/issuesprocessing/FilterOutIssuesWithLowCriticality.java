@@ -29,7 +29,7 @@ public class FilterOutIssuesWithLowCriticality implements Filter {
     @Override
     public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
         issueAmountBefore = list.size();
-        Set<GeneralIssue> filteredList = new HashSet<>(FILTER_BY_LABELS.apply(list, ));
+        Set<GeneralIssue> filteredList = new HashSet<>(FILTER_BY_LABELS.apply(list, null));
         issueAmountAfter = filteredList.size();
         return filteredList.stream()
                 .sorted((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt())).collect(Collectors.toList());

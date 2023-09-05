@@ -26,7 +26,7 @@ public class FilterOutInvalidissues implements Filter {
     @Override
     public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
         issueAmountBefore = list.size();
-        Set<GeneralIssue> filteredList = FILTER_BY_LABELS.apply(list, ).stream()
+        Set<GeneralIssue> filteredList = FILTER_BY_LABELS.apply(list, null).stream()
                 .filter(issue -> issue.getCreatedAt() == null
                         || issue.getClosedAt() == null ||
                         (issue.getClosedAt().getTime() - issue.getCreatedAt().getTime()) / 1000.0 > 600)

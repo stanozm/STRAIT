@@ -7,6 +7,7 @@ import fi.muni.cz.dataprocessing.issuesprocessing.FilterByTime;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterClosed;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterDefects;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterDuplications;
+import fi.muni.cz.dataprocessing.issuesprocessing.FilterLatestRelease;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterOutInvalidissues;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterOutIssuesWithLowCriticality;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterOutIssuesWithoutFix;
@@ -100,6 +101,10 @@ public class FilterFactory {
 
         if (parser.hasOptionFilterIssuesWithoutFix()) {
             listOfFilters.add(new FilterOutIssuesWithoutFix());
+        }
+
+        if (parser.hasOptionFilterLatestRelease()){
+            listOfFilters.add(new FilterLatestRelease());
         }
         
         return listOfFilters;

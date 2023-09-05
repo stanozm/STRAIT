@@ -3,7 +3,8 @@ package fi.muni.cz.dataprocessing.issuesprocessing;
 import fi.muni.cz.dataprovider.GeneralIssue;
 import fi.muni.cz.dataprovider.Release;
 import fi.muni.cz.dataprovider.RepositoryInformation;
-import java.util.Arrays;
+import java.util.ArrayList;
+
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,7 +25,12 @@ public class FilterLatestRelease implements Filter {
     @Override
     public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
         issueAmountBefore = list.size();
-        List<Release> releases = repositoryInformation.getListOfReleases();
+        List<Release> releases = repositoryInformation != null ?
+                repositoryInformation.getListOfReleases()
+                        .stream()
+                        .sorted(Comparator.comparing(Release::getPublishedAt))
+                        .collect(Collectors.toList())
+                : new ArrayList<>();
 
         if(releases.size() < 2){
             issueAmountAfter = list.size();

@@ -31,12 +31,13 @@ public class IssueProcessingStrategy {
     /**
      * Apply issue processing strategy on list of issue reports.
      * @param issues Target list of issues
+     * @param repoInfo Repository information
      * @return List of issue reports that the data processing strategy has been applied to.
      */
     public List<GeneralIssue> apply(List<GeneralIssue> issues, RepositoryInformation repoInfo){
         List<GeneralIssue> issueList = issues;
         for(IssueProcessingAction action : issueProcessingActionList){
-            issueList = checkListForEmpty(action.apply(issueList, ));
+            issueList = action.apply(issueList, repoInfo);
         }
         return issueList;
     }
