@@ -1,11 +1,14 @@
 package fi.muni.cz.core.dto;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
  */
 public class ReliabilityAnalysisStepResult {
     private String type;
-    private String result;
+    private List<?> result;
 
     public String getType() {
         return type;
@@ -15,11 +18,11 @@ public class ReliabilityAnalysisStepResult {
         this.type = type;
     }
 
-    public String getResult() {
+    public List<?> getResult() {
         return result;
     }
 
-    public void setResult(String result) {
+    public void setResult(List<?> result) {
         this.result = result;
     }
 }
