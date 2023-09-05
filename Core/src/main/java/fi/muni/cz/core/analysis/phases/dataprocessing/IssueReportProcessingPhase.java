@@ -30,8 +30,13 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
             processedIssues.add(applyIssueProcessingStrategyToIssueCollection(issuesCollection));
             issueProcessingResults.add(issueProcessingStrategy.getIssueProcessingActionResults());
         });
+
         dto.setIssueReportSets(processedIssues);
-        dto.setAnalysisStepResults(issueProcessingResults);
+
+        List<ReliabilityAnalysisStepResult> resultList = dto.getAnalysisStepResults();
+        resultList.add(getReliabilityAnalysisStepResult(issueProcessingResults));
+        dto.setAnalysisStepResults(resultList);
+
         return dto;
     }
 
@@ -44,26 +49,19 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
         return issuesCollection;
     }
 
-    private List<ReliabilityAnalysisStepResult> generateReliabilityAnalysisStepResultFromMap(
-            Map<String, String> resultMap
-    ){
-
-        ReliabilityAnalysisStepResult reliabilityResult = new ReliabilityAnalysisStepResult();
-        reliabilityResult.setResult();
-
-
-
-        List<ReliabilityAnalysisStepResult> result = new ArrayList<>();
-
-        issueProcessingResults.forEach(resultMap -> {
-            ReliabilityAnalysisStepResult
+    private ReliabilityAnalysisStepResult getReliabilityAnalysisStepResult(List<Map<String, String>> results){
+        ReliabilityAnalysisStepResult result = new ReliabilityAnalysisStepResult();
+        List<IssueReportSetResult> issueSetResults = new ArrayList<>();
+        results.forEach(stringStringMap -> {
+            IssueReportSetResult singleResult = new IssueReportSetResult();
+            singleResult.setResult(stringStringMap);
+            issueSetResults.add(singleResult);
         });
 
-
-        ReliabilityAnalysisStepResult result = new ReliabilityAnalysisStepResult();
-        result.setType("Issue report processing phase");
-
-
+        result.setType("IssueReportProcessing");
+        result.setResult(issueSetResults);
+        
+        return result;
     }
 
 }
