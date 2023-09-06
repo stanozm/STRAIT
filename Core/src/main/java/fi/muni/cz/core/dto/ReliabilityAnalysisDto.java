@@ -1,5 +1,6 @@
 package fi.muni.cz.core.dto;
 
+import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.dataprocessing.output.ModelResult;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import fi.muni.cz.dataprovider.ReleaseDTO;
@@ -10,6 +11,10 @@ import java.util.List;
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
  */
 public class ReliabilityAnalysisDto {
+
+    // Configuration
+
+    private ArgsParser configuration;
     
     // Project metadata
     private String projectName;
@@ -39,7 +44,7 @@ public class ReliabilityAnalysisDto {
     private String timeBetweenDefectsUnit;
 
     // Model analysis results
-    private List<ModelResult> modelResults;
+    private List<List<ModelResult>> modelResults;
 
     // Analysis step results
     private List<ReliabilityAnalysisStepResult> analysisStepResults;
@@ -197,11 +202,11 @@ public class ReliabilityAnalysisDto {
         this.timeBetweenDefectsUnit = timeBetweenDefectsUnit;
     }
 
-    public List<ModelResult> getModelResults() {
+    public List<List<ModelResult>> getModelResults() {
         return modelResults;
     }
 
-    public void setModelResults(List<ModelResult> modelResults) {
+    public void setModelResults(List<List<ModelResult>> modelResults) {
         this.modelResults = modelResults;
     }
 
@@ -211,5 +216,13 @@ public class ReliabilityAnalysisDto {
 
     public void setAnalysisStepResults(List<ReliabilityAnalysisStepResult> analysisStepResults) {
         this.analysisStepResults = analysisStepResults;
+    }
+
+    public ArgsParser getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(ArgsParser configuration) {
+        this.configuration = configuration;
     }
 }
