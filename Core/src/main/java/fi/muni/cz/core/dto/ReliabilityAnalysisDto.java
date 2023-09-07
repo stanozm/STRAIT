@@ -1,6 +1,7 @@
 package fi.muni.cz.core.dto;
 
 import fi.muni.cz.core.ArgsParser;
+import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestResult;
 import fi.muni.cz.dataprocessing.output.ModelResult;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import fi.muni.cz.dataprovider.ReleaseDTO;
@@ -44,6 +45,8 @@ public class ReliabilityAnalysisDto {
     private String timeBetweenDefectsUnit;
 
     // Model analysis results
+
+    private List<TrendTestResult> trendTestResults;
     private List<List<ModelResult>> modelResults;
 
     // Analysis step results
@@ -224,5 +227,13 @@ public class ReliabilityAnalysisDto {
 
     public void setConfiguration(ArgsParser configuration) {
         this.configuration = configuration;
+    }
+
+    public List<TrendTestResult> getTrendTestResults() {
+        return trendTestResults;
+    }
+
+    public void setTrendTestResults(List<TrendTestResult> trendTestResults) {
+        this.trendTestResults = trendTestResults;
     }
 }
