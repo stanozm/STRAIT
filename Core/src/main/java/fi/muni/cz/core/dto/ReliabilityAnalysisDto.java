@@ -2,11 +2,12 @@ package fi.muni.cz.core.dto;
 
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestResult;
-import fi.muni.cz.dataprocessing.output.ModelResult;
+import fi.muni.cz.core.analysis.phases.output.writers.ModelResult;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import fi.muni.cz.dataprovider.ReleaseDTO;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
@@ -14,7 +15,6 @@ import java.util.List;
 public class ReliabilityAnalysisDto {
 
     // Configuration
-
     private ArgsParser configuration;
     
     // Project metadata
@@ -37,6 +37,8 @@ public class ReliabilityAnalysisDto {
     // Analysis issue data
     private int issueReportAmountBeforeProcessing;
     private int issueReportAmountAfterProcessing;
+
+    List<Map<String, String>> issueProcessingResults;
     private List<GeneralIssuesCollection> issueReportSets;
 
     // Model input data points
@@ -45,7 +47,6 @@ public class ReliabilityAnalysisDto {
     private String timeBetweenDefectsUnit;
 
     // Model analysis results
-
     private List<TrendTestResult> trendTestResults;
     private List<List<ModelResult>> modelResults;
 

@@ -1,12 +1,9 @@
-package fi.muni.cz.dataprocessing.output;
+package fi.muni.cz.core.analysis.phases.output.writers;
 
-import fi.muni.cz.dataprovider.ReleaseDTO;
 import org.apache.commons.math3.util.Pair;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -16,6 +13,7 @@ public class ModelResult implements Serializable {
     private Map<String, Double> modelParameters;
     private List<Pair<Integer, Integer>> issuesPrediction;
     private String functionTextForm;
+    private String modelName;
 
     public Map<String, String> getGoodnessOfFitData() {
         return goodnessOfFitData;
@@ -47,5 +45,13 @@ public class ModelResult implements Serializable {
 
     public void setFunctionTextForm(String functionTextForm) {
         this.functionTextForm = functionTextForm;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
 }

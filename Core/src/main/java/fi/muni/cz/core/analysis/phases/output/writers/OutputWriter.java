@@ -1,0 +1,17 @@
+package fi.muni.cz.core.analysis.phases.output.writers;
+
+import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
+
+/**
+ * @author Radoslav Micko, 445611@muni.cz
+ */
+public interface OutputWriter {
+    
+    /**
+     * Write data from OutputData to certain file.
+     * 
+     * @param reliabilityAnalysisData data to write
+     * @param fileName name of file
+     */
+    void writeOutputDataToFile(ReliabilityAnalysisDto reliabilityAnalysisData);
+}

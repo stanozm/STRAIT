@@ -1,0 +1,253 @@
+<html lang="EN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>HTML Output</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.5.4/c3.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js" charset="utf-8"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.5.4/c3.min.js"></script>
+
+        <style>
+            .row.content {height: 100%;}
+            
+            .borders {
+                border-left: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+                margin: -1px;
+            }
+            
+            .row{
+                overflow-y: hidden;
+                background-color: #def2f1;
+            }
+            
+            .container-fluid{
+		background-color: #def2f1;
+            }
+            
+            .container{
+                background-color: #def2f1;
+            }
+            
+            html ,body {
+                height: 100%;
+                background-color: #ffffff;
+            }
+
+            .testimonial-group > .row {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            h3,h1{
+                font-weight: bold; 
+            }
+            
+            .testimonial-group > .row > .col-sm-8 {
+                display: inline-block;
+                float: none;
+            }
+            
+            .sidenav {
+                background-color: #ffffff;
+            }
+
+            hr.hrstyle {
+                border: 0;
+                height: 1px;
+                background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            }
+
+            .c3-circle {
+                opacity: 1 !important;
+            }
+
+            table, th, td {
+                text-align: center;
+                border:1px solid black;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">    
+            <div class="row text-left">
+                <div class="col-sm-2 sidenav"></div>
+                <div class="col-sm-8 text-left"> 
+                    <center><h1>${dataList[0].repositoryName}</h1></center>
+                    <p>
+                        URL = <a href="${data.url}">${data.url}</a><br>
+                        This is a reliability analysis report for  <a href="${data.url}">${data.projectName}</a> of user ${data.projectUser}.<br>
+                    </p>
+                    <b>Project information:</b><br>
+                    <p>
+                        ${data.projectDescription}
+                    </p>
+                    <b>Size:</b> ${data.projectSize}<br>
+                    <b>Contributors:</b> ${data.projectContributors}<br>
+                    <b>Watchers:</b> ${data.projectWatchers}<br>
+                    <b>Forks:</b> ${data.projectForks}<br>
+                    <b>First pushed at:</b> ${data.projectFirstPushedAt?datetime}<br>
+                    <b>Last pushed at:</b> ${data.projectLastPushedAt?datetime}<br>
+                    <b>Count of development days:</b> ${data.projectDevelopmentDays}<br>
+                    <hr class="hrstyle">
+                    <h3>Releases:</h3>
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Name of Release</th>
+                            <th>Date of Release</th>
+                        </tr>
+                        <#if data.releases?size != 0>
+                            <#list data.releases as value>
+                                <tr>
+                                    <td>${value?index + 1}</td>
+                                    <td>${value.name}</td>
+                                    <td>${value.publishedAt?date}</td>
+                                </tr>
+                            </#list>
+                        </#if>
+                    </table>
+                    <hr class="hrstyle">
+                    <h3>Reliability analysis:</h3>
+                    <p>
+                        This analysis was performed <b>${data.createdAt?datetime}</b>.
+                    </p>
+                    <p>
+                        Results are reported for a total of <b>${data.issueReportSets?size}</b> issue report sets.
+                    </p>
+
+                    <#list data.issueReportSets as issueSet>
+                        <b>Data processing overview</b>
+                        <p>
+                            Initial number of issue reports = ${data.issueReportAmountBeforeProcessing}<br>
+                            Number of issue reports after processing and filtering = ${data.issueReportAmountAfterProcessing}<br>
+                        </p>
+                        <table>
+                            <tr>
+                                <th>Issue processing action</th>
+                                <th>Issue processing action result</th>
+                            </tr>
+                            <#if data.issueProcessingResults?size != 0>
+                                <#list data.issueProcessingResults[issueSet?index] as key, value>
+                                    <tr>
+                                        <td>${key}</td>
+                                        <td>${value}</td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                        </table>
+                        <p>
+                            <b>Trend test</b>
+                            Trend ${data.trendTestResults[issueSet?index].trendFound?string("exists", "does not exist")} .<br>
+                            Trend = ${data.trendTestResults[issueSet?index].trendValue?c}
+                        </p>
+                        <hr class="hrstyle">
+                        <center><h3>Time between failures</h3></center>
+                        <div id="timebetweenchart${issueSet?index}"></div>
+                        <hr class="hrstyle">
+
+                        <div class="container-fluid testimonial-group">
+                            <center><h3>Comparison of ${data.modelResults[0]?size} models:</h3></center>
+                            <div class="row text-center flex-nowrap">
+                                <#assign i = 1>
+                                <#list data.modelResults as outputData>
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>${outputData.modelName}</h3>
+                                    <p>
+                                        Model function:<br>
+                                        ${outputData.functionTextForm}<br>
+                                        Estimated parameters:<br>
+                                        <#list outputData.modelParameters as key, value>
+                                            ${key} = ${value?c}<br>
+                                        </#list>
+                                        Estimated by ${data.solver}.
+                                    </p>
+                                    <#if outputData.goodnessOfFitData??>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                            <#list outputData.goodnessOfFitData as key, value>
+                                                ${key}${value}<br>
+                                            </#list>
+                                        </p>
+                                    </#if>
+                                </div>
+                                <#assign i++>
+                                </#list>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <hr class="hrstyle">
+                                    <center><h3>Failure occurence</h3></center>
+                                    <div id="cumulativechart${issueSet?index}"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <script>
+                            var timebetweenchart${issueSet?index} = c3.generate({
+                                bindto: '#timebetweenchart${issueSet?index}',
+                                data: {
+                                    columns: [
+                                        ['Time between failures', <#list data.timeBetweenDefectsCollections[issueSet?index].dataPoints as point>${point.getSecond()?c},</#list>],
+                            ],
+                            type: 'scatter',
+                                colors: {
+                                'Time between failures': '#ff4444'
+                            }
+                            },
+                            axis: {
+                                x: {
+                                    label: {
+                                        text: 'Failures',
+                                            position: 'outer-center'
+                                    }
+                                },
+                                y: {
+                                    label: {
+                                        text: 'Time between failures (${data.timeBetweenDefectsUnit})',
+                                            position: 'outer-middle'
+                                    }
+                                }
+                            }
+                            });
+                            var cumulativechart${issueSet?index} = c3.generate({
+                                bindto: '#cumulativechart${issueSet?index}',
+                                size: {
+                                    height: 500
+                                },
+                                data: {
+                                    columns: [
+                                        ['Real issues', <#list data.cumulativeIssueReportCollections[issueSet?index].dataPoints as pair>${pair.getSecond()?c},</#list>],
+                            <#list dataList as outputData>
+                            ['${outputData.modelName}', <#list outputData.estimatedIssuesPrediction as pair>${pair.getSecond()?c},</#list>],
+                            </#list>
+                            ]
+                            },
+                            axis: {
+                                x: {
+                                    label: {
+                                        text: 'Testing periods (${data.testingPeriodsUnit})',
+                                            position: 'outer-center'
+                                    }
+                                },
+                                y: {
+                                    label: {
+                                        text: 'Total failures',
+                                            position: 'outer-middle'
+                                    }
+                                }
+                            }
+                            });
+                        </script>
+
+                    </#list>
+
+    </body>
+</html>

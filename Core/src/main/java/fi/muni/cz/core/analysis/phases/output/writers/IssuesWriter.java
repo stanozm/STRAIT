@@ -1,4 +1,4 @@
-package fi.muni.cz.dataprocessing.output;
+package fi.muni.cz.core.analysis.phases.output.writers;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
 import java.util.List;

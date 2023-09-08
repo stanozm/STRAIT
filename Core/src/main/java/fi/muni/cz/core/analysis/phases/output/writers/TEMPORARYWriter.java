@@ -1,4 +1,4 @@
-package fi.muni.cz.dataprocessing.output;
+package fi.muni.cz.core.analysis.phases.output.writers;
 
 import org.apache.commons.math3.util.Pair;
 import java.io.BufferedWriter;
