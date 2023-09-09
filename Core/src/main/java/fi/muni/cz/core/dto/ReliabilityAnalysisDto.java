@@ -38,7 +38,7 @@ public class ReliabilityAnalysisDto {
     private int issueReportAmountBeforeProcessing;
     private int issueReportAmountAfterProcessing;
 
-    List<Map<String, String>> issueProcessingResults;
+    private List<Map<String, String>> issueProcessingResults;
     private List<GeneralIssuesCollection> issueReportSets;
 
     // Model input data points
@@ -236,5 +236,13 @@ public class ReliabilityAnalysisDto {
 
     public void setTrendTestResults(List<TrendTestResult> trendTestResults) {
         this.trendTestResults = trendTestResults;
+    }
+
+    public List<Map<String, String>> getIssueProcessingResults() {
+        return issueProcessingResults;
+    }
+
+    public void setIssueProcessingResults(List<Map<String, String>> issueProcessingResults) {
+        this.issueProcessingResults = issueProcessingResults;
     }
 }

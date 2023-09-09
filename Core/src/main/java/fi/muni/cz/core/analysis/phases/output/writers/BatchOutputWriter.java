@@ -1,5 +1,6 @@
 package fi.muni.cz.core.analysis.phases.output.writers;
 
+import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import java.util.List;
 
 /**
@@ -11,8 +12,7 @@ public interface BatchOutputWriter {
      * Write batch analysis output data to a file.
      * A batch analysis involves multiple data sources.
      * 
-     * @param outputData data to write 
-     * @param fileName name of file
+     * @param dto data to write
      */
-    void writeBatchOutputDataToFile(List<List<ModelResult>> outputData, String fileName);
+    void writeBatchOutputDataToFile(List<ReliabilityAnalysisDto> dtoList);
 }
