@@ -20,4 +20,12 @@ public class DataSource {
     public String getLocation() {
         return location;
     }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

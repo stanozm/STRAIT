@@ -1,4 +1,4 @@
-package fi.muni.cz.core;
+package fi.muni.cz.core.executions;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
