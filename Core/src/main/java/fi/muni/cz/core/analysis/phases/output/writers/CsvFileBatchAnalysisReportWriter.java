@@ -1,89 +1,92 @@
 package fi.muni.cz.core.analysis.phases.output.writers;
 
-import static fi.muni.cz.dataprocessing.output.CsvUtil.CSV_FILE_SUFFIX;
-import static fi.muni.cz.dataprocessing.output.CsvUtil.NEW_LINE_SEPARATOR;
-import static fi.muni.cz.dataprocessing.output.CsvUtil.eliminateSeparatorAndCheckNullValue;
-import static fi.muni.cz.dataprocessing.output.CsvUtil.writeElementWithDelimiter;
-
-import fi.muni.cz.dataprocessing.exception.DataProcessingException;
+import com.opencsv.CSVWriter;
+import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestResult;
+import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
+import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
  */
 public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
-    private static final String FILE_HEADER = "Project name,Trend test,Total issues,Defects used for fitting,";
+
+    private static final String FILE_NAME = "batchAnalysisReport.csv";
 
     @Override
-    public void writeBatchOutputDataToFile(List<List<ModelResult>> list, String fileName) {
-        String filePath = "./output/" + fileName + CSV_FILE_SUFFIX;
-        File file = new File(filePath);
-        System.out.println("Writing batch result report to path " + filePath);
-        try (FileWriter fileWriter = new FileWriter(file)){
-            if(list.isEmpty() || list.get(0).isEmpty()){
-                System.out.println("Batch report writing failed.");
-                throw new DataProcessingException("No output data with which to write batch report");
+    public void writeBatchOutputDataToFile(List<ReliabilityAnalysisDto> dtoList) {
+        File file = new File(FILE_NAME);
+        try {
+            FileWriter outputFileWriter = new FileWriter(file);
+            CSVWriter writer = new CSVWriter(outputFileWriter);
+
+            writer.writeNext(generateFileHeader(dtoList.get(0)).toArray(new String[0]));
+
+            for(ReliabilityAnalysisDto dto : dtoList){
+                writer.writeNext(generateFileRow(dto).toArray(new String[0]));
             }
 
-            List<String> goodnessOfFitKeys = new ArrayList<>(
-                    list.get(0).get(0)
-                            .getGoodnessOfFit().keySet()
-            ).stream().sorted().collect(Collectors.toList());
-
-            List<String> issueProcessingStrategyResultKeys = new ArrayList<>(
-                    list.get(0).get(0)
-                            .getIssueProcessingActionResults().keySet()
-            ).stream().sorted().collect(Collectors.toList());
-
-            String modelResultHeaders = list.get(0).stream().flatMap(outputData -> {
-                String modelName = outputData.getModelName();
-                List<String> headers = goodnessOfFitKeys.stream().map(testName -> modelName + " " +  testName + ",")
-                        .collect(Collectors.toList());
-                return headers.stream();
-            }).collect(Collectors.joining());
-
-            String issueProcessingStrategyResultHeaders = issueProcessingStrategyResultKeys
-                    .stream()
-                    .map(str -> str + ",")
-                    .collect(Collectors.joining());
-
-            String extendedHeader = FILE_HEADER + modelResultHeaders + issueProcessingStrategyResultHeaders;
-
-
-            fileWriter.append(extendedHeader);
-            fileWriter.append(NEW_LINE_SEPARATOR);
-            for (List<ModelResult> outputs : list) {
-                writeElementWithDelimiter(
-                        eliminateSeparatorAndCheckNullValue(outputs.get(0).getRepositoryName()), fileWriter);
-                writeElementWithDelimiter(
-                        eliminateSeparatorAndCheckNullValue(outputs.get(0).isExistTrend()), fileWriter);
-                writeElementWithDelimiter(
-                        eliminateSeparatorAndCheckNullValue(outputs.get(0).getInitialNumberOfIssues()), fileWriter);
-                writeElementWithDelimiter(
-                        eliminateSeparatorAndCheckNullValue(outputs.get(0).getTotalNumberOfDefects()), fileWriter);
-
-                for (ModelResult output : outputs) {
-                    for (String testName : goodnessOfFitKeys){
-                        writeElementWithDelimiter(eliminateSeparatorAndCheckNullValue(
-                                output.getGoodnessOfFit().get(testName)), fileWriter);
-                    }
-                }
-
-                for(String resultName : issueProcessingStrategyResultKeys){
-                    writeElementWithDelimiter(eliminateSeparatorAndCheckNullValue(
-                            outputs.get(0).getIssueProcessingActionResults().get(resultName)), fileWriter);
-                }
-
-                fileWriter.append(NEW_LINE_SEPARATOR);
-            }
-        } catch (Exception ex) {
-            System.out.println("Batch report writing failed.");
-            throw new DataProcessingException("Error while creating csv file.", ex);
+            writer.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
+
+
+    private List<String> generateFileHeader(ReliabilityAnalysisDto dto){
+        List<String> header = new ArrayList();
+        header.add("Project name");
+
+        for(int i = 0; i<dto.getIssueReportSets().size(); i++){
+
+            GeneralIssuesCollection currentCollection = dto.getIssueReportSets().get(i);
+            header.add(currentCollection.getRepositoryName() + " issue amount");
+            header.add(currentCollection.getRepositoryName() + " trend test");
+
+            List<ModelResult> modelResults = dto.getModelResults().get(i);
+            for(ModelResult modelResult : modelResults){
+
+                modelResult.getGoodnessOfFitData().forEach((first, second) -> header.add(first));
+            }
+
+            Map<String, String> issueProcessingResults = dto.getIssueProcessingResults().get(i);
+            issueProcessingResults.forEach((first, second) -> header.add(first));
+        }
+
+        return header;
+    }
+
+    private List<String> generateFileRow(ReliabilityAnalysisDto dto){
+        List<String> row = new ArrayList();
+        row.add(dto.getProjectName());
+
+        for(int i = 0; i<dto.getIssueReportSets().size(); i++){
+
+            GeneralIssuesCollection currentCollection = dto.getIssueReportSets().get(i);
+            row.add(String.valueOf(currentCollection.getListOfGeneralIssues().size()));
+
+            TrendTestResult trendTestResult = dto.getTrendTestResults().get(i);
+            row.add(String.valueOf(trendTestResult.isTrendFound()));
+
+
+            List<ModelResult> modelResults = dto.getModelResults().get(i);
+            for(ModelResult modelResult : modelResults){
+
+                modelResult.getGoodnessOfFitData().forEach((first, second) -> row.add(second));
+            }
+
+            Map<String, String> issueProcessingResults = dto.getIssueProcessingResults().get(i);
+            issueProcessingResults.forEach((first, second) -> row.add(second));
+        }
+
+        return row;
+    }
+
+
 
 }
