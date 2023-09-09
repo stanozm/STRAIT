@@ -1,21 +1,22 @@
 package fi.muni.cz.core;
 
-import static fi.muni.cz.core.RunConfiguration.BATCH_AND_EVALUATE;
-import static fi.muni.cz.core.RunConfiguration.HELP;
-import static fi.muni.cz.core.RunConfiguration.LIST_ALL_SNAPSHOTS;
-import static fi.muni.cz.core.RunConfiguration.NOT_SUPPORTED;
-import static fi.muni.cz.core.RunConfiguration.SNAPSHOT_NAME_AND_EVALUATE;
-import static fi.muni.cz.core.RunConfiguration.SNAPSHOT_NAME_AND_LIST_SNAPSHOTS;
-import static fi.muni.cz.core.RunConfiguration.SNAPSHOT_NAME_AND_SAVE;
-import static fi.muni.cz.core.RunConfiguration.UNSPECIFIED;
-import static fi.muni.cz.core.RunConfiguration.URL_AND_EVALUATE;
-import static fi.muni.cz.core.RunConfiguration.URL_AND_LIST_SNAPSHOTS;
-import static fi.muni.cz.core.RunConfiguration.URL_AND_SAVE;
+import static fi.muni.cz.core.executions.RunConfiguration.BATCH_AND_EVALUATE;
+import static fi.muni.cz.core.executions.RunConfiguration.HELP;
+import static fi.muni.cz.core.executions.RunConfiguration.LIST_ALL_SNAPSHOTS;
+import static fi.muni.cz.core.executions.RunConfiguration.NOT_SUPPORTED;
+import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_EVALUATE;
+import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_LIST_SNAPSHOTS;
+import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_SAVE;
+import static fi.muni.cz.core.executions.RunConfiguration.UNSPECIFIED;
+import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_EVALUATE;
+import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_LIST_SNAPSHOTS;
+import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_SAVE;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.FilterFactory;
+import fi.muni.cz.core.executions.RunConfiguration;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
