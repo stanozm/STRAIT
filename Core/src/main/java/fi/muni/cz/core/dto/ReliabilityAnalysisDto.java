@@ -4,10 +4,14 @@ import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestResult;
 import fi.muni.cz.core.analysis.phases.output.writers.ModelResult;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
+import fi.muni.cz.dataprovider.Release;
 import fi.muni.cz.dataprovider.ReleaseDTO;
+import fi.muni.cz.dataprovider.RepositoryInformation;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
@@ -29,7 +33,7 @@ public class ReliabilityAnalysisDto {
     private Date projectLastPushedAt;
     private Date projectFirstPushedAt;
     private long projectDevelopmentDays;
-    private List<ReleaseDTO> releases;
+    private List<Release> releases;
 
     // Analysis metadata
     private String solver;
@@ -52,6 +56,32 @@ public class ReliabilityAnalysisDto {
 
     // Analysis step results
     private List<ReliabilityAnalysisStepResult> analysisStepResults;
+
+
+
+    public void addRepositoryInformationData(
+            RepositoryInformation repositoryInformation,
+            String projectUrlString,
+            String projectUserString
+    ) {
+        projectName = repositoryInformation.getName();
+        projectUrl = projectUrlString;
+        projectUser = projectUserString;
+        projectDescription = repositoryInformation.getDescription();
+        projectContributors = repositoryInformation.getContributors();
+        projectSize = repositoryInformation.getSize();
+        projectWatchers = repositoryInformation.getWatchers();
+        projectForks = repositoryInformation.getForks();
+        releases = repositoryInformation.getListOfReleases();
+        projectFirstPushedAt = repositoryInformation.getPushedAtFirst();
+        projectLastPushedAt = repositoryInformation.getPushedAt();
+
+        projectDevelopmentDays = TimeUnit.DAYS.convert(
+                repositoryInformation.getPushedAt().getTime()
+                        - repositoryInformation.getPushedAtFirst().getTime(),
+        TimeUnit.MILLISECONDS);
+    }
+
 
 
     public String getProjectName() {
@@ -142,11 +172,11 @@ public class ReliabilityAnalysisDto {
         this.projectDevelopmentDays = projectDevelopmentDays;
     }
 
-    public List<ReleaseDTO> getReleases() {
+    public List<Release> getReleases() {
         return releases;
     }
 
-    public void setReleases(List<ReleaseDTO> releases) {
+    public void setReleases(List<Release> releases) {
         this.releases = releases;
     }
 

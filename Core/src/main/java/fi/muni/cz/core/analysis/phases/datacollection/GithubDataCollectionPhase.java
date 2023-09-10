@@ -1,13 +1,15 @@
 package fi.muni.cz.core.analysis.phases.datacollection;
 
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
-import fi.muni.cz.core.configuration.DataSource;
+import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDao;
 import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
 import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
 import fi.muni.cz.dataprovider.RepositoryInformation;
+import fi.muni.cz.dataprovider.utils.GitHubUrlParser;
+import fi.muni.cz.dataprovider.utils.UrlParser;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -59,6 +61,11 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
         }
 
         dto.setIssueReportSets(issueReportCollections);
+        dto.addRepositoryInformationData(
+                issueReportCollections.get(0).getRepositoryInformation(),
+                dataSources.get(0).getLocation(),
+                "Github"
+        );
 
         return dto;
     }

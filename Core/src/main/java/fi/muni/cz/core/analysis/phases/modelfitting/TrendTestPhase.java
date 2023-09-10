@@ -4,17 +4,10 @@ import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter
 
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
-import fi.muni.cz.core.dto.DataPointCollection;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
-import fi.muni.cz.core.exception.InvalidInputException;
-import fi.muni.cz.core.factory.ModelFactory;
-import fi.muni.cz.dataprocessing.output.ModelResult;
 import fi.muni.cz.dataprovider.GeneralIssue;
-import fi.muni.cz.models.Model;
-import fi.muni.cz.models.testing.ChiSquareGoodnessOfFitTest;
 import fi.muni.cz.models.testing.LaplaceTrendTest;
 import fi.muni.cz.models.testing.TrendTest;
-import org.rosuda.JRI.Rengine;
 import java.util.ArrayList;
 import java.util.List;
 

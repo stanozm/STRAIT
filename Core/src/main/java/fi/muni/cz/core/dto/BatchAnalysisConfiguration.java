@@ -1,4 +1,4 @@
-package fi.muni.cz.core.configuration;
+package fi.muni.cz.core.dto;
 
 import java.util.List;
 

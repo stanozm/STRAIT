@@ -11,7 +11,7 @@ import fi.muni.cz.core.analysis.phases.dataprocessing.TimeBetweenIssuesCalculati
 import fi.muni.cz.core.analysis.phases.modelfitting.ModelFittingAndGoodnessOfFitTestPhase;
 import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestPhase;
 import fi.muni.cz.core.analysis.phases.output.HtmlReportOutputPhase;
-import fi.muni.cz.core.configuration.DataSource;
+import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.core.factory.FilterFactory;
 import fi.muni.cz.core.factory.ProcessorFactory;

@@ -1,16 +1,9 @@
 package fi.muni.cz.core.analysis.phases.datacollection;
 
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
-import fi.muni.cz.core.configuration.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDao;
-import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
-import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
-import fi.muni.cz.dataprovider.RepositoryInformation;
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
