@@ -13,7 +13,7 @@ import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_LIST_SNAPSHOTS
 import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_SAVE;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
+import fi.muni.cz.core.dto.BatchAnalysisConfiguration;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.FilterFactory;
 import fi.muni.cz.core.executions.RunConfiguration;

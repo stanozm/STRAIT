@@ -12,8 +12,8 @@ import fi.muni.cz.core.analysis.phases.modelfitting.ModelFittingAndGoodnessOfFit
 import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestPhase;
 import fi.muni.cz.core.analysis.phases.output.HtmlReportOutputPhase;
 import fi.muni.cz.core.analysis.phases.output.writers.CsvFileBatchAnalysisReportWriter;
-import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
-import fi.muni.cz.core.configuration.DataSource;
+import fi.muni.cz.core.dto.BatchAnalysisConfiguration;
+import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.core.factory.FilterFactory;
 import fi.muni.cz.core.factory.ProcessorFactory;
@@ -23,10 +23,8 @@ import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
 import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
 import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
 import org.eclipse.egit.github.core.client.GitHubClient;
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

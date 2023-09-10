@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
 
@@ -20,24 +21,33 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
     public IssueReportProcessingPhase(IssueProcessingStrategy issueProcessingStrategy){
         this.issueProcessingStrategy = issueProcessingStrategy;
         this.issueProcessingResults = new ArrayList<>();
+        this.processedIssues = new ArrayList<>();
     };
 
 
     @Override
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
         List<GeneralIssuesCollection> issueReportSets = dto.getIssueReportSets();
+
+        dto.setIssueReportAmountBeforeProcessing(calculateTotalIssuesInDto(dto));
+
         issueReportSets.forEach(issuesCollection -> {
             processedIssues.add(applyIssueProcessingStrategyToIssueCollection(issuesCollection));
             issueProcessingResults.add(issueProcessingStrategy.getIssueProcessingActionResults());
         });
 
         dto.setIssueReportSets(processedIssues);
+        dto.setIssueReportAmountAfterProcessing(calculateTotalIssuesInDto(dto));
 
-        List<ReliabilityAnalysisStepResult> resultList = dto.getAnalysisStepResults();
-        resultList.add(getReliabilityAnalysisStepResult(issueProcessingResults));
-        dto.setAnalysisStepResults(resultList);
+        dto.setIssueProcessingResults(issueProcessingResults);
 
         return dto;
+    }
+
+    private int calculateTotalIssuesInDto(ReliabilityAnalysisDto dto) {
+        return (int) dto.getIssueReportSets()
+                .stream()
+                .flatMap(issueReportSet -> issueReportSet.getListOfGeneralIssues().stream()).count();
     }
 
     private GeneralIssuesCollection applyIssueProcessingStrategyToIssueCollection(
@@ -49,19 +59,5 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
         return issuesCollection;
     }
 
-    private ReliabilityAnalysisStepResult getReliabilityAnalysisStepResult(List<Map<String, String>> results){
-        ReliabilityAnalysisStepResult result = new ReliabilityAnalysisStepResult();
-        List<IssueReportSetResult> issueSetResults = new ArrayList<>();
-        results.forEach(stringStringMap -> {
-            IssueReportSetResult singleResult = new IssueReportSetResult();
-            singleResult.setResult(stringStringMap);
-            issueSetResults.add(singleResult);
-        });
-
-        result.setType("IssueReportProcessing");
-        result.setResult(issueSetResults);
-        
-        return result;
-    }
 
 }
