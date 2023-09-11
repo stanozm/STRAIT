@@ -336,9 +336,14 @@ public class Core {
         List<Model> models = ModelFactory.getModels(trainingData, testData, goodnessOfFitTest, PARSER);
         List<Model> modelsToRemove = new ArrayList<>();
 
-        if (trainingData.size() < 1
+        if (trainingData.isEmpty()
                 || trainingData.get(trainingData.size() - 1).getSecond() < 1) {
            return new ArrayList<>();
+        }
+
+        if (testData.isEmpty()
+                || testData.get(testData.size() - 1).getSecond() < 1) {
+            return new ArrayList<>();
         }
 
         models.parallelStream().forEach(model -> {
@@ -522,6 +527,7 @@ public class Core {
         List<OutputData> outputDataList = 
                 prepareOutputData(listOfGeneralIssues.size(), 
                         filteredAndProcessedList,
+                        completeData,
                         trainingData,
                         testData,
                         trendTest,
