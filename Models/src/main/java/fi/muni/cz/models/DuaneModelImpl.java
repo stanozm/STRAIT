@@ -18,18 +18,21 @@ public class DuaneModelImpl extends ModelAbstract {
     /**
      * Initialize model attributes.
      * 
-     * @param listOfIssues          list of issues.
+     * @param trainingData          list of issues.
      * @param goodnessOfFitTest     Goodness of fit test to execute.
      * @param solver                Solver to estimate model parameters.
      */
-    public DuaneModelImpl(List<Pair<Integer, Integer>> listOfIssues, GoodnessOfFitTest goodnessOfFitTest,
+    public DuaneModelImpl(
+            List<Pair<Integer, Integer>> trainingData,
+            List<Pair<Integer, Integer>> testData,
+            GoodnessOfFitTest goodnessOfFitTest,
             Solver solver) {
-        super(listOfIssues, goodnessOfFitTest, solver);
+        super(trainingData, testData, goodnessOfFitTest, solver);
     }
 
     @Override
     protected int[] getInitialParametersValue() {
-        return new int[]{listOfIssues.get(listOfIssues.size() - 1).getSecond(), 1};
+        return new int[]{trainingIssueData.get(trainingIssueData.size() - 1).getSecond(), 1};
     }
     
     @Override
