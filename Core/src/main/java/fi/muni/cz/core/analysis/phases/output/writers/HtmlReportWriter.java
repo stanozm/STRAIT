@@ -7,7 +7,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
@@ -17,12 +16,17 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class HtmlReportWriter implements OutputWriter{
 
     private static final String TEMPLATE_PATH = "template_new.html";
-
     private Configuration freemakerTemplateConfiguration;
 
+    /**
+     * Create new HtmlReportWriter.
+     */
     public HtmlReportWriter() {
         this.freemakerTemplateConfiguration = TemplateConfigurationUtil.getConfiguration();
     }
@@ -57,7 +61,7 @@ public class HtmlReportWriter implements OutputWriter{
     }
 
     private void logAndThrowException(String message, Exception ex) {
-        Logger.getLogger(HtmlOutputWriter.class.getName())
+        Logger.getLogger(HtmlReportWriter.class.getName())
                 .log(Level.SEVERE, message, ex);
         throw new DataProcessingException(message, ex);
     }

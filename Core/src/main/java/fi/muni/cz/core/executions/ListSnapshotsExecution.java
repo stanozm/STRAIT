@@ -6,6 +6,9 @@ import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDao;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
 import java.util.List;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class ListSnapshotsExecution extends StraitExecution{
 
     private GeneralIssuesSnapshotDao dao;
@@ -16,7 +19,7 @@ public class ListSnapshotsExecution extends StraitExecution{
     }
 
     @Override
-    public void execute() {
+    public void execute(ArgsParser configuration) {
         listAllSnapshots();
     }
 

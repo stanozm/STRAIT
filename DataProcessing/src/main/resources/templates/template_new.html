@@ -78,10 +78,10 @@
             <div class="row text-left">
                 <div class="col-sm-2 sidenav"></div>
                 <div class="col-sm-8 text-left"> 
-                    <center><h1>${dataList[0].repositoryName}</h1></center>
+                    <center><h1>${data.projectName}</h1></center>
                     <p>
-                        URL = <a href="${data.url}">${data.url}</a><br>
-                        This is a reliability analysis report for  <a href="${data.url}">${data.projectName}</a> of user ${data.projectUser}.<br>
+                        URL = <a href="${data.projectUrl}">${data.projectUrl}</a><br>
+                        This is a reliability analysis report for  <a href="${data.projectUrl}">${data.projectName}</a> of user ${data.projectUser}.<br>
                     </p>
                     <b>Project information:</b><br>
                     <p>
@@ -115,7 +115,7 @@
                     <hr class="hrstyle">
                     <h3>Reliability analysis:</h3>
                     <p>
-                        This analysis was performed <b>${data.createdAt?datetime}</b>.
+                        This analysis was performed <b>${data.analysisDate?datetime}</b>.
                     </p>
                     <p>
                         Results are reported for a total of <b>${data.issueReportSets?size}</b> issue report sets.
@@ -155,7 +155,7 @@
                             <center><h3>Comparison of ${data.modelResults[0]?size} models:</h3></center>
                             <div class="row text-center flex-nowrap">
                                 <#assign i = 1>
-                                <#list data.modelResults as outputData>
+                                <#list data.modelResults[issueSet?index] as outputData>
                                 <div class="col-sm-6 col-md-6 col-lg-4 borders">
                                     <h3>${outputData.modelName}</h3>
                                     <p>
@@ -225,15 +225,15 @@
                                 data: {
                                     columns: [
                                         ['Real issues', <#list data.cumulativeIssueReportCollections[issueSet?index].dataPoints as pair>${pair.getSecond()?c},</#list>],
-                            <#list dataList as outputData>
-                            ['${outputData.modelName}', <#list outputData.estimatedIssuesPrediction as pair>${pair.getSecond()?c},</#list>],
+                            <#list data.modelResults[issueSet?index] as outputData>
+                            ['${outputData.modelName}', <#list outputData.issuesPrediction as pair>${pair.getSecond()?c},</#list>],
                             </#list>
                             ]
                             },
                             axis: {
                                 x: {
                                     label: {
-                                        text: 'Testing periods (${data.testingPeriodsUnit})',
+                                        text: 'Testing periods (${data.cumulativeTimePeriodUnit})',
                                             position: 'outer-center'
                                     }
                                 },

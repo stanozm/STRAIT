@@ -55,6 +55,10 @@ public class ModelFactory {
         rengine = rEngine;
     }
 
+    public static Rengine getREngine() {
+        return rengine;
+    }
+
     /**
      * Get all Model to run.
      * 

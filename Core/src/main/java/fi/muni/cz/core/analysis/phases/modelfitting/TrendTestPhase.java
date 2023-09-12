@@ -1,6 +1,6 @@
 package fi.muni.cz.core.analysis.phases.modelfitting;
 
-import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.WEEKS;
+import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.HOURS;
 
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
@@ -11,6 +11,9 @@ import fi.muni.cz.models.testing.TrendTest;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class TrendTestPhase implements ReliabilityAnalysisPhase {
 
     @Override
@@ -35,7 +38,7 @@ public class TrendTestPhase implements ReliabilityAnalysisPhase {
         if(configuration.hasOptionTimeBetweenIssuesUnit()){
             return configuration.getOptionValueTimeBetweenIssuesUnit();
         }
-        return WEEKS;
+        return HOURS;
    }
 
    private TrendTestResult getTrendTestResult(TrendTest test, List<GeneralIssue> issueList){

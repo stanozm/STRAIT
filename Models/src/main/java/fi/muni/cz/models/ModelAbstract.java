@@ -34,6 +34,7 @@ public abstract class ModelAbstract implements Model {
     
     @Override
     public void estimateModelData() {
+        System.out.println("Evaluating " + getModelShortName());
         calculateModelParameters();
         calculateModelGoodnessOfFit();
     }
@@ -41,6 +42,11 @@ public abstract class ModelAbstract implements Model {
     @Override
     public List<Pair<Integer, Integer>> getIssuesPrediction(double howMuchToPredict) {
         return calculateEstimatedIssuesOccurance(howMuchToPredict);
+    }
+
+    @Override
+    public String getModelName() {
+        return  getModelShortName();
     }
     
     /**

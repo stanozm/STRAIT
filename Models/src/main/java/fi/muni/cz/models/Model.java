@@ -44,4 +44,11 @@ public interface Model {
      * @return String form.
      */
     String getTextFormOfTheFunction();
+
+    /**
+     * Get model name in string form.
+     *
+     * @return String form.
+     */
+    String getModelName();
 }

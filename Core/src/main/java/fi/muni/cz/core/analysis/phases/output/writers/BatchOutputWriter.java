@@ -12,7 +12,7 @@ public interface BatchOutputWriter {
      * Write batch analysis output data to a file.
      * A batch analysis involves multiple data sources.
      * 
-     * @param dto data to write
+     * @param dtoList data to write
      */
     void writeBatchOutputDataToFile(List<ReliabilityAnalysisDto> dtoList);
 }

@@ -8,6 +8,9 @@ import fi.muni.cz.dataprovider.utils.GitHubUrlParser;
 import fi.muni.cz.dataprovider.utils.ParsedUrlData;
 import java.util.List;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class ListUrlSnapshotsExecution extends StraitExecution{
 
     private GeneralIssuesSnapshotDao dao;
@@ -23,7 +26,7 @@ public class ListUrlSnapshotsExecution extends StraitExecution{
     }
 
     @Override
-    public void execute() {
+    public void execute(ArgsParser configuration) {
         listUrlSnapshots();
     }
 

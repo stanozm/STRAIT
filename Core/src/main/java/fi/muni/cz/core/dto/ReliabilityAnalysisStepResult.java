@@ -1,7 +1,6 @@
 package fi.muni.cz.core.dto;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com

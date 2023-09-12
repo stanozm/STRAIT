@@ -1,5 +1,8 @@
 package fi.muni.cz.core.executions;
 
+import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.HOURS;
+import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.WEEKS;
+
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.ReliabilityAnalysis;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
@@ -16,18 +19,23 @@ import fi.muni.cz.core.dto.BatchAnalysisConfiguration;
 import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.core.factory.FilterFactory;
+import fi.muni.cz.core.factory.ModelFactory;
 import fi.muni.cz.core.factory.ProcessorFactory;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDao;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
 import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
 import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
+import fi.muni.cz.dataprovider.authenticationdata.GitHubAuthenticationDataProvider;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class BatchExecution extends StraitExecution {
 
     private List<ReliabilityAnalysis> analyses;
@@ -37,11 +45,17 @@ public class BatchExecution extends StraitExecution {
     private GeneralIssuesSnapshotDao dao;
     private CsvFileBatchAnalysisReportWriter fileWriter;
 
+    private ArgsParser configuration;
 
 
+    /**
+     * Create new batch execution
+     */
     public BatchExecution() {
-        this.githubIssueDataProvider = new GitHubGeneralIssueDataProvider(new GitHubClient());
-        this.githubRepositoryDataProvider = new GitHubRepositoryInformationDataProvider(new GitHubClient());
+        GitHubClient gitHubClient = new GitHubAuthenticationDataProvider().getGitHubClientWithCreditials();
+
+        this.githubIssueDataProvider = new GitHubGeneralIssueDataProvider(gitHubClient);
+        this.githubRepositoryDataProvider = new GitHubRepositoryInformationDataProvider(gitHubClient);
         this.dao = new GeneralIssuesSnapshotDaoImpl();
         this.analyses = new ArrayList<>();
         this.analysisData = new ArrayList<>();
@@ -55,15 +69,17 @@ public class BatchExecution extends StraitExecution {
         for(DataSource dataSource : dataSources) {
             analyses.add(getAnalysisBasedOnConfiguration(configuration, dataSource));
         }
+        this.configuration = configuration;
 
     }
 
     @Override
-    public void execute() {
-
+    public void execute(ArgsParser configuration) {
+        System.out.println("Executing STRAIT in batch mode");
         for(int i = 0; i<analyses.size(); i++) {
             ReliabilityAnalysis analysis = analyses.get(i);
-            ReliabilityAnalysisDto dto = new ReliabilityAnalysisDto();
+            ReliabilityAnalysisDto dto = new ReliabilityAnalysisDto(configuration);
+            dto.setConfiguration(this.configuration);
 
             analysisData.add(analysis.performAnalysis(dto));
         }
@@ -72,6 +88,15 @@ public class BatchExecution extends StraitExecution {
     }
 
     private ReliabilityAnalysis getAnalysisBasedOnConfiguration(ArgsParser configuration, DataSource dataSource) {
+
+        String periodOfTestingValue = configuration.getOptionValuePeriodOfTesting() != null
+                ? configuration.getOptionValuePeriodOfTesting() :
+                WEEKS;
+
+        String timeBetweenIssuesUnitValue = configuration.getOptionValueTimeBetweenIssuesUnit() != null
+                ? configuration.getOptionValueTimeBetweenIssuesUnit() :
+                HOURS;
+
         List<ReliabilityAnalysisPhase> analysisPhases = new ArrayList<>();
 
         List<DataSource> dataSources = new ArrayList<>();
@@ -88,14 +113,14 @@ public class BatchExecution extends StraitExecution {
         analysisPhases.add(new IssueReportProcessingPhase(getStrategyFromConfiguration(configuration)));
 
         analysisPhases.add(
-                new CumulativeIssueAmountCalculationPhase(configuration.getOptionValuePeriodOfTesting())
+                new CumulativeIssueAmountCalculationPhase(periodOfTestingValue)
         );
 
-        analysisPhases.add(new TimeBetweenIssuesCalculationPhase(configuration.getOptionValueTimeBetweenIssuesUnit()));
+        analysisPhases.add(new TimeBetweenIssuesCalculationPhase(timeBetweenIssuesUnitValue));
 
         analysisPhases.add(new TrendTestPhase());
 
-        analysisPhases.add(new ModelFittingAndGoodnessOfFitTestPhase());
+        analysisPhases.add(new ModelFittingAndGoodnessOfFitTestPhase(ModelFactory.getREngine()));
 
         analysisPhases.add(new HtmlReportOutputPhase());
 

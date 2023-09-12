@@ -7,10 +7,23 @@ import fi.muni.cz.core.ArgsParser;
  */
 public abstract class StraitExecution {
 
+    /**
+     * Initialize the reliability analyses used in this execution.
+     * @param configuration Command line configuration object
+     */
     public abstract void initializeAnalyses(ArgsParser configuration);
 
-    public abstract void execute();
+    /**
+     * Execute this STRAIT execution.
+     * @param configuration Command line configuration
+     */
+    public abstract void execute(ArgsParser configuration);
 
+    /**
+     * Get correct execution for provided run configuration
+     * @param runConfiguration STRAIT run configuration
+     * @return Strait execution corresponding to the run configuration
+     */
     public static StraitExecution getExecutionForRunConfiguration(RunConfiguration runConfiguration) {
         switch (runConfiguration) {
             case LIST_ALL_SNAPSHOTS:
