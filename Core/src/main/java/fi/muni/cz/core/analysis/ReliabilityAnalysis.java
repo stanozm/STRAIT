@@ -13,10 +13,19 @@ public class ReliabilityAnalysis {
     private List<ReliabilityAnalysisPhase> phases;
     private ArgsParser config;
 
+    /**
+     * Create new reliability analysis object
+     * @param config Command line configuration
+     */
     public ReliabilityAnalysis(ArgsParser config){
         this.setConfig(config);
     }
 
+    /**
+     * Perform reliability analysis and save data to given dto
+     * @param dto Reliability analysis dto
+     * @return Reliability analysis dto with filled data
+     */
     public ReliabilityAnalysisDto performAnalysis(ReliabilityAnalysisDto dto){
         ReliabilityAnalysisDto currentDto = dto;
         for(ReliabilityAnalysisPhase phase : phases){

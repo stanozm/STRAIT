@@ -1,5 +1,8 @@
 package fi.muni.cz.core.executions;
 
+import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.HOURS;
+import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.WEEKS;
+
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.ReliabilityAnalysis;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
@@ -12,6 +15,7 @@ import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestPhase;
 import fi.muni.cz.core.analysis.phases.output.HtmlReportOutputPhase;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.core.factory.FilterFactory;
+import fi.muni.cz.core.factory.ModelFactory;
 import fi.muni.cz.core.factory.ProcessorFactory;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDao;
@@ -21,19 +25,34 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class SingleSnapshotExecution extends StraitExecution {
 
     private ReliabilityAnalysis analysis;
     private GeneralIssuesSnapshotDao dao;
 
 
-
+    /**
+     * Create new single snapshot execution.
+     */
     public SingleSnapshotExecution() {
         this.dao = new GeneralIssuesSnapshotDaoImpl();
     }
 
     @Override
     public void initializeAnalyses(ArgsParser configuration) {
+
+        String periodOfTestingValue = configuration.getOptionValuePeriodOfTesting() != null
+                ? configuration.getOptionValuePeriodOfTesting() :
+                WEEKS;
+
+        String timeBetweenIssuesUnitValue = configuration.getOptionValueTimeBetweenIssuesUnit() != null
+                ? configuration.getOptionValueTimeBetweenIssuesUnit() :
+                HOURS;
+
 
         List<ReliabilityAnalysisPhase> analysisPhases = new ArrayList<>();
 
@@ -42,14 +61,14 @@ public class SingleSnapshotExecution extends StraitExecution {
         analysisPhases.add(new IssueReportProcessingPhase(getStrategyFromConfiguration(configuration)));
 
         analysisPhases.add(
-                new CumulativeIssueAmountCalculationPhase(configuration.getOptionValuePeriodOfTesting())
+                new CumulativeIssueAmountCalculationPhase(periodOfTestingValue)
         );
 
-        analysisPhases.add(new TimeBetweenIssuesCalculationPhase(configuration.getOptionValueTimeBetweenIssuesUnit()));
+        analysisPhases.add(new TimeBetweenIssuesCalculationPhase(timeBetweenIssuesUnitValue));
 
         analysisPhases.add(new TrendTestPhase());
 
-        analysisPhases.add(new ModelFittingAndGoodnessOfFitTestPhase());
+        analysisPhases.add(new ModelFittingAndGoodnessOfFitTestPhase(ModelFactory.getREngine()));
 
         analysisPhases.add(new HtmlReportOutputPhase());
 
@@ -61,8 +80,9 @@ public class SingleSnapshotExecution extends StraitExecution {
     }
 
     @Override
-    public void execute() {
-        analysis.performAnalysis(new ReliabilityAnalysisDto());
+    public void execute(ArgsParser configuration) {
+        System.out.println("Executing STRAIT in single snapshot analysis mode");
+        analysis.performAnalysis(new ReliabilityAnalysisDto(configuration));
     }
 
     private IssueProcessingStrategy getStrategyFromConfiguration(ArgsParser configuration) {

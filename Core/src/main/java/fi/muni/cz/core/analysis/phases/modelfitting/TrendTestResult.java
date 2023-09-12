@@ -1,5 +1,8 @@
 package fi.muni.cz.core.analysis.phases.modelfitting;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class TrendTestResult {
 
     private double trendValue;

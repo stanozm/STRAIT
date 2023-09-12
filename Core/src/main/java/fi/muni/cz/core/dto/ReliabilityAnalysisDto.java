@@ -5,9 +5,7 @@ import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestResult;
 import fi.muni.cz.core.analysis.phases.output.writers.ModelResult;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import fi.muni.cz.dataprovider.Release;
-import fi.muni.cz.dataprovider.ReleaseDTO;
 import fi.muni.cz.dataprovider.RepositoryInformation;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +18,8 @@ public class ReliabilityAnalysisDto {
 
     // Configuration
     private ArgsParser configuration;
+
+    private Date analysisDate;
     
     // Project metadata
     private String projectName;
@@ -47,6 +47,7 @@ public class ReliabilityAnalysisDto {
 
     // Model input data points
     private List<DataPointCollection> cumulativeIssueReportCollections;
+    private String cumulativeTimePeriodUnit;
     private List<DataPointCollection> timeBetweenDefectsCollections;
     private String timeBetweenDefectsUnit;
 
@@ -57,8 +58,24 @@ public class ReliabilityAnalysisDto {
     // Analysis step results
     private List<ReliabilityAnalysisStepResult> analysisStepResults;
 
+    /**
+     * Create new reliability analysis dtp
+     * @param configuration Command line configuration
+     */
+    public ReliabilityAnalysisDto(ArgsParser configuration) {
+
+        this.configuration = configuration;
+
+        this.analysisDate = new Date();
+    }
 
 
+    /**
+     * Populate repository information related fields
+     * @param repositoryInformation repository information object
+     * @param projectUrlString project url
+     * @param projectUserString project user name
+     */
     public void addRepositoryInformationData(
             RepositoryInformation repositoryInformation,
             String projectUrlString,
@@ -274,5 +291,21 @@ public class ReliabilityAnalysisDto {
 
     public void setIssueProcessingResults(List<Map<String, String>> issueProcessingResults) {
         this.issueProcessingResults = issueProcessingResults;
+    }
+
+    public Date getAnalysisDate() {
+        return analysisDate;
+    }
+
+    public void setAnalysisDate(Date analysisDate) {
+        this.analysisDate = analysisDate;
+    }
+
+    public String getCumulativeTimePeriodUnit() {
+        return cumulativeTimePeriodUnit;
+    }
+
+    public void setCumulativeTimePeriodUnit(String cumulativeTimePeriodUnit) {
+        this.cumulativeTimePeriodUnit = cumulativeTimePeriodUnit;
     }
 }

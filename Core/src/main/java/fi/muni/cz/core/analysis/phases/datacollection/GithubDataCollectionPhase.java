@@ -8,8 +8,6 @@ import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDao;
 import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
 import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
 import fi.muni.cz.dataprovider.RepositoryInformation;
-import fi.muni.cz.dataprovider.utils.GitHubUrlParser;
-import fi.muni.cz.dataprovider.utils.UrlParser;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -17,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
 
     private List<DataSource> dataSources;
@@ -27,6 +28,15 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
     private DataCollectionCacheMode cacheMode;
 
     private List<GeneralIssuesCollection> issueReportCollections;
+
+    /**
+     * Create new Github data collection phase
+     * @param dataSources List of Github data sources to be used for this collection phase
+     * @param cacheMode Cache mode
+     * @param githubIssueDataProvider Github issue data provider
+     * @param githubRepositoryDataProvider Github repository data provider
+     * @param localDataAccess Object that provides database access
+     */
 
     public GithubDataCollectionPhase(
             List<DataSource> dataSources,
@@ -46,7 +56,14 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
         this.cacheMode = cacheMode;
     }
 
+    /**
+     * Execute this reliability analysis phase
+     * @param dto Reliability analysis dto
+     * @return Updated reliability analysis dto
+     */
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto){
+
+        System.out.println("Collecting data from Github");
 
         if(cacheMode.equals(DataCollectionCacheMode.NO_CACHE)){
             collectDataWithoutCaching();
@@ -63,21 +80,23 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
         dto.setIssueReportSets(issueReportCollections);
         dto.addRepositoryInformationData(
                 issueReportCollections.get(0).getRepositoryInformation(),
-                dataSources.get(0).getLocation(),
-                "Github"
+                issueReportCollections.get(0).getUrl(),
+                issueReportCollections.get(0).getUserName()
         );
 
         return dto;
     }
 
-    public void collectDataWithoutCaching(){
+    private void collectDataWithoutCaching(){
         dataSources.forEach(dataSource -> {
+            System.out.println("On data source " + dataSource.getLocation());
             issueReportCollections.add(collectIssuesAndMetadataFromGithub(dataSource));
         });
     }
 
-    public void collectDataWithCaching(){
+    private void collectDataWithCaching(){
         dataSources.forEach(dataSource -> {
+            System.out.println("On data source " + dataSource.getLocation());
             GeneralIssuesCollection oldIssuesCollection = collectIssuesFromDatabase(dataSource);
             if(oldIssuesCollection != null){
                 issueReportCollections.add(oldIssuesCollection);
@@ -90,8 +109,9 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
         });
     }
 
-    public void collectDataAndOverwriteCache(){
+    private void collectDataAndOverwriteCache(){
         dataSources.forEach(dataSource -> {
+            System.out.println("On data source " + dataSource.getLocation());
             GeneralIssuesCollection newIssuesCollection = collectIssuesAndMetadataFromGithub(dataSource);
             issueReportCollections.add(newIssuesCollection);
             overwriteIssuesInDatabase(newIssuesCollection);
@@ -117,6 +137,7 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
     }
 
     private GeneralIssuesCollection collectIssuesFromDatabase(DataSource dataSource) {
+        System.out.println("Attempting issues collection from database");
         GeneralIssuesCollection issuesCollection = localDataAccess.getSnapshotByName(dataSource.getLocation());
         return issuesCollection;
     }

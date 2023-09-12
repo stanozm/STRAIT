@@ -1,5 +1,8 @@
 package fi.muni.cz.core.executions;
 
+import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.HOURS;
+import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.WEEKS;
+
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.ReliabilityAnalysis;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
@@ -14,18 +17,23 @@ import fi.muni.cz.core.analysis.phases.output.HtmlReportOutputPhase;
 import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.core.factory.FilterFactory;
+import fi.muni.cz.core.factory.ModelFactory;
 import fi.muni.cz.core.factory.ProcessorFactory;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDao;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
 import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
 import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
+import fi.muni.cz.dataprovider.authenticationdata.GitHubAuthenticationDataProvider;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class SingleUrlExecution extends StraitExecution {
 
     private ReliabilityAnalysis analysis;
@@ -34,16 +42,27 @@ public class SingleUrlExecution extends StraitExecution {
     private GeneralIssuesSnapshotDao dao;
 
 
-
+    /**
+     * Create new single url execution.
+     */
     public SingleUrlExecution() {
-        this.githubIssueDataProvider = new GitHubGeneralIssueDataProvider(new GitHubClient());
-        this.githubRepositoryDataProvider = new GitHubRepositoryInformationDataProvider(new GitHubClient());
+        GitHubClient gitHubClient = new GitHubAuthenticationDataProvider().getGitHubClientWithCreditials();
+        this.githubIssueDataProvider = new GitHubGeneralIssueDataProvider(gitHubClient);
+        this.githubRepositoryDataProvider = new GitHubRepositoryInformationDataProvider(gitHubClient);
         this.dao = new GeneralIssuesSnapshotDaoImpl();
 
     }
 
     @Override
     public void initializeAnalyses(ArgsParser configuration) {
+
+        String periodOfTestingValue = configuration.getOptionValuePeriodOfTesting() != null
+                ? configuration.getOptionValuePeriodOfTesting() :
+                WEEKS;
+
+        String timeBetweenIssuesUnitValue = configuration.getOptionValueTimeBetweenIssuesUnit() != null
+                ? configuration.getOptionValueTimeBetweenIssuesUnit() :
+                HOURS;
 
         List<ReliabilityAnalysisPhase> analysisPhases = new ArrayList<>();
 
@@ -58,14 +77,14 @@ public class SingleUrlExecution extends StraitExecution {
         analysisPhases.add(new IssueReportProcessingPhase(getStrategyFromConfiguration(configuration)));
 
         analysisPhases.add(
-                new CumulativeIssueAmountCalculationPhase(configuration.getOptionValuePeriodOfTesting())
+                new CumulativeIssueAmountCalculationPhase(periodOfTestingValue)
         );
 
-        analysisPhases.add(new TimeBetweenIssuesCalculationPhase(configuration.getOptionValueTimeBetweenIssuesUnit()));
+        analysisPhases.add(new TimeBetweenIssuesCalculationPhase(timeBetweenIssuesUnitValue));
 
         analysisPhases.add(new TrendTestPhase());
 
-        analysisPhases.add(new ModelFittingAndGoodnessOfFitTestPhase());
+        analysisPhases.add(new ModelFittingAndGoodnessOfFitTestPhase(ModelFactory.getREngine()));
 
         analysisPhases.add(new HtmlReportOutputPhase());
 
@@ -77,8 +96,9 @@ public class SingleUrlExecution extends StraitExecution {
     }
 
     @Override
-    public void execute() {
-        analysis.performAnalysis(new ReliabilityAnalysisDto());
+    public void execute(ArgsParser configuration) {
+        System.out.println("Executing STRAIT in single URL analysis mode");
+        analysis.performAnalysis(new ReliabilityAnalysisDto(configuration));
     }
 
 

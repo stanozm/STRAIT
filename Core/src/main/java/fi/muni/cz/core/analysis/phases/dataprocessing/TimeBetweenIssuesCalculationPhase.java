@@ -3,17 +3,23 @@ package fi.muni.cz.core.analysis.phases.dataprocessing;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.dto.DataPointCollection;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
-import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.CumulativeIssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.TimeBetweenIssuesCounter;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class TimeBetweenIssuesCalculationPhase implements ReliabilityAnalysisPhase {
 
     private TimeBetweenIssuesCounter timeBetweenIssuesCounter;
     private String timeUnit;
 
+    /**
+     * Create new time between issues calculation phase
+     * @param timeUnit Time unit used in the calculation. For instance, DAYS.
+     */
     public TimeBetweenIssuesCalculationPhase(String timeUnit){
         this.timeUnit = timeUnit;
         this.timeBetweenIssuesCounter = new TimeBetweenIssuesCounter(timeUnit);

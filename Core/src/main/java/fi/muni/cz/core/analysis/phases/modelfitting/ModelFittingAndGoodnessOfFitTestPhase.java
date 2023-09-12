@@ -1,29 +1,30 @@
 package fi.muni.cz.core.analysis.phases.modelfitting;
 
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
+import fi.muni.cz.core.analysis.phases.output.writers.ModelResult;
 import fi.muni.cz.core.dto.DataPointCollection;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.ModelFactory;
-import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.TimeBetweenIssuesCounter;
-import fi.muni.cz.dataprocessing.output.ModelResult;
-import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import fi.muni.cz.models.Model;
-import fi.muni.cz.models.ModelAbstract;
-import fi.muni.cz.models.leastsquaresolver.Solver;
 import fi.muni.cz.models.testing.ChiSquareGoodnessOfFitTest;
-import fi.muni.cz.models.testing.GoodnessOfFitTest;
-import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.Rengine;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * @author Valtteri Valtonen valtonenvaltteri@gmail.com
+ */
 public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysisPhase {
 
     private Rengine rEngine;
-    public ModelFittingAndGoodnessOfFitTestPhase(){
-        this.rEngine = new Rengine(new String[] {"--vanilla"}, false, null);
+
+    /**
+     * Create new model fitting and goodness of fit test phase
+     * @param rEngine R engine
+     */
+    public ModelFittingAndGoodnessOfFitTestPhase(Rengine rEngine){
+        this.rEngine = rEngine;
     };
 
 
@@ -46,6 +47,7 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
         }
 
         dto.setModelResults(modelResults);
+        dto.setSolver("Least Squares solver");
 
         return dto;
     }
@@ -70,6 +72,7 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
         modelResult.setIssuesPrediction(model.getIssuesPrediction(0.0));
         modelResult.setGoodnessOfFitData(model.getGoodnessOfFitData());
         modelResult.setFunctionTextForm(model.getTextFormOfTheFunction());
+        modelResult.setModelName(model.getModelName());
 
         return modelResult;
     }

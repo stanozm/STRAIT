@@ -14,7 +14,10 @@ import java.time.Instant;
 public class Core {
 
     private static final ArgsParser PARSER = new ArgsParser();
-    private static final Rengine RENGINE = new Rengine(new String[] {"--vanilla"}, false, null);
+
+    static final Rengine RENGINE = Rengine.getMainEngine() != null ?
+            Rengine.getMainEngine() :
+            new Rengine(new String[] {"--vanilla"}, false, null);
 
     /**
      * Main method, takes command line arguments.
@@ -40,6 +43,7 @@ public class Core {
     private static void run() throws InvalidInputException {
         System.out.println("Working...");
         Instant start = Instant.now();
+
         ModelFactory.setREngine(RENGINE);
 
         RunConfiguration runConfiguration = PARSER.getRunConfiguration();
@@ -53,6 +57,8 @@ public class Core {
                 PARSER.printHelp();
                 System.out.println("[Missing option: '-e' / '-s']");
                 return;
+            default:
+                break;
         }
 
         StraitExecution execution = StraitExecution.getExecutionForRunConfiguration(runConfiguration);
@@ -63,7 +69,7 @@ public class Core {
         }
 
         execution.initializeAnalyses(PARSER);
-        execution.execute();
+        execution.execute(PARSER);
 
         System.out.println("Done! Duration - " + Duration.between(start, Instant.now()).toMinutes() + "min");
         System.exit(0);
