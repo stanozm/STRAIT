@@ -20,6 +20,7 @@ public class YamadaRaleighModelImpl extends ModelAbstract {
      * Initialize model attributes.
      *
      * @param trainingData      list of issues.
+     * @param testData          list of issues.
      * @param goodnessOfFitTest Goodness of fit test to execute.
      * @param solver            Solver to estimate model parameters.
      */

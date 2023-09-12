@@ -58,7 +58,8 @@ public class ModelFactory {
     /**
      * Get all Model to run.
      * 
-     * @param trainingData cumulative data.
+     * @param trainingData          cumulative data.
+     * @param testData              cumulative data.
      * @param goodnessOfFitTest     goodnes-of-fit.
      * @param parser                parsed CommandLine.
      * @return                      list of Models.

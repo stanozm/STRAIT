@@ -1,7 +1,6 @@
 package fi.muni.cz.core;
 
 import static fi.muni.cz.dataprocessing.issuesprocessing.MovingAverage.calculateMovingAverage;
-import static java.lang.Math.round;
 
 import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
 import fi.muni.cz.core.configuration.DataSource;
@@ -34,7 +33,7 @@ import fi.muni.cz.dataprovider.utils.ParsedUrlData;
 import fi.muni.cz.dataprovider.utils.UrlParser;
 import fi.muni.cz.models.Model;
 import fi.muni.cz.models.exception.ModelException;
-import fi.muni.cz.models.testing.ChiSquareGoodnessOfFitTest;
+import fi.muni.cz.models.testing.RLinearModelGoodnessOfFitTest;
 import fi.muni.cz.models.testing.GoodnessOfFitTest;
 import fi.muni.cz.models.testing.LaplaceTrendTest;
 import fi.muni.cz.models.testing.TrendTest;
@@ -361,7 +360,7 @@ public class Core {
     }
     
     private static GoodnessOfFitTest getGoodnessOfFitTest() {
-        return new ChiSquareGoodnessOfFitTest(RENGINE);
+        return new RLinearModelGoodnessOfFitTest(RENGINE);
     }
     
     private static TrendTest runTrendTest(List<GeneralIssue> listOfGeneralIssues) {

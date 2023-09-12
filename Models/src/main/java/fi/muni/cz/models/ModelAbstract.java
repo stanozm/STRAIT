@@ -138,7 +138,7 @@ public abstract class ModelAbstract implements Model {
 
     @Override
     public Map<String, String> getPredictiveAccuracyData() {
-        return goodnessOfFit;
+        return predictiveAccuracy;
     }
 
     @Override
