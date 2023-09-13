@@ -18,13 +18,13 @@ import java.util.List;
 /**
  * @author Radoslav Micko, 445611@muni.cz
  */
-public class ChiSquareGoodnessOfFitTestNGTest {
+public class ModelPerformanceTestNGTest {
 
     @Mock
     private Rengine rEngine;
 
     @InjectMocks
-    private GoodnessOfFitTest test = new ChiSquareGoodnessOfFitTest(rEngine);
+    private GoodnessOfFitTest test = new ModelPerformanceTest(rEngine);
 
     private final List<Pair<Integer, Integer>> listOfPairs = new ArrayList<>();  
     private final List<Pair<Integer, Integer>> listOfShiftByOnePairs = new ArrayList<>();

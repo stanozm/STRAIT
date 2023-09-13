@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * @author Radoslav Micko, 445611@muni.cz
  */
-public class ChiSquareGoodnessOfFitTest implements GoodnessOfFitTest {
+public class ModelPerformanceTest implements GoodnessOfFitTest {
 
     private static final double ALPHA = 0.05;
     private Rengine rEngine;
@@ -22,19 +22,19 @@ public class ChiSquareGoodnessOfFitTest implements GoodnessOfFitTest {
      *
      * @param rEngine engine for R chisq.test
      */
-    public ChiSquareGoodnessOfFitTest(Rengine rEngine) {
+    public ModelPerformanceTest(Rengine rEngine) {
         this.rEngine = rEngine;
     }
     
     @Override
     public Map<String, String> executeGoodnessOfFitTest(List<Pair<Integer, Integer>> expectedIssues, 
             List<Pair<Integer, Integer>> observedIssues, String modelName) {
-        return calculateChiSquareTest(getPreparedListWithCommas(expectedIssues),
+        return calculatePerformanceMetricValues(getPreparedListWithCommas(expectedIssues),
                 getPreparedListWithCommas(observedIssues), modelName);
     }
     
-    private Map<String, String> calculateChiSquareTest(String expected, String observe, String modelName) {
-        Map<String, String> chiSquareMap = new LinkedHashMap<>();
+    private Map<String, String> calculatePerformanceMetricValues(String expected, String observe, String modelName) {
+        Map<String, String> performanceMetricMap = new LinkedHashMap<>();
 
         rEngine.eval("library(broom)");
         rEngine.eval(String.format("expected%s = c(%s)", modelName, expected));
@@ -46,16 +46,16 @@ public class ChiSquareGoodnessOfFitTest implements GoodnessOfFitTest {
         REXP bic = rEngine.eval(String.format("glance(test%s)$BIC", modelName));
         REXP rse = rEngine.eval(String.format("glance(test%s)$sigma", modelName));
 
-        chiSquareMap.put("Chi-Square = ", String.format(Locale.US, "%.3f", rSquared.asDoubleArray()[0]));
-        chiSquareMap.put("Chi-Square null hypothesis rejection = ",
+        performanceMetricMap.put("Chi-Square = ", String.format(Locale.US, "%.3f", rSquared.asDoubleArray()[0]));
+        performanceMetricMap.put("Chi-Square null hypothesis rejection = ",
                 1 - rSquared.asDoubleArray()[0] > ALPHA ? "REJECT" : "NOT REJECT");
-        chiSquareMap.put("Null hypothesis = ", "No significant difference between observed and expected values");
-        chiSquareMap.put("AIC (Akaike information criterion) = ",
+        performanceMetricMap.put("Null hypothesis = ", "No significant difference between observed and expected values");
+        performanceMetricMap.put("AIC (Akaike information criterion) = ",
                 String.format(Locale.US, "%.3f",aic.asDoubleArray()[0]));
-        chiSquareMap.put("BIC (Bayesian Information Criterion) = ",
+        performanceMetricMap.put("BIC (Bayesian Information Criterion) = ",
                 String.format(Locale.US, "%.3f",bic.asDoubleArray()[0]));
-        chiSquareMap.put("RSE (Residual Standard Error) = ", String.format(Locale.US, "%.3f",rse.asDoubleArray()[0]));
-        return chiSquareMap;
+        performanceMetricMap.put("RSE (Residual Standard Error) = ", String.format(Locale.US, "%.3f",rse.asDoubleArray()[0]));
+        return performanceMetricMap;
     }
 
     private String getPreparedListWithCommas(List<Pair<Integer, Integer>> list) {

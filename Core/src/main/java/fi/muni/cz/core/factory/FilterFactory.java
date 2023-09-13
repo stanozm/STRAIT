@@ -7,6 +7,7 @@ import fi.muni.cz.dataprocessing.issuesprocessing.FilterByTime;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterClosed;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterDefects;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterDuplications;
+import fi.muni.cz.dataprocessing.issuesprocessing.FilterLatestRelease;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterOutInvalidissues;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterOutIssuesWithLowCriticality;
 import fi.muni.cz.dataprocessing.issuesprocessing.FilterOutIssuesWithoutFix;
@@ -27,20 +28,6 @@ public class FilterFactory {
     
     private static final List<String> FILTERING_WORDS = Arrays.asList("bug","error","fail","fault","defect");
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
-    
-    /**
-     * Get string representation of filters with detail info.
-     * 
-     * @param parser  parsed CommandLine.
-     * @return list of filters as String.
-     */
-    public static List<String> getFiltersRanWithInfoAsList(ArgsParser parser) {
-        List<String> list = new ArrayList<>();
-        for (IssueProcessingAction filter: getFilters(parser)) {
-            list.add(filter.infoAboutIssueProcessingAction());
-        }
-        return list;
-    }
     
     /**
      * Get all filters to run.
@@ -100,6 +87,10 @@ public class FilterFactory {
 
         if (parser.hasOptionFilterIssuesWithoutFix()) {
             listOfFilters.add(new FilterOutIssuesWithoutFix());
+        }
+
+        if (parser.hasOptionFilterLatestRelease()){
+            listOfFilters.add(new FilterLatestRelease());
         }
         
         return listOfFilters;

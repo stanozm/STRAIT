@@ -88,8 +88,7 @@ public class SingleUrlExecution extends StraitExecution {
 
         analysisPhases.add(new HtmlReportOutputPhase());
 
-        ReliabilityAnalysis reliabilityAnalysis = new ReliabilityAnalysis(configuration);
-        reliabilityAnalysis.setPhases(analysisPhases);
+        ReliabilityAnalysis reliabilityAnalysis = new ReliabilityAnalysis(analysisPhases);
 
         this.analysis = reliabilityAnalysis;
 

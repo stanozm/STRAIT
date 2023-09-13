@@ -1,22 +1,22 @@
 package fi.muni.cz.core;
 
-import static fi.muni.cz.core.executions.RunConfiguration.BATCH_AND_EVALUATE;
-import static fi.muni.cz.core.executions.RunConfiguration.HELP;
-import static fi.muni.cz.core.executions.RunConfiguration.LIST_ALL_SNAPSHOTS;
-import static fi.muni.cz.core.executions.RunConfiguration.NOT_SUPPORTED;
-import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_EVALUATE;
-import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_LIST_SNAPSHOTS;
-import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_SAVE;
-import static fi.muni.cz.core.executions.RunConfiguration.UNSPECIFIED;
-import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_EVALUATE;
-import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_LIST_SNAPSHOTS;
-import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_SAVE;
+import static fi.muni.cz.core.RunConfiguration.BATCH_AND_EVALUATE;
+import static fi.muni.cz.core.RunConfiguration.BATCH_AND_SAVE;
+import static fi.muni.cz.core.RunConfiguration.HELP;
+import static fi.muni.cz.core.RunConfiguration.LIST_ALL_SNAPSHOTS;
+import static fi.muni.cz.core.RunConfiguration.NOT_SUPPORTED;
+import static fi.muni.cz.core.RunConfiguration.SNAPSHOT_NAME_AND_EVALUATE;
+import static fi.muni.cz.core.RunConfiguration.SNAPSHOT_NAME_AND_LIST_SNAPSHOTS;
+import static fi.muni.cz.core.RunConfiguration.SNAPSHOT_NAME_AND_SAVE;
+import static fi.muni.cz.core.RunConfiguration.UNSPECIFIED;
+import static fi.muni.cz.core.RunConfiguration.URL_AND_EVALUATE;
+import static fi.muni.cz.core.RunConfiguration.URL_AND_LIST_SNAPSHOTS;
+import static fi.muni.cz.core.RunConfiguration.URL_AND_SAVE;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.muni.cz.core.dto.BatchAnalysisConfiguration;
+import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.FilterFactory;
-import fi.muni.cz.core.executions.RunConfiguration;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -64,6 +64,8 @@ public class ArgsParser {
     public static final String OPT_FILTER_ISSUES_WITH_LOW_CRITICALITY = "flc";
     public static final String OPT_FILTER_ISSUES_WITH_NO_FIX = "fnf";
     public static final String OPT_FILTER_TEST_RELATED_ISSUES = "fte";
+
+    public static final String OPT_FILTER_LATEST_RELEASE = "flr";
 
     public static final String OPT_MODELS = "ms";
     public static final String OPT_MOVING_AVERAGE = "ma";
@@ -195,8 +197,9 @@ public class ArgsParser {
         option = Option.builder(OPT_PREDICT).longOpt("predict").type(Number.class).hasArg().argName("Number").
                 desc("Number of test periods to predict.").build();
         options.addOption(option);
-        option = Option.builder(OPT_NEW_SNAPSHOT).longOpt("newSnapshot").hasArg().argName("Name of new snapshot").
-                desc("Name of new snapshot that will be persisted.").build();
+        option = Option.builder(OPT_NEW_SNAPSHOT).longOpt("newSnapshot").hasArg().argName("Overwrite").
+                desc("String overwrite if old snapshots are to be overwritten. Any other string otherwise")
+                .build();
         options.addOption(option);
         option = Option.builder(OPT_FILTER_LABELS).longOpt("filterLabel").optionalArg(true)
                 .hasArgs().argName("Filtering labels").desc("Filter by specified labels.").build();
@@ -223,6 +226,9 @@ public class ArgsParser {
                 .desc("Filter out duplications.").build();
         options.addOption(option);
         option = Option.builder(OPT_FILTER_DEFECTS).longOpt("filterDefects").desc("Filter defects.").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_LATEST_RELEASE).longOpt("filterLatestRelease")
+                .desc("Filter issue reports from most recent release period.").build();
         options.addOption(option);
         option = Option.builder(OPT_MOVING_AVERAGE).longOpt("--movingaverage").desc(
                 "Use moving average on cumulative issue counts before fitting model."
@@ -276,6 +282,8 @@ public class ArgsParser {
             return HELP;
         } else if (hasOptionBatchConfigFile() && hasOptionEvaluate()) {
             return BATCH_AND_EVALUATE;
+        } else if (hasOptionBatchConfigFile() && hasOptionSave()) {
+            return BATCH_AND_SAVE;
         } else if (hasOptionUrl() && hasOptionSave()) {
             return URL_AND_SAVE;
         } else if (hasOptionUrl() && hasOptionListSnapshots()) {
@@ -468,6 +476,15 @@ public class ArgsParser {
     }
 
     /**
+     * Check if option 'flr' is on command line.
+     *
+     * @return true if there is 'flr' command line, false otherwise.
+     */
+    public boolean hasOptionFilterLatestRelease() {
+        return cmdl.hasOption(OPT_FILTER_LATEST_RELEASE);
+    }
+
+    /**
      * Check if option 'ms' is on command line.
      * 
      * @return true if there is 'ms' command line, false otherwise.
@@ -538,7 +555,7 @@ public class ArgsParser {
     public boolean hasOptionNewSnapshot() {
         return cmdl.hasOption(OPT_NEW_SNAPSHOT);
     }
-    
+
     /**
      * Get argument value for 'url'.
      * 

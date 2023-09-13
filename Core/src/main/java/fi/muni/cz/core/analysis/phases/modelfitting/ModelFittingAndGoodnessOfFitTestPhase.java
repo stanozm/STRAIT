@@ -7,7 +7,7 @@ import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.ModelFactory;
 import fi.muni.cz.models.Model;
-import fi.muni.cz.models.testing.ChiSquareGoodnessOfFitTest;
+import fi.muni.cz.models.testing.ModelPerformanceTest;
 import org.rosuda.JRI.Rengine;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +56,7 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
             throws InvalidInputException {
         return ModelFactory.getModels(
                 dataPoints.getDataPoints(),
-                new ChiSquareGoodnessOfFitTest(rEngine),
+                new ModelPerformanceTest(rEngine),
                 dto.getConfiguration()
         );
     }
