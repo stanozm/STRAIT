@@ -1,6 +1,5 @@
 package fi.muni.cz.core.analysis;
 
-import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import java.util.List;
@@ -11,14 +10,13 @@ import java.util.List;
 public class ReliabilityAnalysis {
 
     private List<ReliabilityAnalysisPhase> phases;
-    private ArgsParser config;
 
     /**
      * Create new reliability analysis object
-     * @param config Command line configuration
+     * @param analysisPhases List of analysis phases
      */
-    public ReliabilityAnalysis(ArgsParser config){
-        this.setConfig(config);
+    public ReliabilityAnalysis(List<ReliabilityAnalysisPhase> analysisPhases) {
+        this.phases = analysisPhases;
     }
 
     /**
@@ -34,19 +32,8 @@ public class ReliabilityAnalysis {
         return currentDto;
     }
 
-    public List<ReliabilityAnalysisPhase> getPhases() {
-        return phases;
-    }
-
     public void setPhases(List<ReliabilityAnalysisPhase> phases) {
         this.phases = phases;
     }
 
-    public ArgsParser getConfig() {
-        return config;
-    }
-
-    public void setConfig(ArgsParser config) {
-        this.config = config;
-    }
 }

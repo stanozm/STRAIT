@@ -1,6 +1,7 @@
 package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.RepositoryInformation;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -23,9 +24,9 @@ public class FilterOutInvalidissues implements Filter {
     private int issueAmountAfter;
 
     @Override
-    public List<GeneralIssue> apply(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
         issueAmountBefore = list.size();
-        Set<GeneralIssue> filteredList = FILTER_BY_LABELS.apply(list).stream()
+        Set<GeneralIssue> filteredList = FILTER_BY_LABELS.apply(list, null).stream()
                 .filter(issue -> issue.getCreatedAt() == null
                         || issue.getClosedAt() == null ||
                         (issue.getClosedAt().getTime() - issue.getCreatedAt().getTime()) / 1000.0 > 600)

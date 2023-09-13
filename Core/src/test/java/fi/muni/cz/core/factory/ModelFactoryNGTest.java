@@ -16,7 +16,7 @@ import fi.muni.cz.models.MusaOkumotoModelImpl;
 import fi.muni.cz.models.WeibullModelImpl;
 import fi.muni.cz.models.YamadaExponentialModelImpl;
 import fi.muni.cz.models.YamadaRaleighModelImpl;
-import fi.muni.cz.models.testing.ChiSquareGoodnessOfFitTest;
+import fi.muni.cz.models.testing.ModelPerformanceTest;
 import org.apache.commons.cli.CommandLine;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -45,9 +45,9 @@ public class ModelFactoryNGTest {
     public void testGetModelsWithoutModelOption() throws InvalidInputException {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(false);
         assertEquals(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).size(), 9);
+                new ModelPerformanceTest(null), argsParser).size(), 9);
         assertTrue(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof GOModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof GOModelImpl);
     }
     
     @Test
@@ -55,20 +55,20 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{});
         assertEquals(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).size(), 0);
+                new ModelPerformanceTest(null), argsParser).size(), 0);
         
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"go"});
         assertEquals(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).size(), 1);
+                new ModelPerformanceTest(null), argsParser).size(), 1);
         assertTrue(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof GOModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof GOModelImpl);
     }
     
     @Test(expectedExceptions = InvalidInputException.class)
     public void testGetModelsWithModelOptionButIncorrectModelName() throws Exception {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"nomodelname"});
-        ModelFactory.getModels(new ArrayList<>(), new ChiSquareGoodnessOfFitTest(null), argsParser);
+        ModelFactory.getModels(new ArrayList<>(), new ModelPerformanceTest(null), argsParser);
     }
     
     @Test
@@ -76,7 +76,7 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"go"});
         assertTrue(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof GOModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof GOModelImpl);
     }
     
     @Test
@@ -84,7 +84,7 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"gos"});
         assertTrue(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof GOSShapedModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof GOSShapedModelImpl);
     }
     
     @Test
@@ -92,7 +92,7 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"mo"});
         assertTrue(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof MusaOkumotoModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof MusaOkumotoModelImpl);
     }
     
     @Test
@@ -100,7 +100,7 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"du"});
         assertTrue(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof DuaneModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof DuaneModelImpl);
     }
     
     @Test
@@ -108,7 +108,7 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"hd"});
         assertTrue(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof HossainDahiyaModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof HossainDahiyaModelImpl);
     }
 
     @Test
@@ -116,7 +116,7 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"we"});
         assertTrue(ModelFactory.getModels(new ArrayList<>(),
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof WeibullModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof WeibullModelImpl);
     }
 
     @Test
@@ -124,7 +124,7 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"ye"});
         assertTrue(ModelFactory.getModels(new ArrayList<>(),
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof YamadaExponentialModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof YamadaExponentialModelImpl);
     }
 
     @Test
@@ -132,7 +132,7 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"yr"});
         assertTrue(ModelFactory.getModels(new ArrayList<>(),
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof YamadaRaleighModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof YamadaRaleighModelImpl);
     }
 
     @Test
@@ -140,7 +140,7 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"ll"});
         assertTrue(ModelFactory.getModels(new ArrayList<>(),
-                new ChiSquareGoodnessOfFitTest(null), argsParser).get(0) instanceof LogLogisticModelImpl);
+                new ModelPerformanceTest(null), argsParser).get(0) instanceof LogLogisticModelImpl);
     }
     
     @Test
@@ -148,6 +148,6 @@ public class ModelFactoryNGTest {
         when(cmdl.hasOption(OPT_MODELS)).thenReturn(true);
         when(cmdl.getOptionValues(OPT_MODELS)).thenReturn(new String[]{"hd", "go", "gos", "du", "mo", "we", "ye", "yr", "ll"});
         assertEquals(ModelFactory.getModels(new ArrayList<>(), 
-                new ChiSquareGoodnessOfFitTest(null), argsParser).size(), 9);
+                new ModelPerformanceTest(null), argsParser).size(), 9);
     }
 }

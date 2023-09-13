@@ -2,6 +2,7 @@ package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprocessing.exception.DataProcessingException;
 import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.RepositoryInformation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class FilterByLabel implements Filter, Serializable {
     }
     
     @Override
-    public List<GeneralIssue> apply(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
         issueAmountBefore = list.size();
         if (filteringWords.isEmpty()) {
             throw new DataProcessingException("No filtering words");
@@ -88,7 +89,7 @@ public class FilterByLabel implements Filter, Serializable {
      */
     private List<GeneralIssue> allLabelsToLowerCase(List<GeneralIssue> list) {
         IssuesProcessor toLowerCaseProcessor = new LabelsToLowerCaseProcessor();
-        return toLowerCaseProcessor.apply(list);
+        return toLowerCaseProcessor.apply(list, null);
     }
 
     @Override
