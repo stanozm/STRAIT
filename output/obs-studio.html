@@ -1,0 +1,1465 @@
+<html lang="EN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>HTML Output</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.5.4/c3.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js" charset="utf-8"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.5.4/c3.min.js"></script>
+
+        <style>
+            .row.content {height: 100%;}
+            
+            .borders {
+                border-left: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+                margin: -1px;
+            }
+            
+            .row{
+                overflow-y: hidden;
+                background-color: #def2f1;
+            }
+            
+            .container-fluid{
+		background-color: #def2f1;
+            }
+            
+            .container{
+                background-color: #def2f1;
+            }
+            
+            html ,body {
+                height: 100%;
+                background-color: #ffffff;
+            }
+
+            .testimonial-group > .row {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            h3,h1{
+                font-weight: bold; 
+            }
+            
+            .testimonial-group > .row > .col-sm-8 {
+                display: inline-block;
+                float: none;
+            }
+            
+            .sidenav {
+                background-color: #ffffff;
+            }
+
+            hr.hrstyle {
+                border: 0;
+                height: 1px;
+                background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            }
+
+            .c3-circle {
+                opacity: 1 !important;
+            }
+
+            table, th, td {
+                text-align: center;
+                border:1px solid black;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">    
+            <div class="row text-left">
+                <div class="col-sm-2 sidenav"></div>
+                <div class="col-sm-8 text-left"> 
+                    <center><h1>obs-studio</h1></center>
+                    <p>
+                        URL = <a href="https://github.com/obsproject/obs-studio">https://github.com/obsproject/obs-studio</a><br>
+                        This is a reliability analysis report for  <a href="https://github.com/obsproject/obs-studio">obs-studio</a> of user Github.<br>
+                    </p>
+                    <b>Project information:</b><br>
+                    <p>
+                        OBS Studio - Free and open source software for live streaming and screen recording
+                    </p>
+                    <b>Size:</b> 60 265<br>
+                    <b>Contributors:</b> 412<br>
+                    <b>Watchers:</b> 50 239<br>
+                    <b>Forks:</b> 7 176<br>
+                    <b>First pushed at:</b> 1.10.2013 klo 5.40.31<br>
+                    <b>Last pushed at:</b> 14.9.2023 klo 12.17.45<br>
+                    <b>Count of development days:</b> 3 635<br>
+                    <hr class="hrstyle">
+                    <h3>Releases:</h3>
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Name of Release</th>
+                            <th>Date of Release</th>
+                        </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>OBS Mac 0.2.4 (work-in-progress build)</td>
+                                    <td>21.5.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>OBS Mac 0.3.1 (work-in-progress build)</td>
+                                    <td>17.6.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>OBS Mac 0.4.0</td>
+                                    <td>14.7.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>OBS Mac 0.4.1</td>
+                                    <td>17.7.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>OBS Mac 0.4.2</td>
+                                    <td>17.7.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>OBS Mac 0.5.0</td>
+                                    <td>26.8.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>OBS Mac 0.5.1</td>
+                                    <td>26.8.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>OBS Multiplatform 0.6.0</td>
+                                    <td>13.10.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td>OBS Multiplatform 0.6.1</td>
+                                    <td>13.10.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td>OBS Multiplatform 0.6.2</td>
+                                    <td>19.10.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>11</td>
+                                    <td>OBS Multiplatform 0.6.3</td>
+                                    <td>3.11.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>12</td>
+                                    <td>OBS Multiplatform 0.6.4</td>
+                                    <td>4.11.2014</td>
+                                </tr>
+                                <tr>
+                                    <td>13</td>
+                                    <td>OBS Multiplatform 0.7.1</td>
+                                    <td>6.1.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>14</td>
+                                    <td>OBS Multiplatform 0.7.2</td>
+                                    <td>7.1.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>15</td>
+                                    <td>OBS Multiplatform 0.7.3</td>
+                                    <td>15.1.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>16</td>
+                                    <td>OBS Multiplatform 0.8.0</td>
+                                    <td>10.2.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>17</td>
+                                    <td>OBS Multiplatform 0.8.1</td>
+                                    <td>10.2.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>18</td>
+                                    <td>OBS Multiplatform 0.8.2</td>
+                                    <td>12.2.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>19</td>
+                                    <td>OBS Multiplatform 0.8.3</td>
+                                    <td>21.2.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>20</td>
+                                    <td>OBS Multiplatform 0.9.0</td>
+                                    <td>26.3.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>21</td>
+                                    <td>OBS Multiplatform 0.9.1</td>
+                                    <td>28.3.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>22</td>
+                                    <td>OBS Multiplatform 0.10.0</td>
+                                    <td>13.5.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>OBS Multiplatform 0.10.1</td>
+                                    <td>19.5.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>24</td>
+                                    <td>OBS Multiplatform 0.11.0</td>
+                                    <td>9.7.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>25</td>
+                                    <td>OBS Multiplatform 0.11.1</td>
+                                    <td>9.7.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>26</td>
+                                    <td>OBS Multiplatform 0.11.2</td>
+                                    <td>28.7.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>27</td>
+                                    <td>OBS Multiplatform 0.11.3</td>
+                                    <td>8.8.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>28</td>
+                                    <td>OBS Multiplatform 0.11.4</td>
+                                    <td>17.8.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>29</td>
+                                    <td>OBS Multiplatform 0.12.0</td>
+                                    <td>3.10.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>30</td>
+                                    <td>OBS Multiplatform 0.12.1</td>
+                                    <td>19.11.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>31</td>
+                                    <td>OBS Multiplatform 0.12.2</td>
+                                    <td>21.11.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>32</td>
+                                    <td>OBS Multiplatform 0.12.3</td>
+                                    <td>5.12.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>33</td>
+                                    <td>OBS Multiplatform 0.12.4</td>
+                                    <td>12.12.2015</td>
+                                </tr>
+                                <tr>
+                                    <td>34</td>
+                                    <td>OBS Multiplatform 0.13.0</td>
+                                    <td>28.1.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>35</td>
+                                    <td>OBS Multiplatform 0.13.1 Release Candidate 1</td>
+                                    <td>1.2.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>36</td>
+                                    <td>OBS Studio 0.13.1</td>
+                                    <td>10.2.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>37</td>
+                                    <td>OBS Studio 0.13.2</td>
+                                    <td>24.2.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>38</td>
+                                    <td>OBS Studio 0.13.3</td>
+                                    <td>20.3.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>39</td>
+                                    <td>OBS Studio 0.13.4</td>
+                                    <td>22.3.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>40</td>
+                                    <td>OBS Studio 0.14.0</td>
+                                    <td>24.4.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>41</td>
+                                    <td>OBS Studio 0.14.1</td>
+                                    <td>25.4.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>42</td>
+                                    <td>OBS Studio 0.14.2</td>
+                                    <td>16.5.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>43</td>
+                                    <td>OBS Studio 0.15.0</td>
+                                    <td>8.7.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>44</td>
+                                    <td>OBS Studio 0.15.1</td>
+                                    <td>10.7.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>45</td>
+                                    <td>OBS Studio 0.15.2</td>
+                                    <td>15.7.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>46</td>
+                                    <td>OBS Studio 0.15.3</td>
+                                    <td>8.8.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>47</td>
+                                    <td>OBS Studio 0.15.4</td>
+                                    <td>8.8.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>48</td>
+                                    <td>OBS Studio 0.16.0</td>
+                                    <td>28.9.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>49</td>
+                                    <td>OBS Studio 0.16.1</td>
+                                    <td>28.9.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>50</td>
+                                    <td>OBS Studio 0.16.2</td>
+                                    <td>29.9.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>51</td>
+                                    <td>OBS Studio 0.16.3</td>
+                                    <td>4.11.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>52</td>
+                                    <td>OBS Studio 0.16.4</td>
+                                    <td>4.11.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>53</td>
+                                    <td>OBS Studio 0.16.5</td>
+                                    <td>8.11.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>54</td>
+                                    <td>OBS Studio 0.16.6</td>
+                                    <td>20.11.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>55</td>
+                                    <td>OBS Studio 17.0.0</td>
+                                    <td>25.12.2016</td>
+                                </tr>
+                                <tr>
+                                    <td>56</td>
+                                    <td>OBS Studio 17.0.1</td>
+                                    <td>18.1.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>57</td>
+                                    <td>OBS Studio 17.0.2</td>
+                                    <td>19.1.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>58</td>
+                                    <td>OBS Studio 18.0</td>
+                                    <td>28.2.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>59</td>
+                                    <td>OBS Studio 18.0.1</td>
+                                    <td>4.4.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>60</td>
+                                    <td>OBS Studio 18.0.2</td>
+                                    <td>2.5.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>61</td>
+                                    <td>OBS Studio 19.0</td>
+                                    <td>20.5.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>62</td>
+                                    <td>OBS Studio 19.0.1</td>
+                                    <td>21.5.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>63</td>
+                                    <td>OBS Studio 19.0.2</td>
+                                    <td>29.5.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>64</td>
+                                    <td>OBS Studio 19.0.3</td>
+                                    <td>22.6.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>65</td>
+                                    <td>OBS Studio 20.0</td>
+                                    <td>10.8.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>66</td>
+                                    <td>OBS Studio 20.0.1</td>
+                                    <td>11.8.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>67</td>
+                                    <td>OBS Studio 20.1</td>
+                                    <td>18.10.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>68</td>
+                                    <td>OBS Studio 20.1.1</td>
+                                    <td>26.10.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>69</td>
+                                    <td>OBS Studio 20.1.2</td>
+                                    <td>17.11.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>70</td>
+                                    <td>OBS Studio 20.1.3</td>
+                                    <td>17.11.2017</td>
+                                </tr>
+                                <tr>
+                                    <td>71</td>
+                                    <td>OBS Studio 21.0.1</td>
+                                    <td>23.1.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>72</td>
+                                    <td>OBS Studio 21.0</td>
+                                    <td>23.1.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>73</td>
+                                    <td>21.0.2 macOS Release</td>
+                                    <td>7.2.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>74</td>
+                                    <td>OBS Studio 21.0.3 (macOS Hotfix)</td>
+                                    <td>23.2.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>75</td>
+                                    <td>OBS Studio 21.1</td>
+                                    <td>19.3.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>76</td>
+                                    <td>OBS Studio 21.1.1 (macOS Release)</td>
+                                    <td>22.3.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>77</td>
+                                    <td>OBS Studio 21.1.2</td>
+                                    <td>13.5.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>78</td>
+                                    <td>OBS Studio 22.0 Release Candidate 1</td>
+                                    <td>13.8.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>79</td>
+                                    <td>OBS Studio 22.0 Release Candidate 2</td>
+                                    <td>18.8.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>80</td>
+                                    <td>OBS Studio 22.0.1</td>
+                                    <td>20.8.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>81</td>
+                                    <td>OBS Studio 22.0.1</td>
+                                    <td>23.8.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>82</td>
+                                    <td>OBS Studio 22.0.2</td>
+                                    <td>31.8.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>83</td>
+                                    <td>OBS Studio 22.0.3 (macOS hotfix)</td>
+                                    <td>3.9.2018</td>
+                                </tr>
+                                <tr>
+                                    <td>84</td>
+                                    <td>OBS Studio 23.0 Release Candidate 1</td>
+                                    <td>10.2.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>85</td>
+                                    <td>OBS Studio 23.0 Release Candidate 2</td>
+                                    <td>14.2.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>86</td>
+                                    <td>OBS Studio 23.0</td>
+                                    <td>26.2.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>87</td>
+                                    <td>OBS Studio 23.0.1 (Hotfix)</td>
+                                    <td>27.2.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>88</td>
+                                    <td>OBS Studio 23.0.2 (Hotfix)</td>
+                                    <td>8.3.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>89</td>
+                                    <td>OBS Studio 23.1 Release Candidate 1</td>
+                                    <td>29.3.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>90</td>
+                                    <td>OBS Studio 23.1</td>
+                                    <td>5.4.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>91</td>
+                                    <td>OBS 23.2 Release Candidate 1</td>
+                                    <td>20.5.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>92</td>
+                                    <td>OBS Studio 23.2</td>
+                                    <td>11.6.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>93</td>
+                                    <td>OBS Studio 23.2.1</td>
+                                    <td>15.6.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>94</td>
+                                    <td>OBS Studio 24.0 Release Candidate 1</td>
+                                    <td>20.8.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>95</td>
+                                    <td>OBS Studio 24.0 Release Candidate 2</td>
+                                    <td>28.8.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>96</td>
+                                    <td>OBS Studio 24.0 Release Candidate 3</td>
+                                    <td>4.9.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>97</td>
+                                    <td>OBS Studio 24.0 Release Candidate 4</td>
+                                    <td>5.9.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>98</td>
+                                    <td>OBS Studio 24.0 Release Candidate 5</td>
+                                    <td>11.9.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>99</td>
+                                    <td>OBS Studio 24.0</td>
+                                    <td>18.9.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>100</td>
+                                    <td>OBS Studio 24.0.1</td>
+                                    <td>21.9.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>101</td>
+                                    <td>OBS Studio 24.0.2</td>
+                                    <td>12.10.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>102</td>
+                                    <td>OBS Studio 24.0.3</td>
+                                    <td>12.10.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>103</td>
+                                    <td>OBS Studio 24.0.5</td>
+                                    <td>14.12.2019</td>
+                                </tr>
+                                <tr>
+                                    <td>104</td>
+                                    <td>OBS Studio 25.0 Release Candidate 1</td>
+                                    <td>3.3.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>105</td>
+                                    <td>OBS Studio 25.0 Release Candidate 2</td>
+                                    <td>5.3.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>106</td>
+                                    <td>OBS Studio 25.0 Release Candidate 3</td>
+                                    <td>9.3.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>107</td>
+                                    <td>OBS Studio 25.0 Release Candidate 4</td>
+                                    <td>10.3.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>108</td>
+                                    <td>OBS Studio 25.0 Release Candidate 5</td>
+                                    <td>12.3.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>109</td>
+                                    <td>OBS Studio 25.0 Release Candidate 6</td>
+                                    <td>15.3.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>110</td>
+                                    <td>OBS Studio 25.0</td>
+                                    <td>17.3.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>111</td>
+                                    <td>OBS Studio 25.0.1</td>
+                                    <td>19.3.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>112</td>
+                                    <td>OBS Studio 25.0.4</td>
+                                    <td>5.4.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>113</td>
+                                    <td>OBS Studio 25.0.5 (macOS)</td>
+                                    <td>9.4.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>114</td>
+                                    <td>OBS Studio 25.0.6 (macOS)</td>
+                                    <td>14.4.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>115</td>
+                                    <td></td>
+                                    <td>14.4.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>116</td>
+                                    <td>OBS Studio 25.0.7 (macOS)</td>
+                                    <td>17.4.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>117</td>
+                                    <td>OBS Studio 25.0.8</td>
+                                    <td>27.4.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>118</td>
+                                    <td>OBS Studio 26.0 Release Candidate 1</td>
+                                    <td>30.8.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>119</td>
+                                    <td>OBS Studio 26.0 Release Candidate 2</td>
+                                    <td>10.9.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>120</td>
+                                    <td>OBS Studio 26.0 Release Candidate 3</td>
+                                    <td>19.9.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>121</td>
+                                    <td>OBS Studio 26.0</td>
+                                    <td>29.9.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>122</td>
+                                    <td>OBS Studio 26.0.1</td>
+                                    <td>6.10.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>123</td>
+                                    <td>OBS Studio 26.0.2</td>
+                                    <td>6.10.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>124</td>
+                                    <td>OBS Studio 26.1 Release Candidate 1</td>
+                                    <td>26.11.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>125</td>
+                                    <td>OBS Studio 26.1 Release Candidate 2</td>
+                                    <td>6.12.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>126</td>
+                                    <td>OBS Studio 26.1</td>
+                                    <td>14.12.2020</td>
+                                </tr>
+                                <tr>
+                                    <td>127</td>
+                                    <td>OBS Studio 26.1.1</td>
+                                    <td>7.1.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>128</td>
+                                    <td>OBS Studio 26.1.2 (macOS Hotfix)</td>
+                                    <td>9.1.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>129</td>
+                                    <td>OBS Studio 27.0 Release Candidate 1</td>
+                                    <td>3.4.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>130</td>
+                                    <td>OBS Studio 27.0 Release Candidate 2</td>
+                                    <td>13.4.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>131</td>
+                                    <td>OBS Studio 27.0 Release Candidate 3</td>
+                                    <td>2.5.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>132</td>
+                                    <td>OBS Studio 27.0 Release Candidate 4</td>
+                                    <td>14.5.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>133</td>
+                                    <td>OBS Studio 27.0 Release Candidate 5</td>
+                                    <td>18.5.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>134</td>
+                                    <td>OBS Studio 27.0 Release Candidate 6</td>
+                                    <td>24.5.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>135</td>
+                                    <td>OBS Studio 27.0</td>
+                                    <td>1.6.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>136</td>
+                                    <td>OBS Studio 27.0.1</td>
+                                    <td>12.6.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>137</td>
+                                    <td>OBS Studio 27.1 Release Candidate 1</td>
+                                    <td>26.8.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>138</td>
+                                    <td>OBS Studio 27.1 Release Candidate 2</td>
+                                    <td>6.9.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>139</td>
+                                    <td>OBS Studio 27.1 Release Candidate 3</td>
+                                    <td>17.9.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>140</td>
+                                    <td>OBS Studio 27.1</td>
+                                    <td>28.9.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>141</td>
+                                    <td>OBS Studio 27.1.1</td>
+                                    <td>28.9.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>142</td>
+                                    <td>OBS Studio 27.1.2</td>
+                                    <td>4.10.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>143</td>
+                                    <td>OBS Studio 27.1.3</td>
+                                    <td>4.10.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>144</td>
+                                    <td>OBS Studio 27.2 Beta 1</td>
+                                    <td>30.12.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>145</td>
+                                    <td>OBS Studio 27.2 Beta 2</td>
+                                    <td>31.12.2021</td>
+                                </tr>
+                                <tr>
+                                    <td>146</td>
+                                    <td>OBS Studio 27.2 Beta 3</td>
+                                    <td>12.1.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>147</td>
+                                    <td>OBS Studio 27.2 Beta 4</td>
+                                    <td>23.1.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>148</td>
+                                    <td>OBS Studio 27.2 Release Candidate 1</td>
+                                    <td>30.1.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>149</td>
+                                    <td>OBS Studio 27.2 Release Candidate 2</td>
+                                    <td>8.2.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>150</td>
+                                    <td>OBS Studio 27.2 Release Candidate 3</td>
+                                    <td>8.2.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>151</td>
+                                    <td>OBS Studio 27.2 Release Candidate 4</td>
+                                    <td>9.2.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>152</td>
+                                    <td>OBS Studio 27.2</td>
+                                    <td>15.2.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>153</td>
+                                    <td>OBS Studio 27.2.1</td>
+                                    <td>22.2.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>154</td>
+                                    <td>OBS Studio 27.2.2</td>
+                                    <td>2.3.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>155</td>
+                                    <td>OBS Studio 27.2.3</td>
+                                    <td>3.3.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>156</td>
+                                    <td>OBS Studio 27.2.4</td>
+                                    <td>30.3.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>157</td>
+                                    <td>OBS Studio 28.0 Beta 1</td>
+                                    <td>3.8.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>158</td>
+                                    <td>OBS Studio 28.0 Beta 2</td>
+                                    <td>11.8.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>159</td>
+                                    <td>OBS Studio 28.0 Release Candidate 1</td>
+                                    <td>18.8.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>160</td>
+                                    <td>28.0 Release Candidate 2</td>
+                                    <td>25.8.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>161</td>
+                                    <td>OBS Studio 28.0</td>
+                                    <td>1.9.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>162</td>
+                                    <td>OBS Studio 28.0.1</td>
+                                    <td>3.9.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>163</td>
+                                    <td>OBS Studio 28.0.2</td>
+                                    <td>22.9.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>164</td>
+                                    <td>OBS Studio 28.0.3</td>
+                                    <td>2.10.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>165</td>
+                                    <td>OBS Studio 28.1 Beta 1</td>
+                                    <td>12.10.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>166</td>
+                                    <td>OBS Studio 28.1 Release Candidate 1</td>
+                                    <td>20.10.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>167</td>
+                                    <td>OBS Studio 28.1</td>
+                                    <td>1.11.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>168</td>
+                                    <td>OBS Studio 28.1.1</td>
+                                    <td>2.11.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>169</td>
+                                    <td>OBS Studio 28.1.2</td>
+                                    <td>6.11.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>170</td>
+                                    <td>OBS Studio 29.0 Beta 1</td>
+                                    <td>23.11.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>171</td>
+                                    <td>OBS Studio 29.0 Beta 2</td>
+                                    <td>2.12.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>172</td>
+                                    <td>OBS Studio 29.0 Beta 3</td>
+                                    <td>20.12.2022</td>
+                                </tr>
+                                <tr>
+                                    <td>173</td>
+                                    <td>OBS Studio 29.0</td>
+                                    <td>8.1.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>174</td>
+                                    <td>OBS Studio 29.0.1</td>
+                                    <td>3.2.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>175</td>
+                                    <td>OBS Studio 29.0.2</td>
+                                    <td>4.2.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>176</td>
+                                    <td>OBS Studio 29.1 Beta 1</td>
+                                    <td>29.3.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>177</td>
+                                    <td>OBS Studio 29.1 Beta 2</td>
+                                    <td>5.4.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>178</td>
+                                    <td>OBS Studio 29.1 Beta 3</td>
+                                    <td>6.4.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>179</td>
+                                    <td>OBS Studio 29.1 Beta 4</td>
+                                    <td>14.4.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>180</td>
+                                    <td>OBS Studio 29.1 Release Candidate 1</td>
+                                    <td>26.4.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>181</td>
+                                    <td>OBS Studio 29.1</td>
+                                    <td>2.5.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>182</td>
+                                    <td>OBS Studio 29.1.1</td>
+                                    <td>9.5.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>183</td>
+                                    <td></td>
+                                    <td>29.5.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>184</td>
+                                    <td>OBS Studio 29.1.3</td>
+                                    <td>19.6.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>185</td>
+                                    <td>OBS Studio 30.0 Beta 1</td>
+                                    <td>17.8.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>186</td>
+                                    <td>OBS Studio 30.0 Beta 2</td>
+                                    <td>19.8.2023</td>
+                                </tr>
+                                <tr>
+                                    <td>187</td>
+                                    <td>OBS Studio 30.0 Beta 3</td>
+                                    <td>9.9.2023</td>
+                                </tr>
+                    </table>
+                    <hr class="hrstyle">
+                    <h3>Reliability analysis:</h3>
+                    <p>
+                        This analysis was performed <b>14.9.2023 klo 16.50.27</b>.
+                    </p>
+                    <p>
+                        Results are reported for a total of <b>1</b> issue report sets.
+                    </p>
+
+                        <b>Data processing overview</b>
+                        <p>
+                            Initial number of issue reports = 9 230<br>
+                            Number of issue reports after processing and filtering = 3 871<br>
+                        </p>
+                        <table>
+                            <tr>
+                                <th>Issue processing action</th>
+                                <th>Issue processing action result</th>
+                            </tr>
+                                    <tr>
+                                        <td>FilterClosed</td>
+                                        <td>Removed 594 issue reports</td>
+                                    </tr>
+                                    <tr>
+                                        <td>FilterDefects</td>
+                                        <td>Removed 4755 issue reports</td>
+                                    </tr>
+                                    <tr>
+                                        <td>FilterDuplications</td>
+                                        <td>Removed 10 issue reports</td>
+                                    </tr>
+                        </table>
+                        <p>
+                            <b>Trend test</b>
+                            Trend does not exist .<br>
+                            Trend = 70.11848251778676
+                        </p>
+                        <hr class="hrstyle">
+                        <center><h3>Time between failures</h3></center>
+                        <div id="timebetweenchart0"></div>
+                        <hr class="hrstyle">
+
+                        <div class="container-fluid testimonial-group">
+                            <center><h3>Comparison of 9 models:</h3></center>
+                            <div class="row text-center flex-nowrap">
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>WE</h3>
+                                    <p>
+                                        Model function:<br>
+                                        μ(t) = a * (1 - e<html><sup>-b*t<sup>c</sup></sup></html>)<br>
+                                        Estimated parameters:<br>
+                                            a = 351597.3815634816<br>
+                                            b = 0.0000000099472572<br>
+                                            c = 2.040633834030772<br>
+                                        Estimated by Least Squares solver.
+                                    </p>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                                R-Squared = 0.877<br>
+                                                R-Squared null hypothesis rejection = REJECT<br>
+                                                Null hypothesis = No significant difference between observed and expected values<br>
+                                                AIC (Akaike information criterion) = 3663.424<br>
+                                                BIC (Bayesian Information Criterion) = 3674.902<br>
+                                                RSE (Residual Standard Error) = 53.434<br>
+                                                Predictive ability = 1.000<br>
+                                                Accuracy of the final point = 0.386<br>
+                                        </p>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            R-Squared = 0.996<br>
+                                            R-Squared null hypothesis rejection = NOT REJECT<br>
+                                            Null hypothesis = No significant difference between observed and expected values<br>
+                                            AIC (Akaike information criterion) = 1389.211<br>
+                                            BIC (Bayesian Information Criterion) = 1398.705<br>
+                                            RSE (Residual Standard Error) = 12.665<br>
+                                            Predictive ability = 1.000<br>
+                                            Accuracy of the final point = 0.693<br>
+                                        </p>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>DU</h3>
+                                    <p>
+                                        Model function:<br>
+                                        μ(t) = α * t<html><sup>β</sup></html><br>
+                                        Estimated parameters:<br>
+                                            α = 0.5966895565139856<br>
+                                            β = 0.9026746430619502<br>
+                                        Estimated by Least Squares solver.
+                                    </p>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                                R-Squared = 0.763<br>
+                                                R-Squared null hypothesis rejection = REJECT<br>
+                                                Null hypothesis = No significant difference between observed and expected values<br>
+                                                AIC (Akaike information criterion) = 2840.328<br>
+                                                BIC (Bayesian Information Criterion) = 2851.806<br>
+                                                RSE (Residual Standard Error) = 15.870<br>
+                                                Predictive ability = 1.000<br>
+                                                Accuracy of the final point = 0.862<br>
+                                        </p>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            R-Squared = 0.993<br>
+                                            R-Squared null hypothesis rejection = NOT REJECT<br>
+                                            Null hypothesis = No significant difference between observed and expected values<br>
+                                            AIC (Akaike information criterion) = 575.575<br>
+                                            BIC (Bayesian Information Criterion) = 585.069<br>
+                                            RSE (Residual Standard Error) = 1.239<br>
+                                            Predictive ability = 1.000<br>
+                                            Accuracy of the final point = 0.957<br>
+                                        </p>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>YR</h3>
+                                    <p>
+                                        Model function:<br>
+                                        μ(t) = a * (1 - <html>e<sup>-r*α*(1 - e<sup>-β*t<sup>2</sup>/2</sup>)</sup></html>)<br>
+                                        Estimated parameters:<br>
+                                            a = 50828.34764832764<br>
+                                            β = 0.0000000073772895<br>
+                                            r*α = 23.504273268301773<br>
+                                        Estimated by Least Squares solver.
+                                    </p>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                                R-Squared = 0.874<br>
+                                                R-Squared null hypothesis rejection = REJECT<br>
+                                                Null hypothesis = No significant difference between observed and expected values<br>
+                                                AIC (Akaike information criterion) = 3664.826<br>
+                                                BIC (Bayesian Information Criterion) = 3676.304<br>
+                                                RSE (Residual Standard Error) = 53.545<br>
+                                                Predictive ability = 1.000<br>
+                                                Accuracy of the final point = 0.393<br>
+                                        </p>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            R-Squared = 0.996<br>
+                                            R-Squared null hypothesis rejection = NOT REJECT<br>
+                                            Null hypothesis = No significant difference between observed and expected values<br>
+                                            AIC (Akaike information criterion) = 1368.554<br>
+                                            BIC (Bayesian Information Criterion) = 1378.048<br>
+                                            RSE (Residual Standard Error) = 11.939<br>
+                                            Predictive ability = 1.000<br>
+                                            Accuracy of the final point = 0.703<br>
+                                        </p>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>LL</h3>
+                                    <p>
+                                        Model function:<br>
+                                        μ(t) = a * <html><sup>(λ*t)<sup>K</sup></sup>&frasl;<sub>1 + (λ*t)<sup>K</sup></sub></html><br>
+                                        Estimated parameters:<br>
+                                            a = 2889608.606106621<br>
+                                            λ = 0.0000426372740698<br>
+                                            K = 2.0401986830873913<br>
+                                        Estimated by Least Squares solver.
+                                    </p>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                                R-Squared = 0.877<br>
+                                                R-Squared null hypothesis rejection = REJECT<br>
+                                                Null hypothesis = No significant difference between observed and expected values<br>
+                                                AIC (Akaike information criterion) = 3663.408<br>
+                                                BIC (Bayesian Information Criterion) = 3674.886<br>
+                                                RSE (Residual Standard Error) = 53.433<br>
+                                                Predictive ability = 1.000<br>
+                                                Accuracy of the final point = 0.385<br>
+                                        </p>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            R-Squared = 0.996<br>
+                                            R-Squared null hypothesis rejection = NOT REJECT<br>
+                                            Null hypothesis = No significant difference between observed and expected values<br>
+                                            AIC (Akaike information criterion) = 1389.114<br>
+                                            BIC (Bayesian Information Criterion) = 1398.609<br>
+                                            RSE (Residual Standard Error) = 12.661<br>
+                                            Predictive ability = 1.000<br>
+                                            Accuracy of the final point = 0.693<br>
+                                        </p>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>YE</h3>
+                                    <p>
+                                        Model function:<br>
+                                        μ(t) = a * (1 - <html>e<sup>-r*α*(1 - e<sup>-β*t</sup>)</sup></html>)<br>
+                                        Estimated parameters:<br>
+                                            a = 3364476.026343123<br>
+                                            β = 0.0000003586038289<br>
+                                            r*α = 0.936622535832576<br>
+                                        Estimated by Least Squares solver.
+                                    </p>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                                R-Squared = 0.778<br>
+                                                R-Squared null hypothesis rejection = REJECT<br>
+                                                Null hypothesis = No significant difference between observed and expected values<br>
+                                                AIC (Akaike information criterion) = 3647.781<br>
+                                                BIC (Bayesian Information Criterion) = 3659.259<br>
+                                                RSE (Residual Standard Error) = 52.215<br>
+                                                Predictive ability = 1.000<br>
+                                                Accuracy of the final point = 0.537<br>
+                                        </p>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            R-Squared = 0.994<br>
+                                            R-Squared null hypothesis rejection = NOT REJECT<br>
+                                            Null hypothesis = No significant difference between observed and expected values<br>
+                                            AIC (Akaike information criterion) = 1021.250<br>
+                                            BIC (Bayesian Information Criterion) = 1030.744<br>
+                                            RSE (Residual Standard Error) = 4.426<br>
+                                            Predictive ability = 1.000<br>
+                                            Accuracy of the final point = 0.850<br>
+                                        </p>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>HD</h3>
+                                    <p>
+                                        Model function:<br>
+                                        μ(t) = a * (1 - e<html><sup>-b*t</sup></html>) / (1 + c*e<html><sup>-b*t</sup></html>)<br>
+                                        Estimated parameters:<br>
+                                            a = 2512313.923127693<br>
+                                            b = 0.0000004498622377<br>
+                                            c = 0<br>
+                                        Estimated by Least Squares solver.
+                                    </p>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                                R-Squared = 0.778<br>
+                                                R-Squared null hypothesis rejection = REJECT<br>
+                                                Null hypothesis = No significant difference between observed and expected values<br>
+                                                AIC (Akaike information criterion) = 3647.989<br>
+                                                BIC (Bayesian Information Criterion) = 3659.467<br>
+                                                RSE (Residual Standard Error) = 52.232<br>
+                                                Predictive ability = 1.000<br>
+                                                Accuracy of the final point = 0.537<br>
+                                        </p>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            R-Squared = 0.994<br>
+                                            R-Squared null hypothesis rejection = NOT REJECT<br>
+                                            Null hypothesis = No significant difference between observed and expected values<br>
+                                            AIC (Akaike information criterion) = 1022.318<br>
+                                            BIC (Bayesian Information Criterion) = 1031.812<br>
+                                            RSE (Residual Standard Error) = 4.440<br>
+                                            Predictive ability = 1.000<br>
+                                            Accuracy of the final point = 0.850<br>
+                                        </p>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>MO</h3>
+                                    <p>
+                                        Model function:<br>
+                                        μ(t) = α * ln(β * t + 1)<br>
+                                        Estimated parameters:<br>
+                                            α = 2439056.681677936<br>
+                                            β = 0.0000004633012264<br>
+                                        Estimated by Least Squares solver.
+                                    </p>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                                R-Squared = 0.778<br>
+                                                R-Squared null hypothesis rejection = REJECT<br>
+                                                Null hypothesis = No significant difference between observed and expected values<br>
+                                                AIC (Akaike information criterion) = 3647.794<br>
+                                                BIC (Bayesian Information Criterion) = 3659.272<br>
+                                                RSE (Residual Standard Error) = 52.216<br>
+                                                Predictive ability = 1.000<br>
+                                                Accuracy of the final point = 0.537<br>
+                                        </p>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            R-Squared = 0.994<br>
+                                            R-Squared null hypothesis rejection = NOT REJECT<br>
+                                            Null hypothesis = No significant difference between observed and expected values<br>
+                                            AIC (Akaike information criterion) = 1021.137<br>
+                                            BIC (Bayesian Information Criterion) = 1030.631<br>
+                                            RSE (Residual Standard Error) = 4.425<br>
+                                            Predictive ability = 1.000<br>
+                                            Accuracy of the final point = 0.850<br>
+                                        </p>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>GOS</h3>
+                                    <p>
+                                        Model function:<br>
+                                        μ(t) = a * (1 - (1 + b*t) * e<html><sup>-b*t</sup></html>)<br>
+                                        Estimated parameters:<br>
+                                            a = 227.07268049426412<br>
+                                            b = 0.0678581580764003<br>
+                                        Estimated by Least Squares solver.
+                                    </p>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                                R-Squared = 0.188<br>
+                                                R-Squared null hypothesis rejection = REJECT<br>
+                                                Null hypothesis = No significant difference between observed and expected values<br>
+                                                AIC (Akaike information criterion) = 3529.916<br>
+                                                BIC (Bayesian Information Criterion) = 3541.394<br>
+                                                RSE (Residual Standard Error) = 43.883<br>
+                                                Predictive ability = 1.000<br>
+                                                Accuracy of the final point = 0.726<br>
+                                        </p>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            R-Squared = 0.500<br>
+                                            R-Squared null hypothesis rejection = REJECT<br>
+                                            Null hypothesis = No significant difference between observed and expected values<br>
+                                            AIC (Akaike information criterion) = -9153.589<br>
+                                            BIC (Bayesian Information Criterion) = -9144.094<br>
+                                            RSE (Residual Standard Error) = 0.000<br>
+                                            Predictive ability = 1.000<br>
+                                            Accuracy of the final point = 0.941<br>
+                                        </p>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-lg-4 borders">
+                                    <h3>GO</h3>
+                                    <p>
+                                        Model function:<br>
+                                        μ(t) = a * (1 - e<html><sup>-b*t</sup></html>)<br>
+                                        Estimated parameters:<br>
+                                            a = 2402785.4075905997<br>
+                                            b = 0.0000004703252226<br>
+                                        Estimated by Least Squares solver.
+                                    </p>
+                                        <h3>Goodness of fit:</h3>
+                                        <p>
+                                                R-Squared = 0.778<br>
+                                                R-Squared null hypothesis rejection = REJECT<br>
+                                                Null hypothesis = No significant difference between observed and expected values<br>
+                                                AIC (Akaike information criterion) = 3647.887<br>
+                                                BIC (Bayesian Information Criterion) = 3659.365<br>
+                                                RSE (Residual Standard Error) = 52.224<br>
+                                                Predictive ability = 1.000<br>
+                                                Accuracy of the final point = 0.537<br>
+                                        </p>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            R-Squared = 0.994<br>
+                                            R-Squared null hypothesis rejection = NOT REJECT<br>
+                                            Null hypothesis = No significant difference between observed and expected values<br>
+                                            AIC (Akaike information criterion) = 1022.039<br>
+                                            BIC (Bayesian Information Criterion) = 1031.533<br>
+                                            RSE (Residual Standard Error) = 4.436<br>
+                                            Predictive ability = 1.000<br>
+                                            Accuracy of the final point = 0.850<br>
+                                        </p>
+                                </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <hr class="hrstyle">
+                                    <center><h3>Failure occurence</h3></center>
+                                    <div id="cumulativechart0"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <script>
+                            var timebetweenchart0 = c3.generate({
+                                bindto: '#timebetweenchart0',
+                                data: {
+                                    columns: [
+                                        ['Time between failures', 0,0,1009,215,16,61,20,1,52,505,190,237,422,659,68,143,0,73,310,228,29,338,360,240,0,5,106,77,264,24,65,1,17,14,0,50,15,23,3,9,3,9,14,0,6,10,115,39,69,18,82,21,18,98,52,60,16,188,30,13,5,16,150,43,918,46,51,19,648,619,417,67,490,0,252,465,16,2,377,100,764,669,0,3,1537,1314,81,808,158,81,663,209,490,54,441,639,45,151,418,91,182,139,1638,142,60,962,987,247,134,287,129,13,80,251,50,19,146,171,94,123,25,80,35,145,154,11,234,70,271,261,49,261,55,369,0,72,187,67,204,94,15,192,24,2,0,25,46,202,1,222,119,444,0,181,98,236,112,69,28,66,100,136,13,7,137,120,415,102,38,625,92,222,31,177,369,12,368,460,84,410,167,610,61,21,18,15,10,7,17,2,183,247,52,112,289,7,7,69,449,37,185,128,31,169,25,217,193,47,24,0,8,496,19,256,141,428,149,156,198,105,35,5,142,17,34,153,103,277,83,134,179,54,61,78,10,114,18,54,1,139,30,171,24,218,115,2,34,3,23,525,163,33,203,42,240,208,148,349,224,141,100,0,45,139,140,519,223,90,49,171,110,1,34,425,30,135,72,32,146,0,16,22,5,15,20,149,34,710,402,0,0,1,395,325,5,71,1,122,1,68,84,38,1,11,0,39,65,35,61,25,49,11,5,3,40,43,1,9,2,3,139,17,2,23,24,1,15,32,51,33,11,11,13,60,24,35,3,9,125,6,48,82,50,1,13,41,159,46,76,15,47,7,205,40,112,2,73,31,11,8,8,9,25,1,7,0,2,8,2,18,1,1,25,0,45,22,18,9,19,9,6,0,41,58,49,26,4,10,29,7,1,25,20,109,50,21,32,1,34,27,45,103,12,22,15,1,24,38,5,29,12,47,0,25,5,7,2,11,15,1,3,5,39,32,14,2,42,10,41,8,0,5,24,11,28,29,42,13,40,4,2,12,12,2,20,36,5,3,32,50,0,83,6,26,35,3,24,17,2,4,29,14,15,26,11,0,6,13,0,1,0,5,2,44,12,0,54,34,47,2,31,0,44,0,3,32,2,24,25,23,11,0,8,2,6,6,12,0,2,2,11,7,39,11,22,33,26,9,25,5,21,70,0,5,5,2,21,12,12,0,9,20,17,20,11,2,2,0,0,53,18,0,46,17,27,22,5,52,15,13,4,13,19,0,0,22,0,0,2,19,6,0,27,2,18,33,35,70,0,2,1,10,2,1,10,13,6,3,10,6,26,0,18,1,1,19,12,4,3,7,1,13,21,0,6,12,0,0,9,4,8,5,5,9,12,27,9,10,12,4,21,6,2,1,6,0,0,4,2,3,4,3,5,6,0,1,16,14,0,5,3,0,3,0,10,14,6,0,1,3,0,2,0,6,2,2,1,2,2,1,23,10,3,1,0,22,0,1,0,6,7,0,25,2,1,4,23,11,19,1,7,0,10,0,6,1,1,1,3,7,0,3,0,0,1,4,1,2,5,6,0,0,0,5,0,6,1,0,5,2,24,0,2,0,0,12,7,6,0,15,6,8,2,8,3,12,14,3,2,2,12,13,7,13,3,1,4,0,0,0,1,21,0,10,16,5,7,3,17,0,2,1,2,2,1,11,4,5,0,1,9,3,2,3,1,5,21,0,0,2,9,19,6,7,8,5,3,2,2,0,3,7,2,10,8,26,10,1,2,0,3,5,14,20,3,9,3,4,9,2,1,0,7,12,22,10,4,3,5,4,6,11,5,2,6,5,3,0,31,6,2,4,0,0,0,1,0,9,0,23,15,7,13,1,3,0,2,9,7,24,1,0,2,4,3,12,1,0,2,0,1,10,3,11,1,3,8,9,21,1,8,8,12,3,16,19,5,8,0,19,2,10,11,6,3,9,3,15,0,3,14,6,15,8,0,24,29,0,2,14,4,5,9,1,1,13,19,11,14,8,14,0,0,5,7,17,22,0,10,43,7,19,0,12,6,6,0,18,0,19,15,27,9,23,11,6,5,7,0,3,12,7,20,7,2,27,37,14,8,5,15,0,4,16,33,3,23,7,7,0,1,0,13,16,5,16,51,8,22,46,17,26,5,77,10,8,3,6,0,0,8,1,0,2,1,6,6,0,4,56,28,31,0,2,31,22,3,27,1,5,1,5,1,2,4,12,19,6,10,7,0,20,2,16,22,0,5,7,29,8,0,7,5,3,10,13,65,5,46,4,2,2,0,6,0,1,11,4,0,45,2,9,5,28,12,0,26,28,14,2,24,7,1,4,11,20,14,3,11,2,72,12,0,9,11,21,2,5,3,11,8,27,1,0,0,7,0,12,0,4,1,8,7,2,0,1,11,0,0,2,1,16,14,26,1,8,1,14,2,9,7,5,6,2,1,7,12,11,15,2,3,0,5,2,1,2,0,0,3,7,10,3,6,12,11,10,4,4,15,2,22,0,2,2,15,2,6,1,0,9,16,12,6,10,0,0,11,2,3,1,21,17,4,8,15,7,8,3,4,2,13,26,21,22,5,8,4,6,3,20,9,10,1,60,6,2,6,3,5,14,1,12,36,16,6,2,5,0,2,0,1,5,4,5,2,13,0,7,5,2,3,6,11,0,9,2,0,3,33,3,1,0,1,0,3,18,9,8,1,15,5,0,9,3,1,0,1,0,10,3,9,0,3,1,7,4,45,2,51,10,9,13,4,5,0,4,25,3,9,1,8,9,1,36,15,2,55,3,1,16,47,9,0,22,7,9,4,0,8,1,3,2,43,8,3,0,3,1,0,15,11,4,1,1,6,10,1,14,0,31,0,0,9,2,0,5,0,18,4,37,10,13,9,48,0,15,8,2,7,10,21,0,2,4,0,2,21,15,28,41,5,22,26,25,13,11,10,0,1,3,3,15,2,1,0,8,2,1,1,0,9,8,3,19,0,2,3,6,3,0,1,6,0,1,0,22,4,0,3,15,5,5,6,1,9,0,11,17,1,18,0,11,8,3,11,11,7,10,0,0,0,0,3,1,20,8,5,2,4,19,0,18,1,12,6,1,7,0,37,14,15,2,0,2,10,0,2,3,0,1,1,2,6,3,1,0,0,0,0,3,11,1,1,3,3,5,2,2,2,14,1,4,1,2,4,8,2,4,2,19,2,6,9,14,20,0,9,9,28,3,24,0,29,1,22,34,0,11,23,10,0,1,39,6,6,3,0,11,4,18,3,23,3,21,0,1,5,8,1,0,9,17,0,7,0,3,61,4,10,1,6,0,4,7,8,0,14,11,15,0,0,6,0,0,0,11,10,13,1,10,17,2,2,6,5,12,4,3,9,2,2,7,8,1,13,0,4,5,4,1,10,12,15,16,16,9,1,25,21,6,6,0,4,14,7,2,21,5,22,19,0,0,38,4,3,15,8,1,5,1,2,0,41,2,10,0,8,29,0,5,15,20,28,9,22,0,3,2,1,0,13,15,2,7,9,0,0,6,7,2,47,5,11,3,5,0,0,2,6,8,8,16,19,17,1,23,2,44,0,4,0,3,12,1,6,22,15,8,14,43,4,8,1,40,44,1,17,32,2,3,1,22,1,4,5,6,2,8,6,2,5,30,3,9,7,4,18,9,0,0,6,4,10,22,1,1,0,3,22,4,1,0,0,0,0,4,7,19,17,10,43,19,10,8,1,0,17,9,1,35,24,36,0,2,5,0,5,0,1,4,4,2,10,3,40,0,4,3,3,11,1,4,0,0,0,15,0,1,4,9,4,10,21,10,27,23,1,2,19,19,21,0,0,1,8,5,4,8,8,0,4,13,2,6,21,34,6,14,7,6,0,24,1,2,15,14,3,11,0,1,8,2,2,3,19,0,8,8,4,0,8,0,0,43,16,9,4,0,8,2,14,12,12,9,4,1,52,7,0,5,22,14,1,6,13,9,3,2,20,0,24,0,0,17,24,21,0,0,8,1,12,0,1,23,4,0,7,0,10,6,1,0,42,40,11,12,9,17,4,4,0,13,4,6,13,6,1,0,1,18,10,18,16,6,36,23,7,17,14,53,4,18,7,1,0,6,1,3,6,15,14,18,14,1,17,2,1,6,3,1,2,13,0,18,1,1,3,13,15,7,3,9,0,15,0,4,11,0,12,8,0,1,18,0,9,9,3,4,14,17,15,4,19,2,18,12,20,19,7,4,2,1,7,17,0,15,1,11,4,4,17,25,25,7,21,9,0,80,25,11,13,30,2,5,28,1,18,1,59,107,92,21,0,2,21,22,5,17,12,7,69,70,7,36,13,27,5,48,4,0,0,10,8,56,0,10,5,4,18,5,14,74,5,29,4,18,10,10,2,2,3,8,4,0,3,15,10,3,11,0,0,1,0,20,18,12,7,15,25,22,10,6,8,6,9,2,6,26,0,1,12,5,8,1,5,5,1,29,9,1,18,0,7,2,21,6,0,9,9,36,1,35,6,2,0,15,24,0,24,35,20,18,16,6,0,5,2,3,0,1,1,7,33,11,1,10,5,24,0,3,14,3,8,4,4,10,7,13,9,1,0,16,3,13,1,24,7,47,18,20,3,36,6,10,4,11,17,2,2,7,5,1,6,1,2,7,99,10,5,23,22,1,2,8,31,0,1,17,36,65,7,51,35,39,4,66,14,31,21,93,0,48,9,13,0,10,16,28,3,26,12,66,1,0,10,4,48,15,6,2,33,44,0,1,22,1,0,5,36,18,11,11,51,6,10,15,14,26,22,1,11,9,13,38,27,5,13,0,0,15,17,4,0,11,6,0,18,29,41,6,1,6,35,5,17,39,51,25,16,3,3,2,2,23,2,0,8,33,2,19,14,2,8,9,23,4,0,56,13,40,26,4,2,0,50,2,20,0,9,0,9,5,13,1,13,0,1,7,14,5,2,1,37,0,4,1,0,6,6,1,13,18,38,0,4,1,19,5,8,1,7,1,23,2,1,1,2,4,7,2,5,5,1,8,0,6,21,2,33,16,20,3,38,1,9,5,17,18,0,0,3,3,19,36,12,7,2,3,6,1,7,15,2,2,4,32,38,0,16,7,19,11,38,20,4,16,19,1,11,25,11,0,10,35,8,9,37,4,5,5,23,16,15,28,0,7,2,29,2,11,3,6,1,18,2,1,8,0,3,16,15,0,2,0,6,0,18,1,11,23,8,1,1,17,3,6,3,3,19,4,19,0,8,12,30,10,0,34,10,6,32,19,1,1,26,13,15,2,10,1,29,77,4,2,9,4,1,5,11,5,4,21,27,9,6,1,1,4,3,7,2,0,26,17,3,27,10,8,6,3,6,0,0,2,1,1,8,0,2,5,8,0,2,3,22,5,20,12,1,0,0,44,6,24,13,3,4,4,39,2,4,0,3,22,28,2,6,5,0,0,5,6,1,1,1,6,0,8,18,7,17,2,8,15,30,9,40,2,9,0,11,13,1,15,12,1,25,5,27,6,8,10,17,9,10,40,43,5,6,2,6,2,4,4,3,17,31,50,10,0,11,1,17,2,11,5,5,14,6,3,2,1,19,32,6,10,5,21,13,19,1,2,19,16,8,2,12,6,0,2,1,8,0,7,12,4,0,0,21,4,2,53,20,4,12,16,33,20,6,33,2,7,1,1,0,15,27,5,4,2,9,8,8,3,13,2,7,0,1,9,12,55,1,21,8,0,44,0,58,14,94,0,0,44,9,7,18,19,10,0,3,10,6,16,11,6,17,25,23,0,0,1,19,0,25,3,4,3,15,33,24,1,9,8,7,4,8,3,8,99,6,5,12,10,1,21,2,14,7,35,1,10,2,4,6,2,8,2,7,1,9,16,7,1,18,5,2,2,1,2,8,25,2,1,1,4,0,9,6,6,15,12,2,2,16,24,6,0,7,3,0,0,0,10,2,13,0,0,1,21,5,4,11,8,3,25,7,7,0,2,1,0,2,5,12,0,1,2,1,4,1,0,3,3,2,0,2,1,0,8,0,1,5,0,2,9,2,0,1,9,1,1,1,1,3,3,0,8,0,1,1,2,7,0,3,0,4,0,1,1,0,1,0,0,2,3,2,10,2,0,0,1,0,0,3,1,2,6,5,2,7,1,0,0,0,4,2,8,2,1,2,1,1,1,0,7,19,4,1,10,7,0,2,5,0,0,7,0,4,0,2,1,1,3,8,2,1,0,2,1,2,3,1,4,3,10,17,2,1,19,3,4,0,6,3,6,8,1,0,0,4,4,3,3,0,8,3,0,0,0,4,12,1,2,0,0,5,4,2,2,3,0,3,4,7,6,1,1,4,1,5,6,0,1,1,3,9,0,0,0,3,4,1,7,0,19,23,2,14,15,0,6,4,18,20,13,12,1,0,0,5,13,13,1,0,0,1,7,0,0,0,0,1,0,1,0,12,8,0,18,7,7,0,2,0,1,9,2,13,0,0,1,3,12,4,17,6,6,22,0,5,8,13,6,1,14,23,13,3,18,1,4,3,1,5,9,1,3,2,0,15,5,4,0,16,3,0,3,26,4,10,3,7,29,9,11,5,0,5,2,7,10,6,0,2,10,4,0,27,17,0,1,24,0,5,1,2,6,0,1,17,18,0,12,4,2,8,13,4,6,9,7,1,0,41,13,0,13,25,0,17,10,7,15,2,11,1,0,0,2,8,6,2,10,8,11,8,7,5,0,6,3,10,4,1,28,1,1,12,3,3,5,14,8,1,50,17,2,11,0,0,25,28,6,1,0,0,8,18,8,1,17,0,6,22,20,0,12,3,9,29,3,9,6,2,12,17,9,29,20,27,3,3,6,0,2,8,10,16,50,1,17,7,3,9,49,5,1,3,26,1,33,16,10,8,4,10,1,4,13,15,6,10,2,6,12,1,12,10,6,7,5,11,1,23,17,8,17,6,6,0,0,2,4,5,4,1,2,4,2,5,1,9,11,3,24,2,67,31,26,4,21,19,3,10,41,10,11,16,25,8,1,5,1,1,17,8,31,0,14,44,19,13,14,16,6,6,18,5,16,11,1,17,8,18,6,15,13,0,28,118,6,1,3,8,7,10,7,5,22,10,1,14,1,2,1,29,5,2,14,22,24,7,2,45,12,5,11,1,1,20,27,3,3,2,7,0,1,2,2,21,2,17,3,25,9,5,6,17,10,11,2,4,22,5,4,0,20,22,6,1,7,5,4,0,1,9,10,3,15,2,1,0,15,5,3,3,3,34,5,22,19,3,14,29,7,0,21,14,34,0,2,1,7,3,1,6,4,6,14,2,5,20,0,7,9,19,3,18,0,7,20,0,9,60,30,1,2,13,2,5,19,0,6,31,12,16,3,2,0,11,10,4,4,20,17,0,5,2,0,0,1,20,8,11,7,26,1,15,13,13,0,0,0,12,0,1,2,5,4,12,0,2,4,14,1,5,5,1,11,1,1,14,3,1,7,38,10,7,0,22,15,3,0,1,0,0,10,1,0,11,5,0,4,4,2,14,13,8,3,0,7,2,0,11,5,4,20,7,23,0,0,4,30,5,0,4,13,0,24,23,1,0,5,0,2,1,11,17,9,7,8,18,0,2,13,7,0,12,12,6,2,4,0,4,5,4,0,0,6,0,4,1,2,8,1,2,1,0,3,0,2,1,3,3,3,0,0,0,1,1,1,3,5,1,1,2,3,3,2,6,0,1,3,2,0,0,1,5,0,10,2,2,1,0,1,23,5,1,11,0,2,0,2,4,0,1,10,0,6,0,0,15,0,6,1,1,0,5,0,5,0,0,2,3,1,0,0,0,0,0,3,0,15,1,5,14,4,1,2,0,3,9,14,1,62,1,2,20,2,2,0,1,11,3,1,4,0,3,2,9,4,6,5,0,7,8,2,4,0,18,1,1,40,2,10,4,24,7,0,20,1,0,5,7,30,12,2,3,4,2,0,15,26,18,10,0,3,13,6,14,4,8,21,3,1,12,0,2,22,10,0,7,5,0,17,0,0,1,10,14,2,8,4,21,11,1,10,22,0,11,11,25,2,12,1,0,0,5,20,23,6,3,0,10,7,8,5,35,41,3,7,14,6,0,11,2,1,1,13,3,5,20,6,8,7,7,23,22,6,8,7,18,2,2,26,28,17,14,2,2,1,25,7,8,18,26,1,5,0,4,26,14,2,23,10,17,5,11,9,0,9,6,6,0,2,4,0,2,72,8,5,9,38,13,7,0,0,0,1,0,0,26,18,11,5,9,42,3,2,2,8,5,2,1,6,5,16,10,1,12,21,2,13,16,22,6,1,12,3,2,7,0,5,19,14,16,17,20,51,4,4,6,11,22,0,2,2,21,10,37,2,0,12,4,1,20,11,12,0,1,1,5,15,3,24,2,26,34,2,0,2,24,0,20,5,0,0,1,13,5,0,21,4,0,16,25,3,0,13,0,5,18,39,12,24,2,29,13,32,13,1,6,15,2,9,0,13,6,0,10,1,2,23,17,2,22,4,15,1,5,0,4,13,2,0,7,5,0,4,0,1,5,1,18,0,46,0,11,13,12,7,1,2,4,2,0,0,2,5,0,2,0,2,19,1,0,1,1,5,1,0,11,5,16,23,2,3,0,17,2,20,16,17,10,10,6,2,36,0,6,5,11,0,5,40,1,1,1,4,17,18,1,1,12,14,0,3,5,0,4,46,10,6,20,77,2,39,0,25,27,],
+                            ],
+                            type: 'scatter',
+                                colors: {
+                                'Time between failures': '#ff4444'
+                            }
+                            },
+                            axis: {
+                                x: {
+                                    label: {
+                                        text: 'Failures',
+                                            position: 'outer-center'
+                                    }
+                                },
+                                y: {
+                                    label: {
+                                        text: 'Time between failures (Hours)',
+                                            position: 'outer-middle'
+                                    }
+                                }
+                            }
+                            });
+                            var cumulativechart0 = c3.generate({
+                                bindto: '#cumulativechart0',
+                                size: {
+                                    height: 500
+                                },
+                                data: {
+                                    columns: [
+                                        ['Real issues', 2,2,2,2,2,2,3,7,9,9,9,10,11,12,12,12,13,13,13,13,15,17,18,19,19,21,21,22,22,23,25,27,28,30,39,46,50,53,57,58,62,64,64,64,64,64,65,68,68,68,68,69,69,69,69,70,70,71,72,72,72,74,75,75,75,78,78,79,80,80,80,80,81,81,81,81,84,84,84,84,84,84,84,84,84,84,85,85,85,85,85,85,85,86,87,87,87,87,87,88,90,90,90,90,91,92,92,92,94,94,94,95,95,95,95,97,98,98,98,100,101,102,102,102,102,102,102,102,102,102,102,103,105,105,105,105,105,105,106,106,106,106,106,106,107,108,109,109,112,113,114,116,117,119,121,123,124,126,127,128,129,129,131,131,133,133,135,136,138,139,141,146,147,149,150,151,151,151,153,155,155,157,160,161,164,166,166,166,168,169,169,169,170,171,173,173,174,174,176,176,177,177,177,179,179,179,180,181,181,181,182,190,191,191,193,194,195,198,198,198,200,201,203,205,206,206,211,211,211,213,213,215,215,215,216,217,218,219,222,225,226,227,228,229,230,233,235,239,241,243,244,249,249,249,249,250,252,254,254,255,256,257,257,258,259,260,263,264,265,265,265,266,267,269,270,273,273,275,276,278,285,287,287,287,287,287,288,288,292,292,293,293,295,299,301,307,314,320,327,333,338,341,346,347,352,352,354,362,377,384,393,396,401,407,417,427,436,445,451,461,476,482,494,506,516,529,537,552,557,579,598,629,657,697,723,751,775,798,828,849,866,886,900,915,926,939,944,961,978,996,1009,1020,1031,1056,1078,1106,1127,1143,1155,1186,1208,1224,1233,1259,1273,1289,1301,1334,1359,1382,1416,1427,1443,1463,1488,1508,1522,1541,1560,1577,1589,1601,1623,1641,1656,1682,1700,1715,1738,1753,1770,1786,1804,1812,1837,1859,1875,1887,1896,1899,1905,1911,1919,1931,1946,1963,1984,1998,2012,2033,2041,2056,2068,2072,2078,2083,2091,2101,2112,2123,2138,2146,2159,2169,2184,2204,2228,2242,2256,2268,2280,2295,2318,2330,2341,2358,2384,2398,2420,2433,2445,2457,2473,2493,2506,2522,2536,2540,2553,2569,2579,2593,2620,2643,2692,2743,2786,2828,2857,2882,2907,2928,2949,2963,2991,3003,3021,3037,3048,3064,3084,3098,3108,3121,3134,3140,3159,3171,3190,3213,3227,3246,3258,3275,3299,3320,3349,3368,3405,3455,3488,3514,3533,3550,3571,3588,3607,3618,3634,3649,3667,3684,3699,3713,3728,3749,3759,3777,3800,3831,3845,3864,3870,3871,],
+                            ['WE', 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,6,6,6,7,7,7,8,8,9,9,9,10,10,11,11,11,12,12,13,13,14,14,15,15,16,16,17,18,18,19,19,20,20,21,22,22,23,24,24,25,26,26,27,28,28,29,30,30,31,32,33,34,34,35,36,37,37,38,39,40,41,42,43,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,72,73,74,75,76,77,78,80,81,82,83,85,86,87,88,90,91,92,93,95,96,97,99,100,101,103,104,105,107,108,110,111,112,114,115,117,118,120,121,123,124,126,127,129,130,132,133,135,136,138,139,141,143,144,146,147,149,151,152,154,156,157,159,161,163,164,166,168,169,171,173,175,177,178,180,182,184,186,187,189,191,193,195,197,199,201,202,204,206,208,210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,241,243,245,247,249,251,253,255,258,260,262,264,266,269,271,273,275,277,280,282,284,287,289,291,293,296,298,300,303,305,307,310,312,315,317,319,322,324,327,329,332,334,337,339,342,344,347,349,352,354,357,359,362,364,367,370,372,375,377,380,383,385,388,391,393,396,399,402,404,407,410,412,415,418,421,424,426,429,432,435,438,440,443,446,449,452,455,458,461,464,466,469,472,475,478,481,484,487,490,493,496,499,502,505,508,511,515,518,521,524,527,530,533,536,539,543,546,549,552,555,559,562,565,568,572,575,578,581,585,588,591,594,598,601,604,608,611,615,618,621,625,628,632,635,638,642,645,649,652,656,659,663,666,670,673,677,680,684,687,691,695,698,702,705,709,713,716,720,724,727,731,735,738,742,746,749,753,757,761,764,768,772,776,780,783,787,791,795,799,803,806,810,814,818,822,826,830,834,838,842,846,850,854,858,862,866,870,874,878,882,886,890,894,898,902,906,910,914,918,923,927,931,935,939,943,948,952,956,960,965,969,973,977,982,986,990,994,999,1003,1007,1012,1016,1020,1025,1029,1034,1038,1042,1047,1051,1056,1060,1065,1069,1073,1078,1082,1087,1091,1096,1100,1105,1110,1114,1119,1123,1128,1132,1137,1142,1146,1151,1156,1160,1165,1169,1174,1179,1184,],
+                            ['DU', 1,1,1,2,2,3,3,3,4,4,5,5,6,6,6,7,7,8,8,8,9,9,10,10,10,11,11,12,12,12,13,13,14,14,14,15,15,15,16,16,17,17,17,18,18,18,19,19,20,20,20,21,21,21,22,22,22,23,23,24,24,24,25,25,25,26,26,26,27,27,27,28,28,29,29,29,30,30,30,31,31,31,32,32,32,33,33,33,34,34,35,35,35,36,36,36,37,37,37,38,38,38,39,39,39,40,40,40,41,41,41,42,42,42,43,43,43,44,44,44,45,45,45,46,46,46,47,47,47,48,48,48,49,49,49,50,50,50,51,51,51,52,52,52,53,53,53,54,54,54,55,55,55,56,56,56,57,57,57,58,58,58,59,59,59,60,60,60,61,61,61,62,62,62,63,63,63,64,64,64,65,65,65,66,66,66,67,67,67,68,68,68,69,69,69,69,70,70,70,71,71,71,72,72,72,73,73,73,74,74,74,75,75,75,76,76,76,77,77,77,77,78,78,78,79,79,79,80,80,80,81,81,81,82,82,82,83,83,83,84,84,84,84,85,85,85,86,86,86,87,87,87,88,88,88,89,89,89,89,90,90,90,91,91,91,92,92,92,93,93,93,94,94,94,94,95,95,95,96,96,96,97,97,97,98,98,98,99,99,99,99,100,100,100,101,101,101,102,102,102,103,103,103,103,104,104,104,105,105,105,106,106,106,107,107,107,107,108,108,108,109,109,109,110,110,110,111,111,111,111,112,112,112,113,113,113,114,114,114,115,115,115,115,116,116,116,117,117,117,118,118,118,119,119,119,119,120,120,120,121,121,121,122,122,122,122,123,123,123,124,124,124,125,125,125,125,126,126,126,127,127,127,128,128,128,129,129,129,129,130,130,130,131,131,131,132,132,132,132,133,133,133,134,134,134,135,135,135,135,136,136,136,137,137,137,138,138,138,138,139,139,139,140,140,140,141,141,141,141,142,142,142,143,143,143,143,144,144,144,145,145,145,146,146,146,146,147,147,147,148,148,148,149,149,149,149,150,150,150,151,151,151,152,152,152,152,153,153,153,154,154,154,154,155,155,155,156,156,156,157,157,157,157,158,158,158,159,159,159,160,160,160,160,161,161,161,162,162,162,162,163,163,163,164,164,164,165,165,165,165,166,166,166,],
+                            ['YR', 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,10,10,11,11,11,12,12,13,13,14,14,15,15,16,16,17,18,18,19,19,20,20,21,22,22,23,24,24,25,26,26,27,28,28,29,30,31,31,32,33,34,34,35,36,37,38,38,39,40,41,42,43,44,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,71,72,73,74,75,76,77,79,80,81,82,83,85,86,87,88,90,91,92,93,95,96,97,99,100,101,103,104,105,107,108,109,111,112,114,115,116,118,119,121,122,124,125,127,128,130,131,133,134,136,137,139,140,142,144,145,147,148,150,152,153,155,157,158,160,162,163,165,167,168,170,172,174,175,177,179,181,183,184,186,188,190,192,193,195,197,199,201,203,205,207,208,210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,240,242,244,246,248,251,253,255,257,259,261,263,265,268,270,272,274,276,279,281,283,285,287,290,292,294,296,299,301,303,306,308,310,313,315,317,320,322,324,327,329,332,334,336,339,341,344,346,349,351,354,356,359,361,364,366,369,371,374,376,379,381,384,387,389,392,394,397,400,402,405,408,410,413,416,418,421,424,427,429,432,435,438,440,443,446,449,451,454,457,460,463,466,468,471,474,477,480,483,486,489,492,494,497,500,503,506,509,512,515,518,521,524,527,530,533,536,539,542,546,549,552,555,558,561,564,567,570,574,577,580,583,586,589,593,596,599,602,606,609,612,615,619,622,625,628,632,635,638,642,645,648,652,655,658,662,665,669,672,675,679,682,686,689,693,696,700,703,706,710,713,717,721,724,728,731,735,738,742,745,749,753,756,760,763,767,771,774,778,782,785,789,793,796,800,804,808,811,815,819,823,826,830,834,838,841,845,849,853,857,861,864,868,872,876,880,884,888,892,895,899,903,907,911,915,919,923,927,931,935,939,943,947,951,955,959,963,967,971,976,980,984,988,992,996,1000,1004,1008,1013,1017,1021,1025,1029,1034,1038,1042,1046,1050,1055,1059,1063,1067,1072,1076,1080,1085,1089,1093,1097,1102,1106,1110,1115,1119,1124,1128,1132,1137,1141,1146,],
+                            ['LL', 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,6,6,6,7,7,7,8,8,9,9,9,10,10,11,11,11,12,12,13,13,14,14,15,15,16,16,17,18,18,19,19,20,20,21,22,22,23,24,24,25,26,26,27,28,28,29,30,31,31,32,33,34,34,35,36,37,37,38,39,40,41,42,43,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,72,73,74,75,76,77,78,80,81,82,83,85,86,87,88,90,91,92,93,95,96,97,99,100,101,103,104,105,107,108,110,111,112,114,115,117,118,120,121,123,124,126,127,129,130,132,133,135,136,138,139,141,143,144,146,147,149,151,152,154,156,157,159,161,163,164,166,168,169,171,173,175,177,178,180,182,184,186,187,189,191,193,195,197,199,201,202,204,206,208,210,212,214,216,218,220,222,224,226,228,230,232,234,236,238,241,243,245,247,249,251,253,255,258,260,262,264,266,269,271,273,275,277,280,282,284,287,289,291,293,296,298,300,303,305,308,310,312,315,317,320,322,324,327,329,332,334,337,339,342,344,347,349,352,354,357,359,362,365,367,370,372,375,378,380,383,386,388,391,394,396,399,402,404,407,410,413,415,418,421,424,426,429,432,435,438,441,443,446,449,452,455,458,461,464,467,470,472,475,478,481,484,487,490,493,496,499,502,506,509,512,515,518,521,524,527,530,533,537,540,543,546,549,552,556,559,562,565,568,572,575,578,582,585,588,591,595,598,601,605,608,611,615,618,622,625,628,632,635,639,642,646,649,652,656,659,663,666,670,673,677,681,684,688,691,695,698,702,706,709,713,717,720,724,728,731,735,739,742,746,750,754,757,761,765,769,772,776,780,784,788,791,795,799,803,807,811,815,819,822,826,830,834,838,842,846,850,854,858,862,866,870,874,878,882,886,890,894,898,903,907,911,915,919,923,927,932,936,940,944,948,952,957,961,965,969,974,978,982,986,991,995,999,1004,1008,1012,1017,1021,1026,1030,1034,1039,1043,1048,1052,1056,1061,1065,1070,1074,1079,1083,1088,1092,1097,1101,1106,1110,1115,1120,1124,1129,1133,1138,1143,1147,1152,1156,1161,1166,1170,1175,1180,1185,],
+                            ['YE', 1,2,3,4,5,6,7,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,35,36,37,38,39,40,41,42,44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,61,62,63,64,65,66,67,68,70,71,72,73,74,75,76,77,79,80,81,82,83,84,85,87,88,89,90,91,92,93,94,96,97,98,99,100,101,102,103,105,106,107,108,109,110,111,113,114,115,116,117,118,119,120,122,123,124,125,126,127,128,129,131,132,133,134,135,136,137,138,140,141,142,143,144,145,146,148,149,150,151,152,153,154,155,157,158,159,160,161,162,163,164,166,167,168,169,170,171,172,174,175,176,177,178,179,180,181,183,184,185,186,187,188,189,190,192,193,194,195,196,197,198,200,201,202,203,204,205,206,207,209,210,211,212,213,214,215,216,218,219,220,221,222,223,224,225,227,228,229,230,231,232,233,235,236,237,238,239,240,241,242,244,245,246,247,248,249,250,251,253,254,255,256,257,258,259,261,262,263,264,265,266,267,268,270,271,272,273,274,275,276,277,279,280,281,282,283,284,285,287,288,289,290,291,292,293,294,296,297,298,299,300,301,302,303,305,306,307,308,309,310,311,312,314,315,316,317,318,319,320,322,323,324,325,326,327,328,329,331,332,333,334,335,336,337,338,340,341,342,343,344,345,346,348,349,350,351,352,353,354,355,357,358,359,360,361,362,363,364,366,367,368,369,370,371,372,374,375,376,377,378,379,380,381,383,384,385,386,387,388,389,390,392,393,394,395,396,397,398,399,401,402,403,404,405,406,407,409,410,411,412,413,414,415,416,418,419,420,421,422,423,424,425,427,428,429,430,431,432,433,435,436,437,438,439,440,441,442,444,445,446,447,448,449,450,451,453,454,455,456,457,458,459,460,462,463,464,465,466,467,468,470,471,472,473,474,475,476,477,479,480,481,482,483,484,485,486,488,489,490,491,492,493,494,496,497,498,499,500,501,502,503,505,506,507,508,509,510,511,512,514,515,516,517,518,519,520,521,523,524,525,526,527,528,529,531,532,533,534,535,536,537,538,540,541,542,543,544,545,546,547,549,550,551,552,553,554,555,557,558,559,560,561,562,563,564,566,567,568,569,570,571,572,573,575,576,577,578,579,],
+                            ['HD', 1,2,3,4,5,6,7,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,35,36,37,38,39,40,41,42,44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,61,62,63,64,65,66,67,68,70,71,72,73,74,75,76,77,79,80,81,82,83,84,85,87,88,89,90,91,92,93,94,96,97,98,99,100,101,102,103,105,106,107,108,109,110,111,113,114,115,116,117,118,119,120,122,123,124,125,126,127,128,129,131,132,133,134,135,136,137,139,140,141,142,143,144,145,146,148,149,150,151,152,153,154,155,157,158,159,160,161,162,163,165,166,167,168,169,170,171,172,174,175,176,177,178,179,180,181,183,184,185,186,187,188,189,190,192,193,194,195,196,197,198,200,201,202,203,204,205,206,207,209,210,211,212,213,214,215,216,218,219,220,221,222,223,224,226,227,228,229,230,231,232,233,235,236,237,238,239,240,241,242,244,245,246,247,248,249,250,252,253,254,255,256,257,258,259,261,262,263,264,265,266,267,268,270,271,272,273,274,275,276,278,279,280,281,282,283,284,285,287,288,289,290,291,292,293,294,296,297,298,299,300,301,302,304,305,306,307,308,309,310,311,313,314,315,316,317,318,319,320,322,323,324,325,326,327,328,329,331,332,333,334,335,336,337,339,340,341,342,343,344,345,346,348,349,350,351,352,353,354,355,357,358,359,360,361,362,363,365,366,367,368,369,370,371,372,374,375,376,377,378,379,380,381,383,384,385,386,387,388,389,391,392,393,394,395,396,397,398,400,401,402,403,404,405,406,407,409,410,411,412,413,414,415,417,418,419,420,421,422,423,424,426,427,428,429,430,431,432,433,435,436,437,438,439,440,441,442,444,445,446,447,448,449,450,452,453,454,455,456,457,458,459,461,462,463,464,465,466,467,468,470,471,472,473,474,475,476,478,479,480,481,482,483,484,485,487,488,489,490,491,492,493,494,496,497,498,499,500,501,502,504,505,506,507,508,509,510,511,513,514,515,516,517,518,519,520,522,523,524,525,526,527,528,530,531,532,533,534,535,536,537,539,540,541,542,543,544,545,546,548,549,550,551,552,553,554,555,557,558,559,560,561,562,563,565,566,567,568,569,570,571,572,574,575,576,577,578,579,],
+                            ['MO', 1,2,3,4,5,6,7,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,35,36,37,38,39,40,41,42,44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,61,62,63,64,65,66,67,68,70,71,72,73,74,75,76,77,79,80,81,82,83,84,85,87,88,89,90,91,92,93,94,96,97,98,99,100,101,102,103,105,106,107,108,109,110,111,112,114,115,116,117,118,119,120,122,123,124,125,126,127,128,129,131,132,133,134,135,136,137,138,140,141,142,143,144,145,146,148,149,150,151,152,153,154,155,157,158,159,160,161,162,163,164,166,167,168,169,170,171,172,174,175,176,177,178,179,180,181,183,184,185,186,187,188,189,190,192,193,194,195,196,197,198,200,201,202,203,204,205,206,207,209,210,211,212,213,214,215,216,218,219,220,221,222,223,224,225,227,228,229,230,231,232,233,235,236,237,238,239,240,241,242,244,245,246,247,248,249,250,251,253,254,255,256,257,258,259,261,262,263,264,265,266,267,268,270,271,272,273,274,275,276,277,279,280,281,282,283,284,285,287,288,289,290,291,292,293,294,296,297,298,299,300,301,302,303,305,306,307,308,309,310,311,312,314,315,316,317,318,319,320,322,323,324,325,326,327,328,329,331,332,333,334,335,336,337,338,340,341,342,343,344,345,346,348,349,350,351,352,353,354,355,357,358,359,360,361,362,363,364,366,367,368,369,370,371,372,374,375,376,377,378,379,380,381,383,384,385,386,387,388,389,390,392,393,394,395,396,397,398,399,401,402,403,404,405,406,407,409,410,411,412,413,414,415,416,418,419,420,421,422,423,424,425,427,428,429,430,431,432,433,435,436,437,438,439,440,441,442,444,445,446,447,448,449,450,451,453,454,455,456,457,458,459,461,462,463,464,465,466,467,468,470,471,472,473,474,475,476,477,479,480,481,482,483,484,485,486,488,489,490,491,492,493,494,496,497,498,499,500,501,502,503,505,506,507,508,509,510,511,512,514,515,516,517,518,519,520,522,523,524,525,526,527,528,529,531,532,533,534,535,536,537,538,540,541,542,543,544,545,546,547,549,550,551,552,553,554,555,557,558,559,560,561,562,563,564,566,567,568,569,570,571,572,573,575,576,577,578,579,],
+                            ['GOS', 1,1,4,6,10,14,18,23,28,33,39,44,50,55,61,67,72,78,83,89,94,99,104,109,114,119,124,128,132,137,141,144,148,152,155,159,162,165,168,171,173,176,178,181,183,185,187,189,191,193,195,196,198,199,201,202,203,205,206,207,208,209,210,211,212,212,213,214,215,215,216,216,217,218,218,219,219,219,220,220,221,221,221,221,222,222,222,223,223,223,223,223,224,224,224,224,224,224,224,225,225,225,225,225,225,225,225,225,225,225,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,226,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,227,],
+                            ['GO', 1,2,3,4,5,6,7,9,10,11,12,13,14,15,16,18,19,20,21,22,23,24,25,27,28,29,30,31,32,33,35,36,37,38,39,40,41,42,44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,61,62,63,64,65,66,67,68,70,71,72,73,74,75,76,77,79,80,81,82,83,84,85,87,88,89,90,91,92,93,94,96,97,98,99,100,101,102,103,105,106,107,108,109,110,111,113,114,115,116,117,118,119,120,122,123,124,125,126,127,128,129,131,132,133,134,135,136,137,138,140,141,142,143,144,145,146,148,149,150,151,152,153,154,155,157,158,159,160,161,162,163,164,166,167,168,169,170,171,172,174,175,176,177,178,179,180,181,183,184,185,186,187,188,189,190,192,193,194,195,196,197,198,200,201,202,203,204,205,206,207,209,210,211,212,213,214,215,216,218,219,220,221,222,223,224,226,227,228,229,230,231,232,233,235,236,237,238,239,240,241,242,244,245,246,247,248,249,250,251,253,254,255,256,257,258,259,261,262,263,264,265,266,267,268,270,271,272,273,274,275,276,277,279,280,281,282,283,284,285,287,288,289,290,291,292,293,294,296,297,298,299,300,301,302,303,305,306,307,308,309,310,311,313,314,315,316,317,318,319,320,322,323,324,325,326,327,328,329,331,332,333,334,335,336,337,339,340,341,342,343,344,345,346,348,349,350,351,352,353,354,355,357,358,359,360,361,362,363,364,366,367,368,369,370,371,372,374,375,376,377,378,379,380,381,383,384,385,386,387,388,389,390,392,393,394,395,396,397,398,400,401,402,403,404,405,406,407,409,410,411,412,413,414,415,416,418,419,420,421,422,423,424,426,427,428,429,430,431,432,433,435,436,437,438,439,440,441,442,444,445,446,447,448,449,450,451,453,454,455,456,457,458,459,461,462,463,464,465,466,467,468,470,471,472,473,474,475,476,477,479,480,481,482,483,484,485,487,488,489,490,491,492,493,494,496,497,498,499,500,501,502,503,505,506,507,508,509,510,511,513,514,515,516,517,518,519,520,522,523,524,525,526,527,528,529,531,532,533,534,535,536,537,538,540,541,542,543,544,545,546,548,549,550,551,552,553,554,555,557,558,559,560,561,562,563,564,566,567,568,569,570,571,572,574,575,576,577,578,579,],
+                            ]
+                            },
+                            axis: {
+                                x: {
+                                    label: {
+                                        text: 'Testing periods (Weeks)',
+                                            position: 'outer-center'
+                                    }
+                                },
+                                y: {
+                                    label: {
+                                        text: 'Total failures',
+                                            position: 'outer-middle'
+                                    }
+                                }
+                            }
+                            });
+                        </script>
+
+
+    </body>
+</html>

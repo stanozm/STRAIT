@@ -24,7 +24,10 @@ public class GeneralIssuesSnapshotDaoImpl implements GeneralIssuesSnapshotDao {
     }
 
     @Override
-    public List<GeneralIssuesCollection> getAllSnapshotsForUserAndRepository(String user, String repository) {
+    public synchronized List<GeneralIssuesCollection> getAllSnapshotsForUserAndRepository(
+            String user,
+            String repository
+    ) {
         beginTransaction();
         Query query = session.createQuery("FROM GeneralIssuesCollection "
                 + "WHERE userName = ? AND repositoryName = ?");
@@ -34,7 +37,7 @@ public class GeneralIssuesSnapshotDaoImpl implements GeneralIssuesSnapshotDao {
     }
 
     @Override
-    public GeneralIssuesCollection getSnapshotByName(String name) {
+    public synchronized GeneralIssuesCollection getSnapshotByName(String name) {
         beginTransaction();
         Query query = session.createQuery("FROM GeneralIssuesCollection WHERE snapshotName = ?");
         List<GeneralIssuesCollection> result = query.setString(0, name).list();
@@ -49,14 +52,14 @@ public class GeneralIssuesSnapshotDaoImpl implements GeneralIssuesSnapshotDao {
     }
     
     @Override
-    public void save(GeneralIssuesCollection snapshot) {
+    public synchronized void save(GeneralIssuesCollection snapshot) {
         beginTransaction();
         session.merge(snapshot);
         endTransaction();
     } 
     
     @Override
-    public List<GeneralIssuesCollection> getAllSnapshots() {
+    public synchronized List<GeneralIssuesCollection> getAllSnapshots() {
         beginTransaction();
         Query query = session.createQuery("FROM GeneralIssuesCollection");
         List<GeneralIssuesCollection> list = query.list();
@@ -65,7 +68,7 @@ public class GeneralIssuesSnapshotDaoImpl implements GeneralIssuesSnapshotDao {
     }
 
     @Override
-    public void deleteSnapshot(GeneralIssuesCollection snapshot) {
+    public synchronized void deleteSnapshot(GeneralIssuesCollection snapshot) {
         GeneralIssuesCollection idSnapshot = new GeneralIssuesCollection();
         idSnapshot.setId(snapshot.getId());
         beginTransaction();

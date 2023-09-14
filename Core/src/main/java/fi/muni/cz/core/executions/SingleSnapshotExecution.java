@@ -15,16 +15,11 @@ import fi.muni.cz.core.analysis.phases.modelfitting.ModelFittingAndGoodnessOfFit
 import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestPhase;
 import fi.muni.cz.core.analysis.phases.output.HtmlReportOutputPhase;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
-import fi.muni.cz.core.factory.FilterFactory;
 import fi.muni.cz.core.factory.ModelFactory;
-import fi.muni.cz.core.factory.ProcessorFactory;
-import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDao;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
 /**

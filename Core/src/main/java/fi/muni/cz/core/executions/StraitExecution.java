@@ -1,29 +1,10 @@
 package fi.muni.cz.core.executions;
 
-import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.HOURS;
-import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter.WEEKS;
-
 import fi.muni.cz.core.ArgsParser;
-import fi.muni.cz.core.analysis.ReliabilityAnalysis;
-import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
-import fi.muni.cz.core.analysis.phases.datacollection.BugzillaDataCollectionPhase;
 import fi.muni.cz.core.analysis.phases.datacollection.DataCollectionCacheMode;
-import fi.muni.cz.core.analysis.phases.datacollection.GithubDataCollectionPhase;
-import fi.muni.cz.core.analysis.phases.datacollection.JiraDataCollectionPhase;
-import fi.muni.cz.core.analysis.phases.dataprocessing.CumulativeIssueAmountCalculationPhase;
-import fi.muni.cz.core.analysis.phases.dataprocessing.IssueReportProcessingPhase;
-import fi.muni.cz.core.analysis.phases.dataprocessing.MovingAveragePhase;
-import fi.muni.cz.core.analysis.phases.dataprocessing.TimeBetweenIssuesCalculationPhase;
-import fi.muni.cz.core.analysis.phases.modelfitting.ModelFittingAndGoodnessOfFitTestPhase;
-import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestPhase;
-import fi.muni.cz.core.analysis.phases.output.HtmlReportOutputPhase;
-import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.factory.FilterFactory;
-import fi.muni.cz.core.factory.ModelFactory;
 import fi.muni.cz.core.factory.ProcessorFactory;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
