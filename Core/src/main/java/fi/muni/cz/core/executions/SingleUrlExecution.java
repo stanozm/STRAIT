@@ -9,6 +9,7 @@ import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.analysis.phases.datacollection.GithubDataCollectionPhase;
 import fi.muni.cz.core.analysis.phases.dataprocessing.CumulativeIssueAmountCalculationPhase;
 import fi.muni.cz.core.analysis.phases.dataprocessing.IssueReportProcessingPhase;
+import fi.muni.cz.core.analysis.phases.dataprocessing.MovingAveragePhase;
 import fi.muni.cz.core.analysis.phases.dataprocessing.TimeBetweenIssuesCalculationPhase;
 import fi.muni.cz.core.analysis.phases.modelfitting.ModelFittingAndGoodnessOfFitTestPhase;
 import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestPhase;
@@ -78,6 +79,10 @@ public class SingleUrlExecution extends StraitExecution {
         analysisPhases.add(
                 new CumulativeIssueAmountCalculationPhase(periodOfTestingValue)
         );
+
+        if(configuration.hasOptionMovingAverage()){
+            analysisPhases.add(new MovingAveragePhase());
+        }
 
         analysisPhases.add(new TimeBetweenIssuesCalculationPhase(timeBetweenIssuesUnitValue));
 
