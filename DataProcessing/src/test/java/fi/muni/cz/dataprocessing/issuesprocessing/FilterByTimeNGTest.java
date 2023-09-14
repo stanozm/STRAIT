@@ -3,6 +3,7 @@ package fi.muni.cz.dataprocessing.issuesprocessing;
 import static org.testng.Assert.assertEquals;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.RepositoryInformation;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
@@ -55,16 +56,16 @@ public class FilterByTimeNGTest {
         Date end = cal.getTime();
         
         Filter filter = new FilterByTime(start, end);
-        assertEquals(filter.apply(listOfIssues).size(), 1);
+        assertEquals(filter.apply(listOfIssues, new RepositoryInformation()).size(), 1);
         
         cal.set(2018, 10, 8, 0, 0, 0);
         end = cal.getTime();
         filter = new FilterByTime(start, end);
-        assertEquals(filter.apply(listOfIssues).size(), 4);
+        assertEquals(filter.apply(listOfIssues, new RepositoryInformation()).size(), 4);
         
         cal.set(2018, 10, 2, 0, 0, 0);
         start = cal.getTime();
         filter = new FilterByTime(start, end);
-        assertEquals(filter.apply(listOfIssues).size(), 2);
+        assertEquals(filter.apply(listOfIssues, new RepositoryInformation()).size(), 2);
     }
 }

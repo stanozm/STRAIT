@@ -3,6 +3,7 @@ package fi.muni.cz.dataprocessing.issuesprocessing;
 import static org.testng.Assert.assertEquals;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.RepositoryInformation;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
@@ -27,8 +28,20 @@ public class LabelsToLowerCaseProcessorNGTest {
     
     @Test
     public void testLabelsToLowerCase() {
-        assertEquals(processor.apply(listOfIssues).get(0).getLabels().get(0), "bug");
-        assertEquals(processor.apply(listOfIssues).get(0).getLabels().get(1), "error");
-        assertEquals(processor.apply(listOfIssues).get(0).getLabels().get(2), "fault");
+        assertEquals(processor.apply(
+                listOfIssues,
+                new RepositoryInformation()).get(0).getLabels().get(0),
+                "bug"
+        );
+        assertEquals(processor.apply(
+                listOfIssues,
+                new RepositoryInformation()).get(0).getLabels().get(1),
+                "error"
+        );
+        assertEquals(processor.apply(
+                listOfIssues,
+                new RepositoryInformation()).get(0).getLabels().get(2),
+                "fault"
+        );
     }
 }

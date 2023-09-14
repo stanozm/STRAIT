@@ -49,12 +49,16 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
         performanceMetricMap.put("Chi-Square = ", String.format(Locale.US, "%.3f", rSquared.asDoubleArray()[0]));
         performanceMetricMap.put("Chi-Square null hypothesis rejection = ",
                 1 - rSquared.asDoubleArray()[0] > ALPHA ? "REJECT" : "NOT REJECT");
-        performanceMetricMap.put("Null hypothesis = ", "No significant difference between observed and expected values");
+        performanceMetricMap.put(
+                "Null hypothesis = ", "No significant difference between observed and expected values"
+        );
         performanceMetricMap.put("AIC (Akaike information criterion) = ",
                 String.format(Locale.US, "%.3f",aic.asDoubleArray()[0]));
         performanceMetricMap.put("BIC (Bayesian Information Criterion) = ",
                 String.format(Locale.US, "%.3f",bic.asDoubleArray()[0]));
-        performanceMetricMap.put("RSE (Residual Standard Error) = ", String.format(Locale.US, "%.3f",rse.asDoubleArray()[0]));
+        performanceMetricMap.put(
+                "RSE (Residual Standard Error) = ", String.format(Locale.US, "%.3f",rse.asDoubleArray()[0])
+        );
         return performanceMetricMap;
     }
 
