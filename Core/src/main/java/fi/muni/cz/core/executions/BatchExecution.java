@@ -6,7 +6,9 @@ import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.ReliabilityAnalysis;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
+import fi.muni.cz.core.analysis.phases.datacollection.BugzillaDataCollectionPhase;
 import fi.muni.cz.core.analysis.phases.datacollection.GithubDataCollectionPhase;
+import fi.muni.cz.core.analysis.phases.datacollection.JiraDataCollectionPhase;
 import fi.muni.cz.core.analysis.phases.dataprocessing.CumulativeIssueAmountCalculationPhase;
 import fi.muni.cz.core.analysis.phases.dataprocessing.IssueReportProcessingPhase;
 import fi.muni.cz.core.analysis.phases.dataprocessing.MovingAveragePhase;
@@ -102,14 +104,23 @@ public class BatchExecution extends StraitExecution {
         List<DataSource> dataSources = new ArrayList<>();
         dataSources.add(dataSource);
 
-        analysisPhases.add(new GithubDataCollectionPhase(
-                dataSources,
-                getDataCollectionCacheModeFromConfiguration(configuration),
-                githubIssueDataProvider,
-                githubRepositoryDataProvider,
-                dao
-        ));
+        if (dataSources.get(0).getType().equals("github")) {
+            analysisPhases.add(new GithubDataCollectionPhase(
+                    dataSources,
+                    getDataCollectionCacheModeFromConfiguration(configuration),
+                    githubIssueDataProvider,
+                    githubRepositoryDataProvider,
+                    dao
+            ));
+        }
 
+        if (dataSources.get(0).getType().equals("jira")) {
+            analysisPhases.add(new JiraDataCollectionPhase(dataSources));
+        }
+
+        if (dataSources.get(0).getType().equals("bugzilla")) {
+            analysisPhases.add(new BugzillaDataCollectionPhase(dataSources));
+        }
         analysisPhases.add(new IssueReportProcessingPhase(getStrategyFromConfiguration(configuration)));
 
         analysisPhases.add(
