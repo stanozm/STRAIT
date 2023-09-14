@@ -57,7 +57,10 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
             GeneralIssuesCollection issuesCollection
     ){
         issuesCollection.setListOfGeneralIssues(
-                issueProcessingStrategy.apply(issuesCollection.getListOfGeneralIssues())
+                issueProcessingStrategy.apply(
+                        issuesCollection.getListOfGeneralIssues(),
+                        issuesCollection.getRepositoryInformation()
+                )
         );
         return issuesCollection;
     }

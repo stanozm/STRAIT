@@ -4,6 +4,7 @@ import static org.testng.Assert.assertEquals;
 
 import fi.muni.cz.dataprocessing.exception.DataProcessingException;
 import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.RepositoryInformation;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
@@ -38,12 +39,12 @@ public class FilterByLabelNGTest {
     
     @Test(expectedExceptions = DataProcessingException.class)
     public void testFilterWithNoWords() {
-        filterWithNoWords.apply(listOfIssues);
+        filterWithNoWords.apply(listOfIssues, new RepositoryInformation());
     }
     
     @Test
     public void testFilterWithWords() {
-        assertEquals(filterForWordError.apply(listOfIssues).size(), 1);
-        assertEquals(filterForSomeWord.apply(listOfIssues).size(), 0);
+        assertEquals(filterForWordError.apply(listOfIssues, new RepositoryInformation()).size(), 1);
+        assertEquals(filterForSomeWord.apply(listOfIssues, new RepositoryInformation()).size(), 0);
     }
 }
