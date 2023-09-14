@@ -20,10 +20,7 @@ import fi.muni.cz.core.analysis.phases.output.writers.CsvFileBatchAnalysisReport
 import fi.muni.cz.core.dto.BatchAnalysisConfiguration;
 import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
-import fi.muni.cz.core.factory.FilterFactory;
 import fi.muni.cz.core.factory.ModelFactory;
-import fi.muni.cz.core.factory.ProcessorFactory;
-import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDao;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
 import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
@@ -31,9 +28,9 @@ import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
 import fi.muni.cz.dataprovider.authenticationdata.GitHubAuthenticationDataProvider;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.stream.IntStream;
 
 /**
  * @author Valtteri Valtonen valtonenvaltteri@gmail.com
@@ -60,7 +57,7 @@ public class BatchExecution extends StraitExecution {
         this.githubRepositoryDataProvider = new GitHubRepositoryInformationDataProvider(gitHubClient);
         this.dao = new GeneralIssuesSnapshotDaoImpl();
         this.analyses = new ArrayList<>();
-        this.analysisData = new ArrayList<>();
+        this.analysisData = Collections.synchronizedList(new ArrayList<>());
         this.fileWriter = new CsvFileBatchAnalysisReportWriter();
     }
 
@@ -78,13 +75,13 @@ public class BatchExecution extends StraitExecution {
     @Override
     public void execute(ArgsParser configuration) {
         System.out.println("Executing STRAIT in batch mode");
-        for(int i = 0; i<analyses.size(); i++) {
+
+        IntStream.range(0, analyses.size()).parallel().forEach(i -> {
             ReliabilityAnalysis analysis = analyses.get(i);
             ReliabilityAnalysisDto dto = new ReliabilityAnalysisDto(configuration);
             dto.setConfiguration(this.configuration);
-
             analysisData.add(analysis.performAnalysis(dto));
-        }
+        });
 
         fileWriter.writeBatchOutputDataToFile(analysisData);
     }

@@ -50,7 +50,7 @@ public class GitHubRepositoryInformationDataProvider implements RepositoryInform
     }
 
     @Override
-    public RepositoryInformation getRepositoryInformation(String url) {
+    public synchronized RepositoryInformation getRepositoryInformation(String url) {
         UrlParser parser = new GitHubUrlParser();
         ParsedUrlData parsedUrlData = parser.parseUrlAndCheck(url);
         return getRepositoryInformationOwnerRepoName(parsedUrlData.getUserName(), parsedUrlData.getRepositoryName());
