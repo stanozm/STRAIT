@@ -155,12 +155,4 @@ public class BatchExecution extends StraitExecution {
         return batchConfiguration.getDataSources();
     }
 
-    private IssueProcessingStrategy getStrategyFromConfiguration(ArgsParser configuration) {
-        return new IssueProcessingStrategy(
-                Stream.concat(
-                        FilterFactory.getFilters(configuration).stream(),
-                        ProcessorFactory.getProcessors(configuration).stream()).collect(
-                        Collectors.toList()),
-                "");
-    }
 }

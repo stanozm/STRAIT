@@ -89,12 +89,4 @@ public class SingleSnapshotExecution extends StraitExecution {
         analysis.performAnalysis(new ReliabilityAnalysisDto(configuration));
     }
 
-    private IssueProcessingStrategy getStrategyFromConfiguration(ArgsParser configuration) {
-        return new IssueProcessingStrategy(
-                Stream.concat(
-                        FilterFactory.getFilters(configuration).stream(),
-                        ProcessorFactory.getProcessors(configuration).stream()).collect(
-                        Collectors.toList()),
-                "");
-    }
 }

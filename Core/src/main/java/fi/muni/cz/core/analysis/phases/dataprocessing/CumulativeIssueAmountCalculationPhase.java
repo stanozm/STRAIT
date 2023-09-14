@@ -28,6 +28,7 @@ public class CumulativeIssueAmountCalculationPhase implements ReliabilityAnalysi
 
     @Override
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
+        System.out.println("Calculating cumulative issue amounts");
         List<GeneralIssuesCollection> issueCollections = dto.getIssueReportSets();
         List<DataPointCollection> cumulativeAmounts = issueCollections.
                 stream().

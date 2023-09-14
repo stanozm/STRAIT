@@ -13,52 +13,66 @@ import java.util.Map;
 public abstract class ModelAbstract implements Model {
 
     protected Map<String, Double> modelParameters;
-    protected List<Pair<Integer, Integer>> listOfIssues;
+    protected List<Pair<Integer, Integer>> trainingIssueData;
+    protected List<Pair<Integer, Integer>> testingIssueData;
     protected Map<String, String> goodnessOfFit;
+    protected Map<String, String> predictiveAccuracy;
     protected GoodnessOfFitTest goodnessOfFitTest;
     protected Solver solver;
     
     /**
+     *
      * Initialize model attributes.
      * 
-     * @param listOfIssues          list of issues.
+     * @param trainingIssueData     list of cumulative issue data which model is fit to.
+     * @param testingIssueData      list of cumulative issue data used to calculate predictive accuracy
      * @param goodnessOfFitTest     Goodness of fit test to execute.
      * @param solver                Solver to estimate model parameters.
      */
-    public ModelAbstract(List<Pair<Integer, Integer>> listOfIssues, 
-            GoodnessOfFitTest goodnessOfFitTest, Solver solver) {
-        this.listOfIssues = listOfIssues;
+    public ModelAbstract(
+            List<Pair<Integer, Integer>> trainingIssueData,
+            List<Pair<Integer, Integer>>testingIssueData,
+            GoodnessOfFitTest goodnessOfFitTest, Solver solver
+    ) {
+        this.trainingIssueData = trainingIssueData;
+        this.testingIssueData = testingIssueData;
         this.goodnessOfFitTest = goodnessOfFitTest;
         this.solver = solver;
     }
     
     @Override
     public void estimateModelData() {
-        System.out.println("Evaluating " + getModelShortName());
+        System.out.println("Evaluating " + getModelName());
         calculateModelParameters();
         calculateModelGoodnessOfFit();
+        calculateModelPredictiveAccuracy();
     }
 
     @Override
     public List<Pair<Integer, Integer>> getIssuesPrediction(double howMuchToPredict) {
         return calculateEstimatedIssuesOccurance(howMuchToPredict);
     }
-
-    @Override
-    public String getModelName() {
-        return  getModelShortName();
-    }
     
     /**
      * Calculate model parameters.
      */
     protected void calculateModelParameters() {
-        setParametersToMap(solver.optimize(getInitialParametersValue(), listOfIssues));
+        setParametersToMap(solver.optimize(getInitialParametersValue(), trainingIssueData));
     }
     
     private void calculateModelGoodnessOfFit() {
-        goodnessOfFit = goodnessOfFitTest.executeGoodnessOfFitTest(calculateEstimatedIssuesOccurance(0),
-                listOfIssues, getModelShortName());
+        goodnessOfFit = goodnessOfFitTest.executeGoodnessOfFitTest(
+                calculateEstimatedIssuesOccurance(0),
+                trainingIssueData, getModelShortName());
+    }
+
+    private void calculateModelPredictiveAccuracy() {
+        List<Pair<Integer, Integer>> testSetEstimates = calculateEstimatesForDataSet(testingIssueData);
+        predictiveAccuracy = goodnessOfFitTest.executeGoodnessOfFitTest(
+                testSetEstimates,
+                testingIssueData,
+                getModelShortName()
+        );
     }
     
     /**
@@ -68,18 +82,23 @@ public abstract class ModelAbstract implements Model {
      * @return Estimated issues occurance.
      */
     private List<Pair<Integer, Integer>> calculateEstimatedIssuesOccurance(double howMuchToPredict) {
-        List<Pair<Integer, Integer>> listOfEstimatedIssues = new ArrayList<>();
-        for (Pair<Integer, Integer> pair: listOfIssues) {
-            double estimation = getFunctionValue(pair.getFirst());
-            Integer roundedEstimation = (int) estimation;
-            listOfEstimatedIssues.add(new Pair<>(pair.getFirst(), 
-                    roundedEstimation == 0 ? 1 : roundedEstimation));
-        }
-        int last = listOfIssues.get(listOfIssues.size() - 1).getFirst();
+        List<Pair<Integer, Integer>> listOfEstimatedIssues = calculateEstimatesForDataSet(trainingIssueData);
+        int last = trainingIssueData.get(trainingIssueData.size() - 1).getFirst();
         for (int i = last + 1; i < last + howMuchToPredict; i++) {
             double estimation = getFunctionValue(i);
             Integer roundedEstimation = (int) estimation;
             listOfEstimatedIssues.add(new Pair<>(i, roundedEstimation));
+        }
+        return listOfEstimatedIssues;
+    }
+
+    private List<Pair<Integer, Integer>> calculateEstimatesForDataSet(List<Pair<Integer, Integer>> dataSet) {
+        List<Pair<Integer, Integer>> listOfEstimatedIssues = new ArrayList<>();
+        for (Pair<Integer, Integer> pair: dataSet) {
+            double estimation = getFunctionValue(pair.getFirst());
+            Integer roundedEstimation = (int) estimation;
+            listOfEstimatedIssues.add(new Pair<>(pair.getFirst(),
+                    roundedEstimation == 0 ? 1 : roundedEstimation));
         }
         return listOfEstimatedIssues;
     }
@@ -119,7 +138,17 @@ public abstract class ModelAbstract implements Model {
     }
 
     @Override
+    public Map<String, String> getPredictiveAccuracyData() {
+        return predictiveAccuracy;
+    }
+
+    @Override
     public Map<String, Double> getModelParameters() {
         return modelParameters;
+    }
+
+    @Override
+    public String getModelName() {
+        return getModelShortName();
     }
 }

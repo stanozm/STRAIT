@@ -22,6 +22,13 @@ public interface Model {
      * @return  Map with test output data.
      */
     Map<String, String> getGoodnessOfFitData();
+
+    /**
+     * Get predictive accuracy data.
+     *
+     * @return  Map with test output data.
+     */
+    Map<String, String> getPredictiveAccuracyData();
     
     /**
      * Get parameters of model.
@@ -46,9 +53,8 @@ public interface Model {
     String getTextFormOfTheFunction();
 
     /**
-     * Get model name in string form.
-     *
-     * @return String form.
+     * Get model name in string form
+     * @return Model name string
      */
     String getModelName();
 }

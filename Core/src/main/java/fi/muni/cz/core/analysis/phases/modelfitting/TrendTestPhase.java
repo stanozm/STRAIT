@@ -18,7 +18,7 @@ public class TrendTestPhase implements ReliabilityAnalysisPhase {
 
     @Override
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
-
+        System.out.println("Performing trend test");
         TrendTest trendTest = new LaplaceTrendTest(getTimeUnit(dto));
 
         List<TrendTestResult> trendTestResults = new ArrayList<>();

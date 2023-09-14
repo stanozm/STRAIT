@@ -14,6 +14,7 @@ public class MovingAveragePhase implements ReliabilityAnalysisPhase {
 
     @Override
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
+        System.out.println("Calculating moving average");
         List<DataPointCollection> dataPointCollections = dto.getCumulativeIssueReportCollections();
         List<DataPointCollection> averagedPoints = dataPointCollections.
                 stream().
