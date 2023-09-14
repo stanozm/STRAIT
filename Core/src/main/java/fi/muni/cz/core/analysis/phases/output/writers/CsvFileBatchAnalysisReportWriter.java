@@ -54,6 +54,11 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
                 modelResult.getGoodnessOfFitData().forEach((first, second) -> header.add(first));
             }
 
+            for(ModelResult modelResult : modelResults){
+
+                modelResult.getPredictiveAccuracyData().forEach((first, second) -> header.add(first));
+            }
+
             Map<String, String> issueProcessingResults = dto.getIssueProcessingResults().get(i);
             issueProcessingResults.forEach((first, second) -> header.add(first));
         }
@@ -78,6 +83,11 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
             for(ModelResult modelResult : modelResults){
 
                 modelResult.getGoodnessOfFitData().forEach((first, second) -> row.add(second));
+            }
+
+            for(ModelResult modelResult : modelResults){
+
+                modelResult.getPredictiveAccuracyData().forEach((first, second) -> row.add(second));
             }
 
             Map<String, String> issueProcessingResults = dto.getIssueProcessingResults().get(i);

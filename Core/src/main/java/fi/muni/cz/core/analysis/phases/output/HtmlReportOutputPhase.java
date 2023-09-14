@@ -20,6 +20,7 @@ public class HtmlReportOutputPhase implements ReliabilityAnalysisPhase {
 
     @Override
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
+        System.out.println("Writing html report");
         reportWriter.writeOutputDataToFile(dto);
         return dto;
     }

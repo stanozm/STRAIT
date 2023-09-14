@@ -28,6 +28,7 @@ public class TimeBetweenIssuesCalculationPhase implements ReliabilityAnalysisPha
 
     @Override
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
+        System.out.println("Calculating time between issues");
         List<GeneralIssuesCollection> issueCollections = dto.getIssueReportSets();
         List<DataPointCollection> timesBetweenIssues = issueCollections.
                 stream().

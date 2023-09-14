@@ -175,6 +175,14 @@
                                             </#list>
                                         </p>
                                     </#if>
+                                    <#if outputData.predictiveAccuracyData??>
+                                        <h3>Predictive accuracy:</h3>
+                                        <p>
+                                            <#list outputData.predictiveAccuracyData as key, value>
+                                            ${key}${value}<br>
+                                        </#list>
+                                        </p>
+                                    </#if>
                                 </div>
                                 <#assign i++>
                                 </#list>

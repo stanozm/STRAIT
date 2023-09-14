@@ -8,8 +8,10 @@ import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.ModelFactory;
 import fi.muni.cz.models.Model;
 import fi.muni.cz.models.testing.ModelPerformanceTest;
+import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.Rengine;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,14 +33,32 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
     @Override
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
 
+        System.out.println("Fitting models and analyzing performance");
+
         List<List<ModelResult>> modelResults = new ArrayList<>();
 
         for(DataPointCollection dataPointCollection : dto.getCumulativeIssueReportCollections()){
+
+            float trainingDataPortion = 0.66f;
+            int trainingDataEndIndex = Math.round(trainingDataPortion * dataPointCollection.getDataPoints().size());
+
+            List<Pair<Integer, Integer>> trainingData = dataPointCollection
+                    .getDataPoints()
+                    .subList(0, trainingDataEndIndex);
+
+            List<Pair<Integer, Integer>> testData = dataPointCollection
+                    .getDataPoints()
+                    .subList(
+                            trainingDataEndIndex, dataPointCollection.getDataPoints()
+                            .size()
+                    );
+
+
             try {
-                List<ModelResult> currentCollectionResults = new ArrayList<>();
-                List<Model> models = getModels(dto, dataPointCollection);
-                models.forEach(model -> {
-                    currentCollectionResults.add(performModelEstimationAndGoodnessofFitTest(model));
+                List<ModelResult> currentCollectionResults = Collections.synchronizedList(new ArrayList<>());
+                List<Model> models = getModels(dto, trainingData, testData);
+                models.parallelStream().forEach(model -> {
+                    currentCollectionResults.add(performModelEstimationAndGoodnessofFitTest(model, testData.size()));
                 });
                 modelResults.add(currentCollectionResults);
             } catch(InvalidInputException e) {
@@ -52,25 +72,32 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
         return dto;
     }
 
-    private List<Model> getModels(ReliabilityAnalysisDto dto, DataPointCollection dataPoints)
+    private List<Model> getModels(
+            ReliabilityAnalysisDto dto,
+            List<Pair<Integer, Integer>> trainingData,
+            List<Pair<Integer, Integer>> testData)
             throws InvalidInputException {
+
         return ModelFactory.getModels(
-                dataPoints.getDataPoints(),
+                trainingData,
+                testData,
                 new ModelPerformanceTest(rEngine),
                 dto.getConfiguration()
         );
     }
 
     private ModelResult performModelEstimationAndGoodnessofFitTest(
-            Model model
+            Model model,
+            Integer testDataSize
     ) {
 
         model.estimateModelData();
 
         ModelResult modelResult = new ModelResult();
         modelResult.setModelParameters(model.getModelParameters());
-        modelResult.setIssuesPrediction(model.getIssuesPrediction(0.0));
+        modelResult.setIssuesPrediction(model.getIssuesPrediction(testDataSize));
         modelResult.setGoodnessOfFitData(model.getGoodnessOfFitData());
+        modelResult.setPredictiveAccuracyData(model.getPredictiveAccuracyData());
         modelResult.setFunctionTextForm(model.getTextFormOfTheFunction());
         modelResult.setModelName(model.getModelName());
 

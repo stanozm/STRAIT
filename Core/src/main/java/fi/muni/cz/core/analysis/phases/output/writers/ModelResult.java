@@ -10,6 +10,8 @@ import java.util.Map;
  */
 public class ModelResult implements Serializable {
     private Map<String, String> goodnessOfFitData;
+
+    private Map<String, String> predictiveAccuracyData;
     private Map<String, Double> modelParameters;
     private List<Pair<Integer, Integer>> issuesPrediction;
     private String functionTextForm;
@@ -53,5 +55,13 @@ public class ModelResult implements Serializable {
 
     public void setModelName(String modelName) {
         this.modelName = modelName;
+    }
+
+    public Map<String, String> getPredictiveAccuracyData() {
+        return predictiveAccuracyData;
+    }
+
+    public void setPredictiveAccuracyData(Map<String, String> predictiveAccuracyData) {
+        this.predictiveAccuracyData = predictiveAccuracyData;
     }
 }

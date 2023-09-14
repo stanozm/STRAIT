@@ -129,12 +129,4 @@ public class SingleUrlExecution extends StraitExecution {
         return sourceList;
     }
 
-    private IssueProcessingStrategy getStrategyFromConfiguration(ArgsParser configuration) {
-        return new IssueProcessingStrategy(
-                Stream.concat(
-                        FilterFactory.getFilters(configuration).stream(),
-                        ProcessorFactory.getProcessors(configuration).stream()).collect(
-                        Collectors.toList()),
-                "");
-    }
 }

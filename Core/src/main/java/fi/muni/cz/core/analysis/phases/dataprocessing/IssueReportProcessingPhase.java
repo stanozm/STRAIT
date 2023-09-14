@@ -30,6 +30,7 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
 
     @Override
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
+        System.out.println("Processing issue reports");
         List<GeneralIssuesCollection> issueReportSets = dto.getIssueReportSets();
 
         dto.setIssueReportAmountBeforeProcessing(calculateTotalIssuesInDto(dto));
