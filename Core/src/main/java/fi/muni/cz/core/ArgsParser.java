@@ -197,8 +197,8 @@ public class ArgsParser {
         option = Option.builder(OPT_PREDICT).longOpt("predict").type(Number.class).hasArg().argName("Number").
                 desc("Number of test periods to predict.").build();
         options.addOption(option);
-        option = Option.builder(OPT_NEW_SNAPSHOT).longOpt("newSnapshot").hasArg().argName("Overwrite").
-                desc("String overwrite if old snapshots are to be overwritten. Any other string otherwise")
+        option = Option.builder(OPT_NEW_SNAPSHOT).longOpt("newSnapshot").
+                desc("Overwrite snapshot if there is one")
                 .build();
         options.addOption(option);
         option = Option.builder(OPT_FILTER_LABELS).longOpt("filterLabel").optionalArg(true)

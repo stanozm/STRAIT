@@ -6,7 +6,6 @@ import static fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.ReliabilityAnalysis;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
-import fi.muni.cz.core.analysis.phases.datacollection.DataCollectionCacheMode;
 import fi.muni.cz.core.analysis.phases.datacollection.GithubDataCollectionPhase;
 import fi.muni.cz.core.analysis.phases.dataprocessing.CumulativeIssueAmountCalculationPhase;
 import fi.muni.cz.core.analysis.phases.dataprocessing.IssueReportProcessingPhase;
@@ -104,7 +103,7 @@ public class BatchExecution extends StraitExecution {
 
         analysisPhases.add(new GithubDataCollectionPhase(
                 dataSources,
-                DataCollectionCacheMode.CACHE,
+                getDataCollectionCacheModeFromConfiguration(configuration),
                 githubIssueDataProvider,
                 githubRepositoryDataProvider,
                 dao

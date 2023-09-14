@@ -1,6 +1,7 @@
 package fi.muni.cz.core.executions;
 
 import fi.muni.cz.core.ArgsParser;
+import fi.muni.cz.core.analysis.phases.datacollection.DataCollectionCacheMode;
 
 /**
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
@@ -40,6 +41,21 @@ public abstract class StraitExecution {
                 System.out.println("This kind of execution has not been implemented yet");
         }
         return null;
+    }
+
+    /**
+     * Get cache mode for Github data collection from configuration
+     * @param configuration Configuration object
+     * @return Cache mode
+     */
+    public DataCollectionCacheMode getDataCollectionCacheModeFromConfiguration(ArgsParser configuration) {
+
+        if(configuration.hasOptionNewSnapshot()) {
+            return DataCollectionCacheMode.OVERWRITE_CACHE;
+        }
+
+        return DataCollectionCacheMode.CACHE;
+
     }
 
 }
