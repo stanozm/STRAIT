@@ -61,7 +61,7 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
      * @param dto Reliability analysis dto
      * @return Updated reliability analysis dto
      */
-    public synchronized ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto){
+    public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto){
 
         System.out.println("Collecting data from Github");
 
