@@ -39,7 +39,7 @@ public class GitHubGeneralIssueDataProvider implements GeneralIssueDataProvider 
     }
 
     @Override
-    public synchronized List<GeneralIssue> getIssuesByUrl(String urlString) {
+    public List<GeneralIssue> getIssuesByUrl(String urlString) {
             UrlParser parser = new GitHubUrlParser();
             ParsedUrlData parsedUrlData = parser.parseUrlAndCheck(urlString);
             return getIssuesByOwnerRepoName(parsedUrlData.getUserName(),

@@ -28,9 +28,7 @@ import fi.muni.cz.dataprovider.GitHubRepositoryInformationDataProvider;
 import fi.muni.cz.dataprovider.authenticationdata.GitHubAuthenticationDataProvider;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * @author Valtteri Valtonen valtonenvaltteri@gmail.com
@@ -57,7 +55,7 @@ public class BatchExecution extends StraitExecution {
         this.githubRepositoryDataProvider = new GitHubRepositoryInformationDataProvider(gitHubClient);
         this.dao = new GeneralIssuesSnapshotDaoImpl();
         this.analyses = new ArrayList<>();
-        this.analysisData = Collections.synchronizedList(new ArrayList<>());
+        this.analysisData = new ArrayList<>();
         this.fileWriter = new CsvFileBatchAnalysisReportWriter();
     }
 
@@ -75,13 +73,13 @@ public class BatchExecution extends StraitExecution {
     @Override
     public void execute(ArgsParser configuration) {
         System.out.println("Executing STRAIT in batch mode");
-
-        IntStream.range(0, analyses.size()).parallel().forEach(i -> {
+        for(int i = 0; i<analyses.size(); i++) {
             ReliabilityAnalysis analysis = analyses.get(i);
             ReliabilityAnalysisDto dto = new ReliabilityAnalysisDto(configuration);
             dto.setConfiguration(this.configuration);
+
             analysisData.add(analysis.performAnalysis(dto));
-        });
+        }
 
         fileWriter.writeBatchOutputDataToFile(analysisData);
     }
