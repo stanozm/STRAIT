@@ -3,6 +3,8 @@ package fi.muni.cz.models.testing;
 import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -27,10 +29,11 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
     }
     
     @Override
-    public Map<String, String> executeGoodnessOfFitTest(List<Pair<Integer, Integer>> expectedIssues, 
-            List<Pair<Integer, Integer>> observedIssues, String modelName) {
-        Map<String, String> result =  calculateTestResults(getPreparedListWithCommas(expectedIssues),
-                getPreparedListWithCommas(observedIssues), modelName);
+    public Map<String, String> executePerformanceTest(List<Pair<Integer, Integer>> expectedIssues,
+                                                      List<Pair<Integer, Integer>> observedIssues, String modelName) {
+        Map<String, String> result = new HashMap<>();
+        result.put("My RSE = ", calculateResidualStandardError(observedIssues, expectedIssues));
+        result.put("Mean squared error = ", calculateMeanSquaredError(observedIssues, expectedIssues));
         result.put("Predictive ability = ", calculateModelPredictiveAbility(observedIssues, expectedIssues));
         result.put("Accuracy of the final point = ", calculateAccuracyOfTheFinalPoint(observedIssues, expectedIssues));
         return result;
@@ -111,6 +114,69 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
 
         return String.format(Locale.US, "%.3f", finalPointAccuracy);
 
+    }
+
+    private String calculateResidualStandardError(
+            List<Pair<Integer, Integer>> observedData,
+            List<Pair<Integer, Integer>> modelPredictedData
+    ) {
+
+        Integer squareSumOfResiduals = calculateSumOfSquaresOfDataPointValues(
+                calculateResidualsForDataPoints(observedData, modelPredictedData)
+        );
+
+        Double rse = Math.sqrt(squareSumOfResiduals / (observedData.size()));
+
+
+        return String.format(Locale.US, "%.3f", rse);
+
+    }
+
+    private String calculateMeanSquaredError(
+            List<Pair<Integer, Integer>> observedData,
+            List<Pair<Integer, Integer>> modelPredictedData
+    ) {
+
+        Integer squareSumOfResiduals = calculateSumOfSquaresOfDataPointValues(
+                calculateResidualsForDataPoints(observedData, modelPredictedData)
+        );
+
+        Float meanCoefficient = 1.0f / observedData.size();
+
+
+        return String.format(Locale.US, "%.3f", meanCoefficient * squareSumOfResiduals);
+
+    }
+
+    private List<Pair<Integer, Integer>> calculateResidualsForDataPoints(
+            List<Pair<Integer, Integer>> observedData,
+            List<Pair<Integer, Integer>> modelPredictedData
+    ) {
+
+        List<Pair<Integer, Integer>> result = new ArrayList<>();
+        for (int i = 0; i < observedData.size(); i++) {
+            Pair<Integer, Integer> observed = observedData.get(i);
+            Pair<Integer, Integer> predicted = modelPredictedData.get(i);
+
+            Pair<Integer, Integer> residual = Pair.create(
+                    observed.getFirst(),
+                    observed.getSecond() - predicted.getSecond()
+            );
+            result.add(residual);
+        }
+        return result;
+    }
+
+    private Integer calculateSumOfSquaresOfDataPointValues(
+            List<Pair<Integer, Integer>> dataPoints
+    ) {
+        Integer result = 0;
+        for (int i = 0; i < dataPoints.size(); i++) {
+            Pair<Integer, Integer> currentPoint = dataPoints.get(i);
+            Integer pointValue = currentPoint.getValue();
+             result += pointValue * pointValue;
+        }
+        return result;
     }
 
     private String getPreparedListWithCommas(List<Pair<Integer, Integer>> list) {

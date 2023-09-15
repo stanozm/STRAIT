@@ -14,7 +14,7 @@ public interface Solver {
      * 
      * @param startParameters array of start parameters
      * @param listOfData list of data to fit function for
-     * @return  array of optimized parameters
+     * @return  solver result with parameters, and goodness of fit info
      */
-    double[] optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData);
+    SolverResult optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData);
 }

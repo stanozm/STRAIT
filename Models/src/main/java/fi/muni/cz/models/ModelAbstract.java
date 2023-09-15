@@ -1,9 +1,11 @@
 package fi.muni.cz.models;
 
 import fi.muni.cz.models.leastsquaresolver.Solver;
+import fi.muni.cz.models.leastsquaresolver.SolverResult;
 import fi.muni.cz.models.testing.GoodnessOfFitTest;
 import org.apache.commons.math3.util.Pair;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,8 @@ public abstract class ModelAbstract implements Model {
     protected Map<String, String> predictiveAccuracy;
     protected GoodnessOfFitTest goodnessOfFitTest;
     protected Solver solver;
+
+    private SolverResult solverResult;
     
     /**
      *
@@ -57,18 +61,26 @@ public abstract class ModelAbstract implements Model {
      * Calculate model parameters.
      */
     protected void calculateModelParameters() {
-        setParametersToMap(solver.optimize(getInitialParametersValue(), trainingIssueData));
+        solverResult = solver.optimize(getInitialParametersValue(), trainingIssueData);
+        setParametersToMap(solverResult.getParameters());
     }
     
     private void calculateModelGoodnessOfFit() {
-        goodnessOfFit = goodnessOfFitTest.executeGoodnessOfFitTest(
+
+        Map<String, String> goodnessOfFitMap = new HashMap<>();
+        goodnessOfFitMap.putAll(goodnessOfFitTest.executePerformanceTest(
                 calculateEstimatedIssuesOccurance(0),
-                trainingIssueData, getModelShortName());
+                trainingIssueData, getModelShortName()));
+
+        goodnessOfFitMap.put("AIC from solver = ", String.valueOf(solverResult.getAic()));
+        goodnessOfFitMap.put("BIC from solver = ", String.valueOf(solverResult.getBic()));
+
+        goodnessOfFit = goodnessOfFitMap;
     }
 
     private void calculateModelPredictiveAccuracy() {
         List<Pair<Integer, Integer>> testSetEstimates = calculateEstimatesForDataSet(testingIssueData);
-        predictiveAccuracy = goodnessOfFitTest.executeGoodnessOfFitTest(
+        predictiveAccuracy = goodnessOfFitTest.executePerformanceTest(
                 testSetEstimates,
                 testingIssueData,
                 getModelShortName()

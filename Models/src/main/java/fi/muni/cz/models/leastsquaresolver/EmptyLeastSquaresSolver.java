@@ -19,7 +19,7 @@ public class EmptyLeastSquaresSolver extends SolverAbstract {
     }
 
     @Override
-    public double[] optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData) {
+    public SolverResult optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData) {
         throw new ModelException("Empty model");
     }
 }

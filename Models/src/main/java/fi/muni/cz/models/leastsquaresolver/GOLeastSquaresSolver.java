@@ -24,7 +24,7 @@ public class GOLeastSquaresSolver extends SolverAbstract {
     }
     
     @Override
-    public double[] optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData) {
+    public SolverResult optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData) {
         initializeOptimizationInR(listOfData);
         rEngine.eval("modelGO2 <- nls2(yvalues ~ " + MODEL_FUNCTION + ", " +
                 "start = data.frame(a = c(10, 20000000),b = c(0.00001, 10)), " +
@@ -40,11 +40,23 @@ public class GOLeastSquaresSolver extends SolverAbstract {
                 + "algorithm = \"port\")",
                 intermediate.asDoubleArray()[0], intermediate.asDoubleArray()[1]));
         REXP result = rEngine.eval("coef(" + MODEL_NAME + ")");
+
+        rEngine.eval("library(broom)");
+        REXP aic = rEngine.eval(String.format("glance(%s)$AIC", MODEL_NAME));
+        REXP bic = rEngine.eval(String.format("glance(%s)$BIC", MODEL_NAME));
+
         rEngine.end();
         if (result == null || result.asDoubleArray().length < 2) {
             throw new ModelException("Repository data not suitable for R evaluation.");
         }
         double[] d = result.asDoubleArray();
-        return new double[]{d[0], d[1]};
+
+        SolverResult solverResult = new SolverResult();
+        solverResult.setParameters(new double[]{d[0], d[1]});
+        solverResult.setAic(aic.asDoubleArray()[0]);
+        solverResult.setBic(bic.asDoubleArray()[0]);
+
+
+        return solverResult;
     }
 }
