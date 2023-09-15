@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
 import fi.muni.cz.models.leastsquaresolver.Solver;
+import fi.muni.cz.models.leastsquaresolver.SolverResult;
 import fi.muni.cz.models.testing.GoodnessOfFitTest;
 import org.apache.commons.math3.util.Pair;
 import org.mockito.InjectMocks;
@@ -52,16 +53,24 @@ public class ModelNGTest {
     private void prepareMocksForTwoParams() {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("a", "a");
-        when(solver.optimize(any(int[].class), any(List.class))).thenReturn(new double[]{1, 1});
-        when(goodnessOfFitTest.executeGoodnessOfFitTest(any(List.class), any(List.class), any()))
+        SolverResult solverResult = new SolverResult();
+        solverResult.setParameters(new double[]{1, 1});
+        solverResult.setAic(1.0);
+        solverResult.setBic(1.0);
+        when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);
+        when(goodnessOfFitTest.executePerformanceTest(any(List.class), any(List.class), any()))
                 .thenReturn(map);
     }
     
     private void prepareMocksForThreeParams() {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("a", "a");
-        when(solver.optimize(any(int[].class), any(List.class))).thenReturn(new double[]{1, 1, 1});
-        when(goodnessOfFitTest.executeGoodnessOfFitTest(any(List.class), any(List.class), any()))
+        SolverResult solverResult = new SolverResult();
+        solverResult.setParameters(new double[]{1, 1, 1});
+        solverResult.setAic(1.0);
+        solverResult.setBic(1.0);
+        when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);
+        when(goodnessOfFitTest.executePerformanceTest(any(List.class), any(List.class), any()))
                 .thenReturn(map);
     }
     

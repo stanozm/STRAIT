@@ -58,7 +58,7 @@ public class ModelPerformanceTestNGTest {
         when(rEngine.eval("glance(testGO)$AIC")).thenReturn(new REXP(doubleArr));
         when(rEngine.eval("glance(testGO)$BIC")).thenReturn(new REXP(doubleArr));
         when(rEngine.eval("glance(testGO)$sigma")).thenReturn(new REXP(doubleArr));
-        assertEquals(test.executeGoodnessOfFitTest(listOfPairs, listOfPairs, "GO").get("Chi-Square = "), "1.000");
+        assertEquals(test.executePerformanceTest(listOfPairs, listOfPairs, "GO").get("Chi-Square = "), "1.000");
     }
     
     @Test
@@ -68,6 +68,6 @@ public class ModelPerformanceTestNGTest {
         when(rEngine.eval("glance(testGO)$AIC")).thenReturn(new REXP(doubleArr));
         when(rEngine.eval("glance(testGO)$BIC")).thenReturn(new REXP(doubleArr));
         when(rEngine.eval("glance(testGO)$sigma")).thenReturn(new REXP(doubleArr));
-        assertNotEquals(test.executeGoodnessOfFitTest(listOfPairs, listOfShiftByOnePairs, "GO").get("Chi-Square = "), "0.0");
+        assertNotEquals(test.executePerformanceTest(listOfPairs, listOfShiftByOnePairs, "GO").get("Chi-Square = "), "0.0");
     }
 }
