@@ -316,4 +316,36 @@ public class GeneralIssue implements Serializable {
         return generalIssue;
     }
 
+    /**
+     * Construct GeneralIssue from Bugzilla issue.
+     *
+     * @param bugzillaIssue  Jira issue
+     * @return a GeneralIssue instance
+     */
+    public static GeneralIssue fromBugzillaIssue(BugzillaIssue bugzillaIssue){
+        GeneralIssue generalIssue = new GeneralIssue();
+
+        List<String> closedStatuses  = new ArrayList<>();
+        closedStatuses.add("CLOSED");
+        closedStatuses.add("RESOLVED");
+
+        generalIssue.setTitle(bugzillaIssue.getBugId());
+        generalIssue.setBody(bugzillaIssue.getSummary());
+        generalIssue.setCreatedAt(bugzillaIssue.getOpened());
+        generalIssue.setUpdatedAt(bugzillaIssue.getChanged());
+        generalIssue.setClosedAt(bugzillaIssue.getChanged());
+        generalIssue.setState(closedStatuses.contains(bugzillaIssue.getStatus()) ? "closed" : "open");
+        generalIssue.setUserName(bugzillaIssue.getAssigneeRealName());
+
+        List<String> labels = new ArrayList<>();
+        labels.add(bugzillaIssue.getResolution().toLowerCase());
+        labels.add(bugzillaIssue.getPriority());
+        labels.add("severity:" + bugzillaIssue.getSeverity());
+        labels.add("bug"); // Bugzilla focuses on bug tracking
+
+        generalIssue.setLabels(labels);
+
+        return generalIssue;
+    }
+
 }

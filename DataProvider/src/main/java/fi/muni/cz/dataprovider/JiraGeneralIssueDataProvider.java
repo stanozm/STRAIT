@@ -37,7 +37,7 @@ public class JiraGeneralIssueDataProvider implements GeneralIssueDataProvider{
                     .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            log(Level.SEVERE, "Error while getting repository by Owner and Repository name.", e);
+            log(Level.SEVERE, "Error while reading Jira CSV file", e);
         }
         return new ArrayList<>();
     }

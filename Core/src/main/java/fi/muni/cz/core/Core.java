@@ -18,6 +18,7 @@ import fi.muni.cz.dataprocessing.output.CsvFileBatchAnalysisReportWriter;
 import fi.muni.cz.dataprocessing.output.OutputData;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshot;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
+import fi.muni.cz.dataprovider.BugzillaGeneralIssueDataProvider;
 import fi.muni.cz.dataprovider.GeneralIssue;
 import fi.muni.cz.dataprovider.GeneralIssueDataProvider;
 import fi.muni.cz.dataprovider.GitHubGeneralIssueDataProvider;
@@ -59,6 +60,8 @@ public class Core {
     private static final GeneralIssueDataProvider GITHUB_ISSUES_DATA_PROVIDER =
             new GitHubGeneralIssueDataProvider(CLIENT);
     private static final GeneralIssueDataProvider JIRA_ISSUES_DATA_PROVIDER = new JiraGeneralIssueDataProvider();
+    private static final GeneralIssueDataProvider BUGZILLA_ISSUES_DATA_PROVIDER =
+            new BugzillaGeneralIssueDataProvider();
     private static final RepositoryInformationDataProvider REPOSITORY_DATA_PROVIDER =
             new GitHubRepositoryInformationDataProvider(CLIENT);
     private static ParsedUrlData parsedUrlData;
@@ -153,6 +156,9 @@ public class Core {
             if(dataSource.getType().equals("jira")){
                 outputs.add(doEvaluateForJiraPath(dataSource.getLocation()));
             }
+            if(dataSource.getType().equals("bugzilla")){
+                outputs.add(doEvaluateForBugzillaPath(dataSource.getLocation()));
+            }
         }
         System.out.println("Writing batch report");
         new CsvFileBatchAnalysisReportWriter().writeBatchOutputDataToFile(outputs, "batchAnalysisReport");
@@ -165,25 +171,43 @@ public class Core {
         parsedUrlData = urlData;
         List<GeneralIssue> listOfGeneralIssues = JIRA_ISSUES_DATA_PROVIDER.getIssuesByUrl(jiraPath);
 
-        RepositoryInformation repositoryInformation = getRepositoryInformationForJira(jiraPath, listOfGeneralIssues);
+        RepositoryInformation repositoryInformation = getRepositoryInformationForFileEvaluation(
+                jiraPath,
+                listOfGeneralIssues
+        );
 
         return doEvaluate(listOfGeneralIssues, repositoryInformation);
     }
 
-    private static RepositoryInformation getRepositoryInformationForJira(
-            String jiraPath,
+    private static List<OutputData> doEvaluateForBugzillaPath(String bugzillaPath) throws InvalidInputException {
+        System.out.println("On Bugzilla CSV file - " + bugzillaPath);
+        ParsedUrlData urlData = new ParsedUrlData(bugzillaPath, "Bugzilla", bugzillaPath);
+        parsedUrlData = urlData;
+        List<GeneralIssue> listOfGeneralIssues = BUGZILLA_ISSUES_DATA_PROVIDER.getIssuesByUrl(bugzillaPath);
+
+        RepositoryInformation repositoryInformation = getRepositoryInformationForFileEvaluation(
+                bugzillaPath,
+                listOfGeneralIssues
+        );
+
+        return doEvaluate(listOfGeneralIssues, repositoryInformation);
+    }
+
+    private static RepositoryInformation getRepositoryInformationForFileEvaluation(
+            String filePath,
             List<GeneralIssue> listOfGeneralIssues
     ) {
         RepositoryInformation repositoryInformation = new RepositoryInformation();
-        repositoryInformation.setName(jiraPath);
+        repositoryInformation.setName(filePath);
         repositoryInformation.setContributors(1);
-        repositoryInformation.setDescription("Jira repository");
+        repositoryInformation.setDescription("CSV repository");
         repositoryInformation.setForks(0);
         repositoryInformation.setSize(0);
         repositoryInformation.setPushedAtFirst(listOfGeneralIssues.get(0).getCreatedAt());
         repositoryInformation.setPushedAt(listOfGeneralIssues.get(listOfGeneralIssues.size()-1).getCreatedAt());
         return repositoryInformation;
     }
+
 
     private static List<OutputData> doEvaluateForGithubUrl() throws InvalidInputException {
         System.out.println("On repository - " + parsedUrlData.getUrl());
