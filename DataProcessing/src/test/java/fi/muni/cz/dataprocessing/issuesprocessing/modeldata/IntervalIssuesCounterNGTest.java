@@ -57,7 +57,8 @@ public class IntervalIssuesCounterNGTest {
     
     @Test
     public void testIntervalIssuesCounter() {
-        assertEquals(counter.countIssues(listOfIssues).get(0).getSecond(), new Integer(4));
-        assertEquals(counter.countIssues(listOfIssues).get(1).getSecond(), new Integer(1));
+        Date date = new Date();
+        assertEquals(counter.countIssues(listOfIssues, date, date).get(0).getSecond(), new Integer(4));
+        assertEquals(counter.countIssues(listOfIssues, date, date).get(1).getSecond(), new Integer(1));
     } 
 }

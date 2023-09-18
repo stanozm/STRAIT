@@ -45,6 +45,9 @@ public class GOLeastSquaresSolver extends SolverAbstract {
         REXP aic = rEngine.eval(String.format("glance(%s)$AIC", MODEL_NAME));
         REXP bic = rEngine.eval(String.format("glance(%s)$BIC", MODEL_NAME));
 
+        rEngine.eval("library(aomisc)");
+        REXP pseudoRSquared = rEngine.eval(String.format("R2nls(%s)$PseudoR2", MODEL_NAME));
+
         rEngine.end();
         if (result == null || result.asDoubleArray().length < 2) {
             throw new ModelException("Repository data not suitable for R evaluation.");
@@ -55,6 +58,7 @@ public class GOLeastSquaresSolver extends SolverAbstract {
         solverResult.setParameters(new double[]{d[0], d[1]});
         solverResult.setAic(aic.asDoubleArray()[0]);
         solverResult.setBic(bic.asDoubleArray()[0]);
+        solverResult.setPseudoRSquared(pseudoRSquared.asDoubleArray()[0]);
 
 
         return solverResult;

@@ -1,12 +1,19 @@
 package fi.muni.cz.core.analysis.phases.dataprocessing;
 
+import static fi.muni.cz.core.factory.FilterFactory.parseDateOption;
+
+import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
+import fi.muni.cz.dataprovider.GeneralIssue;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Valtteri Valtonen valtonenvaltteri@gmail.com
@@ -29,12 +36,14 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
 
 
     @Override
-    public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
+    public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto originalDto) {
         System.out.println("Processing issue reports");
-        List<GeneralIssuesCollection> issueReportSets = dto.getIssueReportSets();
+
+        ReliabilityAnalysisDto dto = setupTestingPeriodDates(originalDto);
 
         dto.setIssueReportAmountBeforeProcessing(calculateTotalIssuesInDto(dto));
 
+        List<GeneralIssuesCollection> issueReportSets = dto.getIssueReportSets();
         issueReportSets.forEach(issuesCollection -> {
             processedIssues.add(applyIssueProcessingStrategyToIssueCollection(issuesCollection));
             issueProcessingResults.add(issueProcessingStrategy.getIssueProcessingActionResults());
@@ -64,6 +73,37 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
                 )
         );
         return issuesCollection;
+    }
+
+    private ReliabilityAnalysisDto setupTestingPeriodDates(ReliabilityAnalysisDto dto) {
+
+        ArgsParser configuration = dto.getConfiguration();
+
+        if (configuration.hasOptionFilterTime()) {
+            List<Date> parsingResult = parseDateOption(configuration);
+            dto.setTestingPeriodStartDate(parsingResult.get(0));
+            dto.setTestingPeriodEndDate(parsingResult.get(0));
+
+            return dto;
+        }
+
+        List<GeneralIssue> allIssues = dto
+                .getIssueReportSets()
+                .stream()
+                .flatMap(
+                issuesCollection -> issuesCollection.getListOfGeneralIssues().stream()
+                ).collect(Collectors.toList());
+
+        List<GeneralIssue> sortedIssues = allIssues
+                .stream()
+                .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))
+                .collect(Collectors.toList()
+                );
+
+        dto.setTestingPeriodStartDate(sortedIssues.get(0).getCreatedAt());
+        dto.setTestingPeriodEndDate(sortedIssues.get(sortedIssues.size() - 1).getCreatedAt());
+
+        return dto;
     }
 
 

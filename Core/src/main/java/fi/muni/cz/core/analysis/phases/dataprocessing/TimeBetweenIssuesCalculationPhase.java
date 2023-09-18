@@ -5,6 +5,7 @@ import fi.muni.cz.core.dto.DataPointCollection;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.TimeBetweenIssuesCounter;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,7 +46,7 @@ public class TimeBetweenIssuesCalculationPhase implements ReliabilityAnalysisPha
         DataPointCollection dataPointCollection = new DataPointCollection();
         dataPointCollection.setName(issuesCollection.getSnapshotName());
         dataPointCollection.setDataPoints(
-                timeBetweenIssuesCounter.countIssues(issuesCollection.getListOfGeneralIssues())
+                timeBetweenIssuesCounter.countIssues(issuesCollection.getListOfGeneralIssues(), new Date(), new Date())
         );
         return dataPointCollection;
    };

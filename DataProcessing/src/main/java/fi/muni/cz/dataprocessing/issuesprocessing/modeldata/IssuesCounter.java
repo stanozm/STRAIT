@@ -2,6 +2,7 @@ package fi.muni.cz.dataprocessing.issuesprocessing.modeldata;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
 import org.apache.commons.math3.util.Pair;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +25,9 @@ public interface IssuesCounter {
      * Count issues.
      *
      * @param issues Issues to count.
+     * @param startOfTesting Start of counting period.
+     * @param endOfTesting End of testing period.
      * @return List of counted pairs.
      */
-    List<Pair<Integer, Integer>> countIssues(List<GeneralIssue> issues);
+    List<Pair<Integer, Integer>> countIssues(List<GeneralIssue> issues, Date startOfTesting, Date endOfTesting);
 }

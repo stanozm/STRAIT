@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +33,7 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
     public Map<String, String> executePerformanceTest(List<Pair<Integer, Integer>> expectedIssues,
                                                       List<Pair<Integer, Integer>> observedIssues, String modelName) {
         Map<String, String> result = new HashMap<>();
+        result.put("My R-squared = ", calculateRSquared(observedIssues, expectedIssues));
         result.put("My RSE = ", calculateResidualStandardError(observedIssues, expectedIssues));
         result.put("Mean squared error = ", calculateMeanSquaredError(observedIssues, expectedIssues));
         result.put("Predictive ability = ", calculateModelPredictiveAbility(observedIssues, expectedIssues));
@@ -130,6 +132,31 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
 
         return String.format(Locale.US, "%.3f", rse);
 
+    }
+
+    private String calculateRSquared(
+            List<Pair<Integer, Integer>> observedData,
+            List<Pair<Integer, Integer>> modelPredictedData
+    ){
+
+        Integer sumOfSquaresOfResiduals = calculateSumOfSquaresOfDataPointValues(
+                calculateResidualsForDataPoints(observedData, modelPredictedData)
+        );
+
+        OptionalDouble observedAverage = observedData.stream().mapToInt(Pair::getSecond).average();
+
+        if(!observedAverage.isPresent()){
+            return "N/A";
+        }
+
+        double totalSumOfSquares = observedData.stream().mapToDouble(point -> {
+            double difference = point.getSecond() - observedAverage.getAsDouble();
+            return difference * difference;
+        }).sum();
+
+        double rSquared = 1.0 - (sumOfSquaresOfResiduals / totalSumOfSquares);
+
+        return String.format(Locale.US, "%.3f", rSquared);
     }
 
     private String calculateMeanSquaredError(

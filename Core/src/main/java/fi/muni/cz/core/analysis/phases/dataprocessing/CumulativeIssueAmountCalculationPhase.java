@@ -5,6 +5,7 @@ import fi.muni.cz.core.dto.DataPointCollection;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.CumulativeIssuesCounter;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,9 @@ public class CumulativeIssueAmountCalculationPhase implements ReliabilityAnalysi
         List<GeneralIssuesCollection> issueCollections = dto.getIssueReportSets();
         List<DataPointCollection> cumulativeAmounts = issueCollections.
                 stream().
-                map(this::calculateCumulativeIssueAmounts)
+                map(issuesCollection -> calculateCumulativeIssueAmounts(
+                        issuesCollection, dto.getTestingPeriodStartDate(), dto.getTestingPeriodEndDate()
+                ))
                 .collect(Collectors.toList());
 
         dto.setCumulativeIssueReportCollections(cumulativeAmounts);
@@ -41,11 +44,15 @@ public class CumulativeIssueAmountCalculationPhase implements ReliabilityAnalysi
         return dto;
     }
 
-   private DataPointCollection calculateCumulativeIssueAmounts(GeneralIssuesCollection issuesCollection){
+   private DataPointCollection calculateCumulativeIssueAmounts(
+           GeneralIssuesCollection issuesCollection,
+           Date startOfTesting,
+           Date endOfTesting
+   ){
         DataPointCollection dataPointCollection = new DataPointCollection();
         dataPointCollection.setName(issuesCollection.getSnapshotName());
         dataPointCollection.setDataPoints(
-                cumulativeCounter.countIssues(issuesCollection.getListOfGeneralIssues())
+                cumulativeCounter.countIssues(issuesCollection.getListOfGeneralIssues(), startOfTesting, endOfTesting)
         );
         return dataPointCollection;
    };

@@ -4,6 +4,7 @@ import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.TimeBetweenIssuesCounter;
 import fi.muni.cz.dataprovider.GeneralIssue;
 import org.apache.commons.math3.util.Pair;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class LaplaceTrendTest implements TrendTest {
     public void executeTrendTest(List<GeneralIssue> listOfGeneralIssues) {
         IssuesCounter timeBetweenCounter = new TimeBetweenIssuesCounter(timeUnit);
         List<Pair<Integer, Integer>> timeBetweenIssues = timeBetweenCounter
-                .countIssues(listOfGeneralIssues);
+                .countIssues(listOfGeneralIssues, new Date(), new Date());
         double totalNumberOfIssues = timeBetweenIssues.size();
         double sumOfDuration = timeBetweenIssues.stream().mapToDouble(a -> a.getSecond().doubleValue()).sum();
         double numerator = (sumOfDuration / totalNumberOfIssues - timeBetweenIssues.get(timeBetweenIssues.size() - 1)
