@@ -1,12 +1,12 @@
 package fi.muni.cz.dataprocessing.output;
 
+import org.apache.commons.math3.util.Pair;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import org.apache.commons.math3.util.Pair;
 
 /**
  * @author rados

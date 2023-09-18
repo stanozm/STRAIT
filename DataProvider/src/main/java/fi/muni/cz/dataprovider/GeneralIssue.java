@@ -1,10 +1,5 @@
 package fi.muni.cz.dataprovider;
 
-import java.io.Serializable;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -15,6 +10,11 @@ import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -279,4 +279,41 @@ public class GeneralIssue implements Serializable {
         }
         return true;
     }
+
+    /**
+     * Construct GeneralIssue from Jira issue.
+     *
+     * @param jiraIssue  Jira issue
+     * @return a GeneralIssue instance
+     */
+    public static GeneralIssue fromJiraIssue(JiraIssue jiraIssue){
+        GeneralIssue generalIssue = new GeneralIssue();
+        List<String> labels = new ArrayList<>();
+
+        List<String> closedStatuses  = new ArrayList<>();
+        closedStatuses.add("Done");
+        closedStatuses.add("Won't do");
+
+        List<String> labelStatuses  = new ArrayList<>();
+        labelStatuses.add("Blocked");
+        labelStatuses.add("Won't do");
+
+        generalIssue.setTitle(jiraIssue.getSummary());
+        generalIssue.setBody(jiraIssue.getDescription());
+        generalIssue.setCreatedAt(jiraIssue.getCreated());
+        generalIssue.setUpdatedAt(jiraIssue.getUpdated());
+        generalIssue.setClosedAt(jiraIssue.getUpdated());
+        generalIssue.setState(closedStatuses.contains(jiraIssue.getStatus()) ? "closed" : "open");
+        generalIssue.setUserName("Jira");
+
+        labels.add(jiraIssue.getPriority());
+        labels.add(jiraIssue.getIssueType());
+        if(labelStatuses.contains(jiraIssue.getStatus())){
+            labels.add(jiraIssue.getStatus());
+        }
+        generalIssue.setLabels(labels);
+
+        return generalIssue;
+    }
+
 }

@@ -1,16 +1,16 @@
 package fi.muni.cz.core.factory;
 
-import fi.muni.cz.core.ArgsParser;
 import static fi.muni.cz.core.ArgsParser.OPT_SAVE;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertTrue;
+
+import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.dataprocessing.output.CsvFileIssuesWriter;
 import org.apache.commons.cli.CommandLine;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import static org.testng.Assert.assertTrue;
-
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

@@ -1,7 +1,6 @@
 package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
-
 import java.util.ArrayList;
 import java.util.List;
 

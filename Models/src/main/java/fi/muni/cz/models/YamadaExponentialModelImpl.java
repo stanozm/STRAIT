@@ -3,7 +3,6 @@ package fi.muni.cz.models;
 import fi.muni.cz.models.leastsquaresolver.Solver;
 import fi.muni.cz.models.testing.GoodnessOfFitTest;
 import org.apache.commons.math3.util.Pair;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

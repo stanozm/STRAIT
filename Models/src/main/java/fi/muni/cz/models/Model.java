@@ -1,8 +1,8 @@
 package fi.muni.cz.models;
 
+import org.apache.commons.math3.util.Pair;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.math3.util.Pair;
 
 /**
  * Represents interface for software reliability models

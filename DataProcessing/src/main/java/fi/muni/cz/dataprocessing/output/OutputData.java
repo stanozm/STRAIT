@@ -1,13 +1,12 @@
 package fi.muni.cz.dataprocessing.output;
 
+import fi.muni.cz.dataprovider.ReleaseDTO;
+import org.apache.commons.math3.util.Pair;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
-import fi.muni.cz.dataprovider.ReleaseDTO;
-import org.apache.commons.math3.util.Pair;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

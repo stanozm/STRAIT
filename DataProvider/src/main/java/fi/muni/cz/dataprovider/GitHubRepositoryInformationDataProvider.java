@@ -13,7 +13,6 @@ import org.eclipse.egit.github.core.service.CommitService;
 import org.eclipse.egit.github.core.service.RepositoryService;
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
