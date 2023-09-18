@@ -136,6 +136,14 @@
                         </#list> 
                     </p>              
                 </#if>
+                <#if data.predictiveAccuracy??>
+                    <h3>Predictive accuracy:</h3>
+                    <p>
+                        <#list data.predictiveAccuracy as key, value>
+                            ${key}${value}<br>
+                        </#list>
+                    </p>
+                </#if>
                 <hr class="hrstyle">
                 <center><h3>Failure occurence</h3></center>
                 <div id="chart1"></div>

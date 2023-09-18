@@ -33,7 +33,7 @@ import fi.muni.cz.dataprovider.utils.ParsedUrlData;
 import fi.muni.cz.dataprovider.utils.UrlParser;
 import fi.muni.cz.models.Model;
 import fi.muni.cz.models.exception.ModelException;
-import fi.muni.cz.models.testing.ChiSquareGoodnessOfFitTest;
+import fi.muni.cz.models.testing.RLinearModelGoodnessOfFitTest;
 import fi.muni.cz.models.testing.GoodnessOfFitTest;
 import fi.muni.cz.models.testing.LaplaceTrendTest;
 import fi.muni.cz.models.testing.TrendTest;
@@ -327,14 +327,22 @@ public class Core {
                 cumulativeIssues;
     }
     
-    private static List<Model> runModels(List<Pair<Integer, Integer>> countedWeeksWithTotal, 
-            GoodnessOfFitTest goodnessOfFitTest) throws InvalidInputException {
-        List<Model> models = ModelFactory.getModels(countedWeeksWithTotal, goodnessOfFitTest, PARSER);
+    private static List<Model> runModels(
+            List<Pair<Integer, Integer>> trainingData,
+            List<Pair<Integer, Integer>> testData,
+            GoodnessOfFitTest goodnessOfFitTest
+    ) throws InvalidInputException {
+        List<Model> models = ModelFactory.getModels(trainingData, testData, goodnessOfFitTest, PARSER);
         List<Model> modelsToRemove = new ArrayList<>();
 
-        if (countedWeeksWithTotal.size() < 1
-                || countedWeeksWithTotal.get(countedWeeksWithTotal.size() - 1).getSecond() < 1) {
+        if (trainingData.isEmpty()
+                || trainingData.get(trainingData.size() - 1).getSecond() < 1) {
            return new ArrayList<>();
+        }
+
+        if (testData.isEmpty()
+                || testData.get(testData.size() - 1).getSecond() < 1) {
+            return new ArrayList<>();
         }
 
         models.parallelStream().forEach(model -> {
@@ -352,7 +360,7 @@ public class Core {
     }
     
     private static GoodnessOfFitTest getGoodnessOfFitTest() {
-        return new ChiSquareGoodnessOfFitTest(RENGINE);
+        return new RLinearModelGoodnessOfFitTest(RENGINE);
     }
     
     private static TrendTest runTrendTest(List<GeneralIssue> listOfGeneralIssues) {
@@ -383,27 +391,32 @@ public class Core {
     private static List<OutputData> prepareOutputData(
             int initialNumberOfIssues,
             List<GeneralIssue> listOfGeneralIssues,
-            List<Pair<Integer, Integer>> countedWeeksWithTotal,
+            List<Pair<Integer, Integer>> completeData,
+            List<Pair<Integer, Integer>> trainingData,
+            List<Pair<Integer, Integer>> testData,
             TrendTest trendTest,
             RepositoryInformation repositoryInformation,
             IssueProcessingStrategy issueProcessingStrategy)
             throws InvalidInputException {
         List<OutputData> outputDataList = new ArrayList<>();
         OutputData outputData;
-        for (Model model: runModels(countedWeeksWithTotal, getGoodnessOfFitTest())) {
+        for (Model model: runModels(trainingData, testData, getGoodnessOfFitTest())) {
             outputData = new OutputData.OutputDataBuilder()
                     .setCreatedAt(new Date())
                     .setRepositoryName(parsedUrlData.getRepositoryName())
                     .setUrl(parsedUrlData.getUrl().toString())
                     .setUserName(parsedUrlData.getUserName())
-                    .setTotalNumberOfDefects(countedWeeksWithTotal.get(countedWeeksWithTotal.size() - 1).getSecond())
-                    .setCumulativeDefects(countedWeeksWithTotal)
+                    .setTotalNumberOfDefects(completeData.get(completeData.size() - 1).getSecond())
+                    .setCumulativeDefects(completeData)
                     .setTimeBetweenDefects(getTimeBetweenIssuesList(listOfGeneralIssues))
                     .setTrend(trendTest.getTrendValue())
                     .setExistTrend(trendTest.getResult())
                     .setModelParameters(model.getModelParameters())
                     .setGoodnessOfFit(model.getGoodnessOfFitData())
-                    .setEstimatedIssuesPrediction(model.getIssuesPrediction(getLengthOfPrediction()))
+                    .setPredictiveAccuracy(model.getPredictiveAccuracyData())
+                    .setEstimatedIssuesPrediction(model.getIssuesPrediction(
+                            testData.size() + (double) getLengthOfPrediction())
+                    )
                     .setModelName(model.toString())
                     .setModelFunction(model.getTextFormOfTheFunction())
                     .setInitialNumberOfIssues(initialNumberOfIssues)
@@ -429,7 +442,7 @@ public class Core {
 
         if (outputDataList.isEmpty()) {
             outputData = getOutputDataForNoModels(initialNumberOfIssues, listOfGeneralIssues,
-                    countedWeeksWithTotal, trendTest, repositoryInformation, issueProcessingStrategy);
+                    trainingData, trendTest, repositoryInformation, issueProcessingStrategy);
             outputDataList.add(outputData);
         }
 
@@ -501,12 +514,21 @@ public class Core {
             return outputList;
         }
 
-        List<Pair<Integer, Integer>> countedWeeksWithTotal = getCumulativeIssuesList(filteredAndProcessedList); 
+        List<Pair<Integer, Integer>> completeData  = getCumulativeIssuesList(filteredAndProcessedList);
+        float trainingDataPortion = 0.66f;
+        int trainingDataEndIndex = Math.round(trainingDataPortion * completeData.size());
+
+        List<Pair<Integer, Integer>> trainingData = completeData.subList(0, trainingDataEndIndex);
+        List<Pair<Integer, Integer>> testData = completeData.subList(trainingDataEndIndex, completeData.size());
+
+
         TrendTest trendTest = runTrendTest(filteredAndProcessedList); 
         List<OutputData> outputDataList = 
                 prepareOutputData(listOfGeneralIssues.size(), 
                         filteredAndProcessedList,
-                        countedWeeksWithTotal,
+                        completeData,
+                        trainingData,
+                        testData,
                         trendTest,
                         repositoryInformation,
                         issueProcessingStrategy);

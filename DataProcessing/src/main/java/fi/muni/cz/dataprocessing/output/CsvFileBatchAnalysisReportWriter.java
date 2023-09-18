@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
@@ -41,6 +42,11 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
                             .getGoodnessOfFit().keySet()
             ).stream().sorted().collect(Collectors.toList());
 
+            List<String> predictiveAccuracyKeys = new ArrayList<>(
+                    notEmptyResults.get(0).get(0)
+                            .getPredictiveAccuracy().keySet()
+            ).stream().sorted().collect(Collectors.toList());
+
             List<String> issueProcessingStrategyResultKeys = new ArrayList<>(
                     notEmptyResults.get(0).get(0)
                             .getIssueProcessingActionResults().keySet()
@@ -48,9 +54,12 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
 
             String modelResultHeaders = notEmptyResults.get(0).stream().flatMap(outputData -> {
                 String modelName = outputData.getModelName();
-                List<String> headers = goodnessOfFitKeys.stream().map(testName -> modelName + " " +  testName + ",")
+                List<String> gofHeaders = goodnessOfFitKeys.stream().map(testName -> modelName + " " +  testName + ",")
                         .collect(Collectors.toList());
-                return headers.stream();
+                List<String> predictiveAccuracyHeaders = predictiveAccuracyKeys.stream().map(
+                        testName -> modelName + " " + "predictive accuracy" + " " +  testName + ","
+                        ).collect(Collectors.toList());
+                return Stream.concat(gofHeaders.stream(), predictiveAccuracyHeaders.stream());
             }).collect(Collectors.joining());
 
             String issueProcessingStrategyResultHeaders = issueProcessingStrategyResultKeys
@@ -78,6 +87,12 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
                         writeElementWithDelimiter(eliminateSeparatorAndCheckNullValue(
                                 output.getGoodnessOfFit().getOrDefault(testName, "N/A")), fileWriter);
                     }
+
+                    for (String testName : predictiveAccuracyKeys){
+                        writeElementWithDelimiter(eliminateSeparatorAndCheckNullValue(
+                                output.getPredictiveAccuracy().getOrDefault(testName, "N/A")), fileWriter);
+                    }
+
                 }
 
                 for(String resultName : issueProcessingStrategyResultKeys){

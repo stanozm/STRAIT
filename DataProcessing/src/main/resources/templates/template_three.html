@@ -151,6 +151,7 @@
                 <div class="col-sm-2 sidenav"></div>
             </div>
         </div>
+
         <div class="container-fluid testimonial-group">
             <center><h3>Comparison of ${dataList?size} models:</h3></center>
             <div class="row text-center flex-nowrap">
@@ -175,11 +176,21 @@
                                     </#list> 
                                 </p>              
                             </#if>
+                            <#if outputData.predictiveAccuracy??>
+                                <h3>Predictive accuracy:</h3>
+                                <p>
+                                    <#list outputData.predictiveAccuracy as key, value>
+                                    ${key}${value}<br>
+                                </#list>
+                                </p>
+                            </#if>
                     </div>
                 <#assign i++>
                 </#list>
             </div>
         </div>
+
+
         <div class="container-fluid">    
             <div class="row">
                 <div class="col">

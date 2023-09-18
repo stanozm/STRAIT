@@ -22,6 +22,13 @@ public interface Model {
      * @return  Map with test output data.
      */
     Map<String, String> getGoodnessOfFitData();
+
+    /**
+     * Get predictive accuracy data.
+     *
+     * @return  Map with test output data.
+     */
+    Map<String, String> getPredictiveAccuracyData();
     
     /**
      * Get parameters of model.

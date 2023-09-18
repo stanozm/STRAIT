@@ -31,15 +31,15 @@ public class ModelNGTest {
     private Solver solver;
     
     @InjectMocks
-    private Model GOModel = new GOModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model GOModel = new GOModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
     @InjectMocks
-    private Model GOSShapedModel = new GOSShapedModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model GOSShapedModel = new GOSShapedModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
     @InjectMocks
-    private Model DuaneModel = new DuaneModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model DuaneModel = new DuaneModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
     @InjectMocks
-    private Model HossainDahiyaModel = new HossainDahiyaModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model HossainDahiyaModel = new HossainDahiyaModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
     @InjectMocks
-    private Model MusaOkumotoModel = new MusaOkumotoModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model MusaOkumotoModel = new MusaOkumotoModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
     
     @BeforeClass
     public void setUp() {

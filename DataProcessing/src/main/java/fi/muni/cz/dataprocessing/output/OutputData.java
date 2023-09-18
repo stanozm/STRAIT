@@ -35,6 +35,8 @@ public class OutputData implements Serializable {
     private Map<String, Double> modelParameters;
     private List<Pair<Integer, Integer>> estimatedIssuesPrediction;
     private Map<String, String> goodnessOfFit;
+
+    private Map<String, String> predictiveAccuracy;
     private boolean existTrend;
     private double trend;
     private String modelName;
@@ -67,6 +69,7 @@ public class OutputData implements Serializable {
         this.modelParameters = builder.modelParameters;
         this.estimatedIssuesPrediction = builder.estimatedIssuesPrediction;
         this.goodnessOfFit = builder.goodnessOfFit;
+        this.predictiveAccuracy = builder.predictiveAccuracy;
         this.existTrend = builder.existTrend;
         this.trend = builder.trend;
         this.modelName = builder.modelName;
@@ -365,7 +368,15 @@ public class OutputData implements Serializable {
                 + ", createdAt=" + createdAt + ", totalNumberOfDefects=" 
                 + totalNumberOfDefects + '}';
     }
-    
+
+    public Map<String, String> getPredictiveAccuracy() {
+        return predictiveAccuracy;
+    }
+
+    public void setPredictiveAccuracy(Map<String, String> predictiveAccuracy) {
+        this.predictiveAccuracy = predictiveAccuracy;
+    }
+
     /**
      * Builder.
      */
@@ -392,6 +403,7 @@ public class OutputData implements Serializable {
         private Map<String, Double> modelParameters;
         private List<Pair<Integer, Integer>> estimatedIssuesPrediction;
         private Map<String, String> goodnessOfFit;
+        private Map<String, String> predictiveAccuracy;
         private boolean existTrend;
         private double trend;
         private String modelName;
@@ -545,6 +557,17 @@ public class OutputData implements Serializable {
          */
         public OutputDataBuilder setGoodnessOfFit(Map<String, String> goodnessOfFit) {
             this.goodnessOfFit = goodnessOfFit;
+            return this;
+        }
+
+        /**
+         * Set predictive accuracy data.
+         *
+         * @param predictiveAccuracy predictive accuracy data.
+         * @return this builder, to allow method chaining.
+         */
+        public OutputDataBuilder setPredictiveAccuracy(Map<String, String> predictiveAccuracy) {
+            this.predictiveAccuracy = predictiveAccuracy;
             return this;
         }
 
