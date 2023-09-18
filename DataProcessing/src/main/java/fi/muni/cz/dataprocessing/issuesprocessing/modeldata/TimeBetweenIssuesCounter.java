@@ -24,11 +24,11 @@ public class TimeBetweenIssuesCounter implements IssuesCounter {
     }
     
     @Override
-    public List<Pair<Integer, Integer>> prepareIssuesDataForModel(List<GeneralIssue> rawIssues) {
+    public List<Pair<Integer, Integer>> countIssues(List<GeneralIssue> issues) {
         List<Pair<Integer, Integer>> timeBetweenIssuesList = new LinkedList<>();
-        Date dateOne = rawIssues.get(0).getCreatedAt();
+        Date dateOne = issues.get(0).getCreatedAt();
         int i = 1;
-        for (GeneralIssue issue: rawIssues) {
+        for (GeneralIssue issue: issues) {
             Date dateTwo = issue.getCreatedAt();
             long diff = dateTwo.getTime() - dateOne.getTime();
             Integer diffInt;

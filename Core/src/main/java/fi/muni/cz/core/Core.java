@@ -1,5 +1,7 @@
 package fi.muni.cz.core;
 
+import static fi.muni.cz.dataprocessing.issuesprocessing.MovingAverage.calculateMovingAverage;
+
 import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
 import fi.muni.cz.core.configuration.DataSource;
 import fi.muni.cz.core.exception.InvalidInputException;
@@ -63,11 +65,11 @@ public class Core {
         } catch (InvalidInputException e) {
             PARSER.printHelp();
             System.out.println(e.causes());
-            //e.printStackTrace();
+            e.printStackTrace();
             System.exit(1);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            //e.printStackTrace();
+            System.out.println(e);
+            e.printStackTrace();
             System.exit(1);
         }
     }
@@ -202,11 +204,17 @@ public class Core {
     
     private static List<Pair<Integer, Integer>> getTimeBetweenIssuesList(List<GeneralIssue> listOfGeneralIssues) {
         return new TimeBetweenIssuesCounter(getTimeBetweenIssuesUnit())
-                        .prepareIssuesDataForModel(listOfGeneralIssues);
+                        .countIssues(listOfGeneralIssues);
     }
     
     private static List<Pair<Integer, Integer>> getCumulativeIssuesList(List<GeneralIssue> listOfGeneralIssues) {
-        return new CumulativeIssuesCounter(getPeriodOfTesting()).prepareIssuesDataForModel(listOfGeneralIssues);
+        List<Pair<Integer, Integer>> cumulativeIssues =
+                new CumulativeIssuesCounter(getPeriodOfTesting())
+                .countIssues(listOfGeneralIssues);
+        return PARSER.hasOptionMovingAverage() ?
+                calculateMovingAverage(cumulativeIssues, Integer.parseInt(PARSER.getOptionValueMovingAverage()))
+                :
+                cumulativeIssues;
     }
     
     private static List<Model> runModels(List<Pair<Integer, Integer>> countedWeeksWithTotal, 

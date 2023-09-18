@@ -43,7 +43,14 @@ public class ArgsParser {
     public static final String OPT_FILTER_TIME = "ft";
     public static final String OPT_FILTER_DUPLICATIONS = "fdu";
     public static final String OPT_FILTER_DEFECTS = "fde";
+
+    public static final String OPT_FILTER_INVALID_ISSUES = "fi";
+    public static final String OPT_FILTER_ISSUES_WITH_LOW_CRITICALITY = "flc";
+    public static final String OPT_FILTER_ISSUES_WITH_NO_FIX = "fnf";
+    public static final String OPT_FILTER_TEST_RELATED_ISSUES = "fte";
+
     public static final String OPT_MODELS = "ms";
+    public static final String OPT_MOVING_AVERAGE = "ma";
     public static final String OPT_OUT = "out";
     public static final String OPT_GRAPH_MULTIPLE = "gm";
     public static final String OPT_NEW_SNAPSHOT = "ns";
@@ -184,10 +191,26 @@ public class ArgsParser {
                 .argName("Time").numberOfArgs(2).desc("Filter by start time and end time. Format: " 
                         + FilterFactory.DATE_FORMAT).build();
         options.addOption(option);
+        option = Option.builder(OPT_FILTER_INVALID_ISSUES).longOpt("filterInvalid")
+                .desc("Filter out invalid issues based on labels and creation / closing time").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_ISSUES_WITH_LOW_CRITICALITY).longOpt("filterLowCriticality")
+                .desc("Filter out low criticality issues based on labels").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_TEST_RELATED_ISSUES).longOpt("filterTestRelatedIssues")
+                .desc("Filter out test related issues based on labels").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_ISSUES_WITH_NO_FIX).longOpt("filterIssuesWithNoFix")
+                .desc("Filter out issues with no fix based on labels").build();
+        options.addOption(option);
         option = Option.builder(OPT_FILTER_DUPLICATIONS).longOpt("filterDuplications")
                 .desc("Filter out duplications.").build();
         options.addOption(option);
         option = Option.builder(OPT_FILTER_DEFECTS).longOpt("filterDefects").desc("Filter defects.").build();
+        options.addOption(option);
+        option = Option.builder(OPT_MOVING_AVERAGE).longOpt("--movingaverage").desc(
+                "Use moving average on cumulative issue counts before fitting model."
+        ).hasArgs().argName("Moving average window size").build();
         options.addOption(option);
         option = Option.builder(OPT_MODELS).longOpt("models").hasArgs().argName("Model name").
                 desc("Models to evaluate. Available models: go, gos, mo, du, hd, we, ye, yr, ll, em.").build();
@@ -393,6 +416,42 @@ public class ArgsParser {
     }
 
     /**
+     * Check if option 'fi' is on command line.
+     *
+     * @return true if there is 'fi' command line, false otherwise.
+     */
+    public boolean hasOptionFilterInvalidIssues() {
+        return cmdl.hasOption(OPT_FILTER_INVALID_ISSUES);
+    }
+
+    /**
+     * Check if option 'fte' is on command line.
+     *
+     * @return true if there is 'fte' command line, false otherwise.
+     */
+    public boolean hasOptionFilterTestRelatedissues() {
+        return cmdl.hasOption(OPT_FILTER_TEST_RELATED_ISSUES);
+    }
+
+    /**
+     * Check if option 'fnf' is on command line.
+     *
+     * @return true if there is 'fnf' command line, false otherwise.
+     */
+    public boolean hasOptionFilterIssuesWithoutFix() {
+        return cmdl.hasOption(OPT_FILTER_ISSUES_WITH_NO_FIX);
+    }
+
+    /**
+     * Check if option 'flc' is on command line.
+     *
+     * @return true if there is 'flc' command line, false otherwise.
+     */
+    public boolean hasOptionFilterIssuesWithLowCriticality() {
+        return cmdl.hasOption(OPT_FILTER_ISSUES_WITH_LOW_CRITICALITY);
+    }
+
+    /**
      * Check if option 'ms' is on command line.
      * 
      * @return true if there is 'ms' command line, false otherwise.
@@ -408,6 +467,15 @@ public class ArgsParser {
      */
     public boolean hasOptionOut() {
         return cmdl.hasOption(OPT_OUT);
+    }
+
+    /**
+     * Check if option ma is on command line.
+     *
+     * @return true if there is 'ma' command line, false otherwise.
+     */
+    public boolean hasOptionMovingAverage() {
+        return cmdl.hasOption(OPT_MOVING_AVERAGE);
     }
     
     /**
@@ -579,5 +647,14 @@ public class ArgsParser {
      * */
     public String getOptionValueBatchConfigurationFile() {
         return cmdl.getOptionValue(OPT_BATCH_CONFIG_FILE);
+    }
+
+    /**
+     * Get argument value for 'ma'.
+     *
+     * @return argument value
+     * */
+    public String getOptionValueMovingAverage() {
+        return cmdl.getOptionValue(OPT_MOVING_AVERAGE);
     }
 }

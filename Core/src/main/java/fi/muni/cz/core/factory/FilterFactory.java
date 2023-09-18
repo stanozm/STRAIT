@@ -45,10 +45,10 @@ public class FilterFactory {
         
         if (parser.hasOptionFilterLabels()) {
             if (parser.getOptionValuesFilterLabels() == null) {
-                listOfFilters.add(new FilterByLabel(FILTERING_WORDS));
+                listOfFilters.add(new FilterByLabel(FILTERING_WORDS, false));
             } else {
                 listOfFilters.add(new FilterByLabel(
-                        Arrays.asList(parser.getOptionValuesFilterLabels())));
+                        Arrays.asList(parser.getOptionValuesFilterLabels()), false));
             }
         }
         
@@ -76,6 +76,22 @@ public class FilterFactory {
 
         if (parser.hasOptionFilterDefects()) {
             listOfFilters.add(new FilterDefects());
+        }
+
+        if (parser.hasOptionFilterIssuesWithLowCriticality()) {
+            listOfFilters.add(new FilterOutIssuesWithLowCriticality());
+        }
+
+        if (parser.hasOptionFilterInvalidIssues()) {
+            listOfFilters.add(new FilterOutInvalidissues());
+        }
+
+        if (parser.hasOptionFilterTestRelatedissues()) {
+            listOfFilters.add(new FilterOutTestRelatedIssues());
+        }
+
+        if (parser.hasOptionFilterIssuesWithoutFix()) {
+            listOfFilters.add(new FilterOutIssuesWithoutFix());
         }
         
         return listOfFilters;

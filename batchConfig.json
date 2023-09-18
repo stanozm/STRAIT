@@ -1,24 +1,34 @@
 {
   "dataSources": [
-    {
-      "type": "github",
-      "location": "https://github.com/ToolJet/ToolJet"
-    },
-    {
-      "type": "github",
-      "location": "https://github.com/huggingface/transformers"
-    },
-    {
-      "type": "github",
-      "location": "https://github.com/neovim/neovim"
-    },
-    {
-      "type": "github",
-      "location": "https://github.com/curl/curl"
-    },
-    {
-      "type": "github",
-      "location": "https://github.com/Gallopsled/pwntools"
-    }
+    {"type": "github", "location": "https://github.com/home-assistant/core"},
+    {"type": "github", "location": "https://github.com/Gallopsled/pwntools"},
+    {"type": "github", "location": "https://github.com/pallets/flask"},
+    {"type": "github", "location": "https://github.com/tiangolo/fastapi"},
+    {"type": "github", "location": "https://github.com/microsoft/TypeScript"},
+    {"type": "github", "location": "https://github.com/ToolJet/ToolJet"},
+    {"type": "github", "location": "https://github.com/compiler-explorer/compiler-explorer"},
+    {"type": "github", "location": "https://github.com/neovim/neovim"},
+    {"type": "github", "location": "https://github.com/cyrus-and/gdb-dashboard"},
+    {"type": "github", "location": "https://github.com/vuetifyjs/vuetify"},
+    {"type": "github", "location": "https://github.com/SigNoz/signoz"},
+    {"type": "github", "location": "https://github.com/curl/curl"},
+    {"type": "github", "location": "https://github.com/electron/electron"},
+    {"type": "github", "location": "https://github.com/obsproject/obs-studio"},
+    {"type": "github", "location": "https://github.com/facebook/react"},
+    {"type": "github", "location": "https://github.com/vvaltchev/tilck"},
+    {"type": "github", "location": "https://github.com/PhilJay/MPAndroidChart"},
+    {"type": "github", "location": "https://github.com/square/retrofit"},
+    {"type": "github", "location": "https://github.com/marmelab/react-admin"},
+    {"type": "github", "location": "https://github.com/sst/sst"},
+    {"type": "github", "location": "https://github.com/denoland/deno"},
+    {"type": "github", "location": "https://github.com/google/flatbuffers"},
+    {"type": "github", "location": "https://github.com/Redocly/redoc"},
+    {"type": "github", "location": "https://github.com/pbatard/rufus"},
+    {"type": "github", "location": "https://github.com/jhipster/generator-jhipster"},
+    {"type": "github", "location": "https://github.com/tensorflow/tensorflow"},
+    {"type": "github", "location": "https://github.com/mermaid-js/mermaid"},
+    {"type": "github", "location": "https://github.com/ruby/ruby"},
+    {"type": "github", "location": "https://github.com/evanw/esbuild"},
+    {"type": "github", "location": "https://github.com/codecentric/spring-boot-admin"}
   ]
 }

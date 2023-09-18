@@ -29,7 +29,7 @@ public class CumulativeIssuesCounter implements IssuesCounter {
     }
     
     @Override
-    public List<Pair<Integer, Integer>> prepareIssuesDataForModel(
+    public List<Pair<Integer, Integer>> countIssues(
             List<GeneralIssue> listOfIssues) {
         List<Pair<Integer, Integer>> spreadedIssues = getIntervalIssues(listOfIssues);
         Integer totalNumber = 0;
@@ -42,6 +42,6 @@ public class CumulativeIssuesCounter implements IssuesCounter {
     }
     
     private List<Pair<Integer, Integer>> getIntervalIssues(List<GeneralIssue> listOfIssues) {
-        return counter.prepareIssuesDataForModel(listOfIssues);
+        return counter.countIssues(listOfIssues);
     }
 }
