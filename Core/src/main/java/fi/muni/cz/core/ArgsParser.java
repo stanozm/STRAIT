@@ -1,6 +1,7 @@
 package fi.muni.cz.core;
 
 import static fi.muni.cz.core.RunConfiguration.BATCH_AND_EVALUATE;
+import static fi.muni.cz.core.RunConfiguration.BATCH_AND_SAVE;
 import static fi.muni.cz.core.RunConfiguration.HELP;
 import static fi.muni.cz.core.RunConfiguration.LIST_ALL_SNAPSHOTS;
 import static fi.muni.cz.core.RunConfiguration.NOT_SUPPORTED;
@@ -194,8 +195,9 @@ public class ArgsParser {
         option = Option.builder(OPT_PREDICT).longOpt("predict").type(Number.class).hasArg().argName("Number").
                 desc("Number of test periods to predict.").build();
         options.addOption(option);
-        option = Option.builder(OPT_NEW_SNAPSHOT).longOpt("newSnapshot").hasArg().argName("Name of new snapshot").
-                desc("Name of new snapshot that will be persisted.").build();
+        option = Option.builder(OPT_NEW_SNAPSHOT).longOpt("newSnapshot").hasArg().argName("Overwrite").
+                desc("String overwrite if old snapshots are to be overwritten. Any other string otherwise")
+                .build();
         options.addOption(option);
         option = Option.builder(OPT_FILTER_LABELS).longOpt("filterLabel").optionalArg(true)
                 .hasArgs().argName("Filtering labels").desc("Filter by specified labels.").build();
@@ -275,6 +277,8 @@ public class ArgsParser {
             return HELP;
         } else if (hasOptionBatchConfigFile() && hasOptionEvaluate()) {
             return BATCH_AND_EVALUATE;
+        } else if (hasOptionBatchConfigFile() && hasOptionSave()) {
+            return BATCH_AND_SAVE;
         } else if (hasOptionUrl() && hasOptionSave()) {
             return URL_AND_SAVE;
         } else if (hasOptionUrl() && hasOptionListSnapshots()) {

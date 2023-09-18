@@ -19,7 +19,7 @@ public class GitHubUrlParserNGTest {
         ParsedUrlData parsedData = parser.parseUrlAndCheck("https://github.com/user/repository");
         assertEquals("repository", parsedData.getRepositoryName());
         assertEquals("user", parsedData.getUserName());
-        assertEquals(new URL("https://github.com/user/repository"), parsedData.getUrl());
+        assertEquals("https://github.com/user/repository", parsedData.getUrl());
     }
     
     @Test(expectedExceptions = DataProviderException.class)
