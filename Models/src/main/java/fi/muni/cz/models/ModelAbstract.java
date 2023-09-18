@@ -74,6 +74,7 @@ public abstract class ModelAbstract implements Model {
 
         goodnessOfFitMap.put("AIC from solver = ", String.valueOf(solverResult.getAic()));
         goodnessOfFitMap.put("BIC from solver = ", String.valueOf(solverResult.getBic()));
+        goodnessOfFitMap.put("Pseudo Rsquared from solver = ", String.valueOf(solverResult.getPseudoRSquared()));
 
         goodnessOfFit = goodnessOfFitMap;
     }

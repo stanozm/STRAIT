@@ -32,6 +32,9 @@ public class ReliabilityAnalysisDto {
     private int projectForks;
     private Date projectLastPushedAt;
     private Date projectFirstPushedAt;
+    private Date testingPeriodStartDate;
+    private Date testingPeriodEndDate;
+
     private long projectDevelopmentDays;
     private List<Release> releases;
 
@@ -307,5 +310,21 @@ public class ReliabilityAnalysisDto {
 
     public void setCumulativeTimePeriodUnit(String cumulativeTimePeriodUnit) {
         this.cumulativeTimePeriodUnit = cumulativeTimePeriodUnit;
+    }
+
+    public Date getTestingPeriodStartDate() {
+        return testingPeriodStartDate;
+    }
+
+    public void setTestingPeriodStartDate(Date testingPeriodStartDate) {
+        this.testingPeriodStartDate = testingPeriodStartDate;
+    }
+
+    public Date getTestingPeriodEndDate() {
+        return testingPeriodEndDate;
+    }
+
+    public void setTestingPeriodEndDate(Date testingPeriodEndDate) {
+        this.testingPeriodEndDate = testingPeriodEndDate;
     }
 }

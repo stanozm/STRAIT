@@ -9,6 +9,8 @@ public class SolverResult {
     private Double aic;
     private Double bic;
 
+    private Double pseudoRSquared;
+
     public double[] getParameters() {
         return parameters;
     }
@@ -31,5 +33,13 @@ public class SolverResult {
 
     public void setBic(Double bic) {
         this.bic = bic;
+    }
+
+    public Double getPseudoRSquared() {
+        return pseudoRSquared;
+    }
+
+    public void setPseudoRSquared(Double pseudoRSquared) {
+        this.pseudoRSquared = pseudoRSquared;
     }
 }

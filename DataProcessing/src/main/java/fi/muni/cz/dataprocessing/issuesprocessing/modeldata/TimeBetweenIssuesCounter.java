@@ -24,7 +24,7 @@ public class TimeBetweenIssuesCounter implements IssuesCounter {
     }
     
     @Override
-    public List<Pair<Integer, Integer>> countIssues(List<GeneralIssue> issues) {
+    public List<Pair<Integer, Integer>> countIssues(List<GeneralIssue> issues, Date startOfTesting, Date endOfTesting) {
         List<Pair<Integer, Integer>> timeBetweenIssuesList = new LinkedList<>();
         Date dateOne = issues.get(0).getCreatedAt();
         int i = 1;
