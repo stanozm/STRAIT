@@ -24,7 +24,7 @@ public class ModelPerformanceTestNGTest {
     private Rengine rEngine;
 
     @InjectMocks
-    private GoodnessOfFitTest test = new ModelPerformanceTest(rEngine);
+    private GoodnessOfFitTest test = new ModelPerformanceTest();
 
     private final List<Pair<Integer, Integer>> listOfPairs = new ArrayList<>();  
     private final List<Pair<Integer, Integer>> listOfShiftByOnePairs = new ArrayList<>();
