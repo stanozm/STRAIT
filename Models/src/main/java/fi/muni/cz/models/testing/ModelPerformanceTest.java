@@ -1,72 +1,35 @@
 package fi.muni.cz.models.testing;
 
 import org.apache.commons.math3.util.Pair;
-import org.rosuda.JRI.REXP;
-import org.rosuda.JRI.Rengine;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.OptionalDouble;
-import java.util.stream.Collectors;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
  */
 public class ModelPerformanceTest implements GoodnessOfFitTest {
-
-    private static final double ALPHA = 0.05;
-    private Rengine rEngine;
-
-    /**
-     *  Default constructor to initialize attributes.
-     *
-     * @param rEngine engine for R chisq.test
-     */
-    public ModelPerformanceTest(Rengine rEngine) {
-        this.rEngine = rEngine;
-    }
     
     @Override
     public Map<String, String> executePerformanceTest(List<Pair<Integer, Integer>> expectedIssues,
                                                       List<Pair<Integer, Integer>> observedIssues, String modelName) {
         Map<String, String> result = new HashMap<>();
-        result.put("My R-squared = ", calculateRSquared(observedIssues, expectedIssues));
-        result.put("My RSE = ", calculateResidualStandardError(observedIssues, expectedIssues));
-        result.put("Mean squared error = ", calculateMeanSquaredError(observedIssues, expectedIssues));
-        result.put("Predictive ability = ", calculateModelPredictiveAbility(observedIssues, expectedIssues));
-        result.put("Accuracy of the final point = ", calculateAccuracyOfTheFinalPoint(observedIssues, expectedIssues));
+        result.put("RSE = ", roundResultToThreeDecimals(
+                calculateResidualStandardError(observedIssues, expectedIssues)));
+        result.put("MSE = ", roundResultToThreeDecimals(
+                calculateMeanSquaredError(observedIssues, expectedIssues)));
+        result.put("NRMSE = ", roundResultToThreeDecimals(
+                calculateNormalizedRootMeanSquaredError(observedIssues, expectedIssues)));
+        result.put("PA = ", roundResultToThreeDecimals(
+                calculateModelPredictiveAbility(observedIssues, expectedIssues)));
+        result.put("AOFP = ", roundResultToThreeDecimals(
+                calculateAccuracyOfTheFinalPoint(observedIssues, expectedIssues)));
         return result;
     }
-    
-    private Map<String, String> calculateTestResults(String expected, String observe, String modelName) {
-        Map<String, String> chiSquareMap = new LinkedHashMap<>();
 
-        rEngine.eval("library(broom)");
-        rEngine.eval(String.format("expected%s = c(%s)", modelName, expected));
-        rEngine.eval(String.format("observed%s = c(%s)", modelName, observe));
-        rEngine.eval(String.format("test%s <- lm(expected%s ~ observed%s)",
-                modelName, modelName, modelName));
-        REXP rSquared = rEngine.eval(String.format("glance(test%s)$r.squared", modelName));
-        REXP aic = rEngine.eval(String.format("glance(test%s)$AIC", modelName));
-        REXP bic = rEngine.eval(String.format("glance(test%s)$BIC", modelName));
-        REXP rse = rEngine.eval(String.format("glance(test%s)$sigma", modelName));
-
-        chiSquareMap.put("R-Squared = ", String.format(Locale.US, "%.3f", rSquared.asDoubleArray()[0]));
-        chiSquareMap.put("R-Squared null hypothesis rejection = ",
-                1 - rSquared.asDoubleArray()[0] > ALPHA ? "REJECT" : "NOT REJECT");
-        chiSquareMap.put("Null hypothesis = ", "No significant difference between observed and expected values");
-        chiSquareMap.put("AIC (Akaike information criterion) = ",
-                String.format(Locale.US, "%.3f",aic.asDoubleArray()[0]));
-        chiSquareMap.put("BIC (Bayesian Information Criterion) = ",
-                String.format(Locale.US, "%.3f",bic.asDoubleArray()[0]));
-        chiSquareMap.put("RSE (Residual Standard Error) = ", String.format(Locale.US, "%.3f",rse.asDoubleArray()[0]));
-        return chiSquareMap;
-    }
-
-    private String calculateModelPredictiveAbility(
+    private Double calculateModelPredictiveAbility(
             List<Pair<Integer, Integer>> observedData,
             List<Pair<Integer, Integer>> modelPredictedData
     ) {
@@ -99,11 +62,11 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
         int finalTime = observedData.get(observedData.size() - 1).getFirst();
         int convergenceTime = cumulativeResultWithinBounds.getFirst();
 
-        return String.format(Locale.US, "%.3f", convergenceTime / (float)finalTime);
+        return convergenceTime / (double)finalTime;
 
     }
 
-    private String calculateAccuracyOfTheFinalPoint(
+    private Double calculateAccuracyOfTheFinalPoint(
             List<Pair<Integer, Integer>> observedData,
             List<Pair<Integer, Integer>> modelPredictedData
     ) {
@@ -111,14 +74,15 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
         int finalObservedIssues = observedData.get(observedData.size() - 1).getSecond();
         int finalEstimatedIssues = modelPredictedData.get(observedData.size() - 1).getSecond();
 
-        float finalPointAccuracy = Math.abs((finalObservedIssues - finalEstimatedIssues) / (float) finalObservedIssues);
+        Double finalPointAccuracy =
+                Math.abs((finalObservedIssues - finalEstimatedIssues) / (double) finalObservedIssues);
 
 
-        return String.format(Locale.US, "%.3f", finalPointAccuracy);
+        return finalPointAccuracy;
 
     }
 
-    private String calculateResidualStandardError(
+    private Double calculateResidualStandardError(
             List<Pair<Integer, Integer>> observedData,
             List<Pair<Integer, Integer>> modelPredictedData
     ) {
@@ -129,37 +93,11 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
 
         Double rse = Math.sqrt(squareSumOfResiduals / (observedData.size()));
 
-
-        return String.format(Locale.US, "%.3f", rse);
+        return rse;
 
     }
 
-    private String calculateRSquared(
-            List<Pair<Integer, Integer>> observedData,
-            List<Pair<Integer, Integer>> modelPredictedData
-    ){
-
-        Integer sumOfSquaresOfResiduals = calculateSumOfSquaresOfDataPointValues(
-                calculateResidualsForDataPoints(observedData, modelPredictedData)
-        );
-
-        OptionalDouble observedAverage = observedData.stream().mapToInt(Pair::getSecond).average();
-
-        if(!observedAverage.isPresent()){
-            return "N/A";
-        }
-
-        double totalSumOfSquares = observedData.stream().mapToDouble(point -> {
-            double difference = point.getSecond() - observedAverage.getAsDouble();
-            return difference * difference;
-        }).sum();
-
-        double rSquared = 1.0 - (sumOfSquaresOfResiduals / totalSumOfSquares);
-
-        return String.format(Locale.US, "%.3f", rSquared);
-    }
-
-    private String calculateMeanSquaredError(
+    private Double calculateMeanSquaredError(
             List<Pair<Integer, Integer>> observedData,
             List<Pair<Integer, Integer>> modelPredictedData
     ) {
@@ -168,11 +106,28 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
                 calculateResidualsForDataPoints(observedData, modelPredictedData)
         );
 
-        Float meanCoefficient = 1.0f / observedData.size();
+        Double meanCoefficient = 1.0 / observedData.size();
 
+        return meanCoefficient * squareSumOfResiduals;
 
-        return String.format(Locale.US, "%.3f", meanCoefficient * squareSumOfResiduals);
+    }
 
+    private Double calculateNormalizedRootMeanSquaredError(
+            List<Pair<Integer, Integer>> observedData,
+            List<Pair<Integer, Integer>> modelPredictedData
+    ) {
+
+        Double meanSquaredError = calculateMeanSquaredError(observedData, modelPredictedData);
+        Double rootMeanSquaredError = Math.sqrt(meanSquaredError);
+
+        Integer maximumObservedValue = observedData.get(observedData.size() - 1).getSecond();
+
+        return rootMeanSquaredError/maximumObservedValue;
+
+    }
+
+    private String roundResultToThreeDecimals(Double result) {
+        return String.format(Locale.US, "%.3f", result);
     }
 
     private List<Pair<Integer, Integer>> calculateResidualsForDataPoints(
@@ -206,7 +161,4 @@ public class ModelPerformanceTest implements GoodnessOfFitTest {
         return result;
     }
 
-    private String getPreparedListWithCommas(List<Pair<Integer, Integer>> list) {
-        return list.stream().map(value -> value.getSecond().toString()).collect(Collectors.joining(","));
-    }
 }

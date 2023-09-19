@@ -81,7 +81,7 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
         return ModelFactory.getModels(
                 trainingData,
                 testData,
-                new ModelPerformanceTest(rEngine),
+                new ModelPerformanceTest(),
                 dto.getConfiguration()
         );
     }

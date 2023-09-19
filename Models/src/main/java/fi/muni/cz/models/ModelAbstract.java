@@ -7,12 +7,13 @@ import org.apache.commons.math3.util.Pair;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
  */
-public abstract class ModelAbstract implements Model {
+public abstract class ModelAbstract implements Model{
 
     protected Map<String, Double> modelParameters;
     protected List<Pair<Integer, Integer>> trainingIssueData;
@@ -67,14 +68,18 @@ public abstract class ModelAbstract implements Model {
     
     private void calculateModelGoodnessOfFit() {
 
+        double alpha = 0.05;
+
         Map<String, String> goodnessOfFitMap = new HashMap<>();
         goodnessOfFitMap.putAll(goodnessOfFitTest.executePerformanceTest(
                 calculateEstimatedIssuesOccurance(0),
                 trainingIssueData, getModelShortName()));
 
-        goodnessOfFitMap.put("AIC from solver = ", String.valueOf(solverResult.getAic()));
-        goodnessOfFitMap.put("BIC from solver = ", String.valueOf(solverResult.getBic()));
-        goodnessOfFitMap.put("Pseudo Rsquared from solver = ", String.valueOf(solverResult.getPseudoRSquared()));
+        goodnessOfFitMap.put("AIC = ", String.format(Locale.US, "%.3f", solverResult.getAic()));
+        goodnessOfFitMap.put("BIC = ", String.format(Locale.US, "%.3f", solverResult.getBic()));
+        goodnessOfFitMap.put("Pseudo R2 = ", String.format(Locale.US, "%.3f", solverResult.getPseudoRSquared()));
+        goodnessOfFitMap.put("Pseudo R2 NHR = ",
+                1 - solverResult.getPseudoRSquared() > alpha ? "REJECT" : "NOT REJECT");
 
         goodnessOfFit = goodnessOfFitMap;
     }
