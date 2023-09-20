@@ -1,6 +1,5 @@
 package fi.muni.cz.models.leastsquaresolver;
 
-import fi.muni.cz.models.exception.ModelException;
 import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
@@ -31,7 +30,7 @@ public class YamadaRaleighLeastSquaresSolver extends SolverAbstract {
                 "algorithm = \"brute-force\", control = list(warnOnly = TRUE, maxiter = 100000))");
         REXP intermediate = rEngine.eval("coef(" + MODEL_NAME + "2)");
         if (intermediate == null) {
-            throw new ModelException("Repository data not suitable for R evaluation.");
+            return new SolverResult();
         }
         rEngine.eval(String.format(Locale.US, "modelYamadaRaleigh <- nls(yvalues ~ " + MODEL_FUNCTION + ", "
                         + "start = list(a = %.10f,b = %.10f, c = %.10f), "
@@ -50,7 +49,7 @@ public class YamadaRaleighLeastSquaresSolver extends SolverAbstract {
 
         rEngine.end();
         if (result == null || result.asDoubleArray().length < 3) {
-            throw new ModelException("Repository data not suitable for R evaluation.");
+            return new SolverResult();
         }
         double[] d = result.asDoubleArray();
 

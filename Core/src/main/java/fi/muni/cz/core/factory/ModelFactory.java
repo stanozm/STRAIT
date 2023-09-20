@@ -23,7 +23,6 @@ import fi.muni.cz.models.leastsquaresolver.MusaOkumotoLeastSquaresSolver;
 import fi.muni.cz.models.leastsquaresolver.WeibullLeastSquaresSolver;
 import fi.muni.cz.models.leastsquaresolver.YamadaExponentialLeastSquaresSolver;
 import fi.muni.cz.models.leastsquaresolver.YamadaRaleighLeastSquaresSolver;
-import fi.muni.cz.models.testing.GoodnessOfFitTest;
 import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.Rengine;
 import java.util.ArrayList;
@@ -64,7 +63,6 @@ public class ModelFactory {
      * 
      * @param trainingData          cumulative data.
      * @param testData              cumulative data.
-     * @param goodnessOfFitTest     goodnes-of-fit.
      * @param parser                parsed CommandLine.
      * @return                      list of Models.
      * @throws InvalidInputException when there is no such model from cmdl.
@@ -72,30 +70,30 @@ public class ModelFactory {
     public static List<Model> getModels(
             List<Pair<Integer, Integer>> trainingData,
             List<Pair<Integer, Integer>> testData,
-            GoodnessOfFitTest goodnessOfFitTest, ArgsParser parser) throws InvalidInputException {
+            ArgsParser parser) throws InvalidInputException {
         List<Model> models = new ArrayList<>(); 
         if (parser.hasOptionModels()) {
             for (String modelArg: parser.getOptionValuesModels()) {
-                models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest, modelArg, parser));
+                models.add(ModelFactory.getModel(trainingData, testData, modelArg, parser));
             }
         } else {
-            models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest,
+            models.add(ModelFactory.getModel(trainingData, testData,
                     ModelFactory.GOEL_OKUMOTO, parser));
-            models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest,
+            models.add(ModelFactory.getModel(trainingData, testData,
                     ModelFactory.GOEL_OKUMOTO_SSHAPED, parser));
-            models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest,
+            models.add(ModelFactory.getModel(trainingData, testData,
                     ModelFactory.HOSSAIN_DAHIYA, parser));
-            models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest,
+            models.add(ModelFactory.getModel(trainingData, testData,
                     ModelFactory.MUSA_OKUMOTO, parser));
-            models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest,
+            models.add(ModelFactory.getModel(trainingData, testData,
                     ModelFactory.DUANE, parser));
-            models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest,
+            models.add(ModelFactory.getModel(trainingData, testData,
                     ModelFactory.WEIBULL, parser));
-            models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest,
+            models.add(ModelFactory.getModel(trainingData, testData,
                     ModelFactory.YAMADA_EXPONENTIAL, parser));
-            models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest,
+            models.add(ModelFactory.getModel(trainingData, testData,
                     ModelFactory.YAMADA_RALEIGH, parser));
-            models.add(ModelFactory.getModel(trainingData, testData, goodnessOfFitTest,
+            models.add(ModelFactory.getModel(trainingData, testData,
                     ModelFactory.LOG_LOGISITC, parser));
         }
         return models;
@@ -105,7 +103,7 @@ public class ModelFactory {
      * Get Model for string value.
      * 
      * @param cumulativeTrainingData cumulative data.
-     * @param goodnessOfFitTest     goodnes-of-fit.
+     * @param    goodnes-of-fit.
      * @param modelArg              represnetation of model.
      * @return Model
      * @throws InvalidInputException when there is no such implmented model.
@@ -113,37 +111,37 @@ public class ModelFactory {
     private static Model getModel(
             List<Pair<Integer, Integer>> cumulativeTrainingData,
             List<Pair<Integer, Integer>> cumulativeTestData,
-            GoodnessOfFitTest goodnessOfFitTest, String modelArg, ArgsParser parser) throws InvalidInputException {
+            String modelArg, ArgsParser parser) throws InvalidInputException {
         switch (modelArg) {
             case GOEL_OKUMOTO:
-                return new GOModelImpl(cumulativeTrainingData, cumulativeTestData, goodnessOfFitTest,
+                return new GOModelImpl(cumulativeTrainingData, cumulativeTestData,
                         getSolverBySolverArgument(parser, GOLeastSquaresSolver.class));
             case GOEL_OKUMOTO_SSHAPED:
-                return new GOSShapedModelImpl(cumulativeTrainingData, cumulativeTestData, goodnessOfFitTest,
+                return new GOSShapedModelImpl(cumulativeTrainingData, cumulativeTestData,
                         getSolverBySolverArgument(parser, GOSShapedLeastSquaresSolver.class));
             case MUSA_OKUMOTO:
-                return new MusaOkumotoModelImpl(cumulativeTrainingData,  cumulativeTestData, goodnessOfFitTest,
+                return new MusaOkumotoModelImpl(cumulativeTrainingData,  cumulativeTestData,
                         getSolverBySolverArgument(parser, MusaOkumotoLeastSquaresSolver.class));
             case DUANE:
-                return new DuaneModelImpl(cumulativeTrainingData, cumulativeTestData, goodnessOfFitTest,
+                return new DuaneModelImpl(cumulativeTrainingData, cumulativeTestData,
                         getSolverBySolverArgument(parser, DuaneLeastSquaresSolver.class));
             case HOSSAIN_DAHIYA:
-                return new HossainDahiyaModelImpl(cumulativeTrainingData, cumulativeTestData, goodnessOfFitTest,
+                return new HossainDahiyaModelImpl(cumulativeTrainingData, cumulativeTestData,
                         getSolverBySolverArgument(parser, HossainDahiyaLeastSquaresSolver.class));
             case WEIBULL:
-                return new WeibullModelImpl(cumulativeTrainingData, cumulativeTestData, goodnessOfFitTest,
+                return new WeibullModelImpl(cumulativeTrainingData, cumulativeTestData,
                         getSolverBySolverArgument(parser, WeibullLeastSquaresSolver.class));
             case YAMADA_EXPONENTIAL:
-                return new YamadaExponentialModelImpl(cumulativeTrainingData, cumulativeTestData, goodnessOfFitTest,
+                return new YamadaExponentialModelImpl(cumulativeTrainingData, cumulativeTestData,
                         getSolverBySolverArgument(parser, YamadaExponentialLeastSquaresSolver.class));
             case YAMADA_RALEIGH:
-                return new YamadaRaleighModelImpl(cumulativeTrainingData, cumulativeTestData, goodnessOfFitTest,
+                return new YamadaRaleighModelImpl(cumulativeTrainingData, cumulativeTestData,
                         getSolverBySolverArgument(parser, YamadaRaleighLeastSquaresSolver.class));
             case LOG_LOGISITC:
-                return new LogLogisticModelImpl(cumulativeTrainingData, cumulativeTestData, goodnessOfFitTest,
+                return new LogLogisticModelImpl(cumulativeTrainingData, cumulativeTestData,
                         getSolverBySolverArgument(parser, LogLogisticLeastSquaresSolver.class));
             case EMPTY_MODEL:
-                return new EmptyModelImpl(cumulativeTrainingData, cumulativeTestData, goodnessOfFitTest,
+                return new EmptyModelImpl(cumulativeTrainingData, cumulativeTestData,
                         getSolverBySolverArgument(parser, EmptyLeastSquaresSolver.class));
             default:
                 throw new InvalidInputException(Arrays.asList("No such model implemented: '" + modelArg + "'")); 

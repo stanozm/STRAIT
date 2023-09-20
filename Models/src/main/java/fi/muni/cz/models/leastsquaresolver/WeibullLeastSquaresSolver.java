@@ -49,7 +49,7 @@ public class WeibullLeastSquaresSolver extends SolverAbstract {
 
         rEngine.end();
         if (result == null || result.asDoubleArray().length < 3) {
-            throw new ModelException("Repository data not suitable for R evaluation.");
+            return new SolverResult();
         }
         double[] d = result.asDoubleArray();
 

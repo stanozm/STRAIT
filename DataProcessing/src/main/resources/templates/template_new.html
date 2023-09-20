@@ -158,30 +158,35 @@
                                 <#list data.modelResults[issueSet?index] as outputData>
                                 <div class="col-sm-8 col-md-8 col-lg-4 borders">
                                     <h3>${outputData.modelName}</h3>
-                                    <p>
-                                        Model function:<br>
-                                        ${outputData.functionTextForm}<br>
-                                        Estimated parameters:<br>
-                                        <#list outputData.modelParameters as key, value>
-                                            ${key} = ${value?c}<br>
-                                        </#list>
-                                        Estimated by ${data.solver}.
-                                    </p>
-                                    <#if outputData.goodnessOfFitData??>
-                                        <h3>Goodness of fit:</h3>
+                                    <#if !outputData.ignoredModel>
                                         <p>
-                                            <#list outputData.goodnessOfFitData as key, value>
+                                            Model function:<br>
+                                            ${outputData.functionTextForm}<br>
+                                            Estimated parameters:<br>
+                                            <#list outputData.modelParameters as key, value>
+                                                ${key} = ${value?c}<br>
+                                            </#list>
+                                            Estimated by ${data.solver}.
+                                        </p>
+                                        <#if outputData.goodnessOfFitData??>
+                                            <h3>Goodness of fit:</h3>
+                                            <p>
+                                                <#list outputData.goodnessOfFitData as key, value>
+                                                    ${key}${value}<br>
+                                                </#list>
+                                            </p>
+                                        </#if>
+                                        <#if outputData.predictiveAccuracyData??>
+                                            <h3>Predictive accuracy:</h3>
+                                            <p>
+                                                <#list outputData.predictiveAccuracyData as key, value>
                                                 ${key}${value}<br>
                                             </#list>
-                                        </p>
+                                            </p>
+                                        </#if>
                                     </#if>
-                                    <#if outputData.predictiveAccuracyData??>
-                                        <h3>Predictive accuracy:</h3>
-                                        <p>
-                                            <#list outputData.predictiveAccuracyData as key, value>
-                                            ${key}${value}<br>
-                                        </#list>
-                                        </p>
+                                    <#if outputData.ignoredModel>
+                                        <p>IGNORED</p>
                                     </#if>
                                 </div>
                                 <#assign i++>
@@ -234,7 +239,9 @@
                                     columns: [
                                         ['Real issues', <#list data.cumulativeIssueReportCollections[issueSet?index].dataPoints as pair>${pair.getSecond()?c},</#list>],
                             <#list data.modelResults[issueSet?index] as outputData>
-                            ['${outputData.modelName}', <#list outputData.issuesPrediction as pair>${pair.getSecond()?c},</#list>],
+                                <#if !outputData.ignoredModel>
+                                    ['${outputData.modelName}', <#list outputData.issuesPrediction as pair>${pair.getSecond()?c},</#list>],
+                                </#if>
                             </#list>
                             ]
                             },

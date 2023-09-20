@@ -44,9 +44,8 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
 
         for(int i = 0; i<dto.getIssueReportSets().size(); i++){
 
-            GeneralIssuesCollection currentCollection = dto.getIssueReportSets().get(i);
-            header.add(currentCollection.getRepositoryName() + " issue amount");
-            header.add(currentCollection.getRepositoryName() + " trend test");
+            header.add("Issue amount");
+            header.add("Trend test");
 
             List<ModelResult> modelResults = dto.getModelResults().get(i);
             for(ModelResult modelResult : modelResults){

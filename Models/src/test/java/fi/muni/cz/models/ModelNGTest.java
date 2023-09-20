@@ -26,21 +26,18 @@ public class ModelNGTest {
     private List<Pair<Integer, Integer>> listOfPairs = new ArrayList<>();
     
     @Mock
-    private GoodnessOfFitTest goodnessOfFitTest;
-    
-    @Mock
     private Solver solver;
     
     @InjectMocks
-    private Model GOModel = new GOModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
+    private Model GOModel = new GOModelImpl(listOfPairs, listOfPairs, solver);
     @InjectMocks
-    private Model GOSShapedModel = new GOSShapedModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
+    private Model GOSShapedModel = new GOSShapedModelImpl(listOfPairs, listOfPairs, solver);
     @InjectMocks
-    private Model DuaneModel = new DuaneModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
+    private Model DuaneModel = new DuaneModelImpl(listOfPairs, listOfPairs, solver);
     @InjectMocks
-    private Model HossainDahiyaModel = new HossainDahiyaModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
+    private Model HossainDahiyaModel = new HossainDahiyaModelImpl(listOfPairs, listOfPairs, solver);
     @InjectMocks
-    private Model MusaOkumotoModel = new MusaOkumotoModelImpl(listOfPairs, listOfPairs, goodnessOfFitTest, solver);
+    private Model MusaOkumotoModel = new MusaOkumotoModelImpl(listOfPairs, listOfPairs, solver);
     
     @BeforeClass
     public void setUp() {
@@ -58,8 +55,6 @@ public class ModelNGTest {
         solverResult.setAic(1.0);
         solverResult.setBic(1.0);
         when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);
-        when(goodnessOfFitTest.executePerformanceTest(any(List.class), any(List.class), any()))
-                .thenReturn(map);
     }
     
     private void prepareMocksForThreeParams() {
@@ -70,8 +65,6 @@ public class ModelNGTest {
         solverResult.setAic(1.0);
         solverResult.setBic(1.0);
         when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);
-        when(goodnessOfFitTest.executePerformanceTest(any(List.class), any(List.class), any()))
-                .thenReturn(map);
     }
     
     @Test
@@ -79,7 +72,6 @@ public class ModelNGTest {
         prepareMocksForTwoParams();
         
         GOModel.estimateModelData();
-        assertEquals(GOModel.getGoodnessOfFitData().get("a"), "a");
         assertEquals(GOModel.getModelParameters().get("a"), new Double(1));
         assertEquals(GOModel.getModelParameters().get("b"), new Double(1));
     }
@@ -89,7 +81,6 @@ public class ModelNGTest {
         prepareMocksForTwoParams();
         
         GOSShapedModel.estimateModelData();
-        assertEquals(GOSShapedModel.getGoodnessOfFitData().get("a"), "a");
         assertEquals(GOSShapedModel.getModelParameters().get("a"), new Double(1));
         assertEquals(GOSShapedModel.getModelParameters().get("b"), new Double(1));
     }
@@ -99,7 +90,6 @@ public class ModelNGTest {
         prepareMocksForTwoParams();
         
         DuaneModel.estimateModelData();
-        assertEquals(DuaneModel.getGoodnessOfFitData().get("a"), "a");
         assertEquals(DuaneModel.getModelParameters().get("α"), new Double(1));
         assertEquals(DuaneModel.getModelParameters().get("β"), new Double(1));
     }
@@ -109,7 +99,6 @@ public class ModelNGTest {
         prepareMocksForTwoParams();
         
         MusaOkumotoModel.estimateModelData();
-        assertEquals(MusaOkumotoModel.getGoodnessOfFitData().get("a"), "a");
         assertEquals(MusaOkumotoModel.getModelParameters().get("α"), new Double(1));
         assertEquals(MusaOkumotoModel.getModelParameters().get("β"), new Double(1));
     }
@@ -119,7 +108,6 @@ public class ModelNGTest {
         prepareMocksForThreeParams();
         
         HossainDahiyaModel.estimateModelData();
-        assertEquals(HossainDahiyaModel.getGoodnessOfFitData().get("a"), "a");
         assertEquals(HossainDahiyaModel.getModelParameters().get("a"), new Double(1));
         assertEquals(HossainDahiyaModel.getModelParameters().get("b"), new Double(1));
         assertEquals(HossainDahiyaModel.getModelParameters().get("c"), new Double(1));
