@@ -6,6 +6,7 @@ import fi.muni.cz.core.analysis.phases.output.writers.ModelResult;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import fi.muni.cz.dataprovider.Release;
 import fi.muni.cz.dataprovider.RepositoryInformation;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +101,15 @@ public class ReliabilityAnalysisDto {
                 repositoryInformation.getPushedAt().getTime()
                         - repositoryInformation.getPushedAtFirst().getTime(),
         TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Empty issue report list and data point collections in order to save memory
+     */
+    public void clearIssueReportsAndDataPoints() {
+        setIssueReportSets(new ArrayList<>());
+        setCumulativeIssueReportCollections(new ArrayList<>());
+        setTimeBetweenDefectsCollections(new ArrayList<>());
     }
 
 

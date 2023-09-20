@@ -22,6 +22,7 @@ public class HtmlReportOutputPhase implements ReliabilityAnalysisPhase {
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
         System.out.println("Writing html report");
         reportWriter.writeOutputDataToFile(dto);
+        dto.clearIssueReportsAndDataPoints();
         return dto;
     }
 

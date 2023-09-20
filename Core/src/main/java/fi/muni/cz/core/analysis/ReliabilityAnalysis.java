@@ -2,6 +2,7 @@ package fi.muni.cz.core.analysis;
 
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +30,7 @@ public class ReliabilityAnalysis {
         for(ReliabilityAnalysisPhase phase : phases){
             currentDto = phase.execute(currentDto);
         }
+        setPhases(new ArrayList<>());
         return currentDto;
     }
 
