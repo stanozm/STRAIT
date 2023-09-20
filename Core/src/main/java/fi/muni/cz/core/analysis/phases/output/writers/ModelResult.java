@@ -9,6 +9,8 @@ import java.util.Map;
  * @author Radoslav Micko, 445611@muni.cz
  */
 public class ModelResult implements Serializable {
+
+    private Boolean ignoredModel;
     private Map<String, String> goodnessOfFitData;
 
     private Map<String, String> predictiveAccuracyData;
@@ -63,5 +65,13 @@ public class ModelResult implements Serializable {
 
     public void setPredictiveAccuracyData(Map<String, String> predictiveAccuracyData) {
         this.predictiveAccuracyData = predictiveAccuracyData;
+    }
+
+    public Boolean getIgnoredModel() {
+        return ignoredModel;
+    }
+
+    public void setIgnoredModel(Boolean ignoredModel) {
+        this.ignoredModel = ignoredModel;
     }
 }

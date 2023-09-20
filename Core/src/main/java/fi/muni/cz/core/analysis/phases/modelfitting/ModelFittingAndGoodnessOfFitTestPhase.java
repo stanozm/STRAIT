@@ -7,7 +7,6 @@ import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.ModelFactory;
 import fi.muni.cz.models.Model;
-import fi.muni.cz.models.testing.ModelPerformanceTest;
 import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.Rengine;
 import java.util.ArrayList;
@@ -58,7 +57,9 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
                 List<ModelResult> currentCollectionResults = Collections.synchronizedList(new ArrayList<>());
                 List<Model> models = getModels(dto, trainingData, testData);
                 models.parallelStream().forEach(model -> {
-                    currentCollectionResults.add(performModelEstimationAndGoodnessofFitTest(model, testData.size()));
+                        currentCollectionResults.add(
+                                performModelEstimationAndGoodnessofFitTest(model, testData.size())
+                        );
                 });
                 modelResults.add(currentCollectionResults);
             } catch(InvalidInputException e) {
@@ -81,7 +82,6 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
         return ModelFactory.getModels(
                 trainingData,
                 testData,
-                new ModelPerformanceTest(),
                 dto.getConfiguration()
         );
     }
@@ -94,12 +94,20 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
         model.estimateModelData();
 
         ModelResult modelResult = new ModelResult();
+
+        modelResult.setIgnoredModel(model.getModelParameters() == null);
         modelResult.setModelParameters(model.getModelParameters());
-        modelResult.setIssuesPrediction(model.getIssuesPrediction(testDataSize));
+        modelResult.setIssuesPrediction(
+                model.getModelParameters() != null ? model.getIssuesPrediction(testDataSize) : null
+        );
         modelResult.setGoodnessOfFitData(model.getGoodnessOfFitData());
         modelResult.setPredictiveAccuracyData(model.getPredictiveAccuracyData());
         modelResult.setFunctionTextForm(model.getTextFormOfTheFunction());
         modelResult.setModelName(model.getModelName());
+
+        if(modelResult.getIgnoredModel()) {
+            System.out.println("Ignoring model " + model.getModelName());
+        }
 
         return modelResult;
     }

@@ -8,7 +8,6 @@ public class SolverResult {
     private double[] parameters;
     private Double aic;
     private Double bic;
-
     private Double pseudoRSquared;
 
     public double[] getParameters() {
