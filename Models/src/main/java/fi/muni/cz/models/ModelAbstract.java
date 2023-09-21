@@ -4,7 +4,7 @@ import fi.muni.cz.models.leastsquaresolver.Solver;
 import fi.muni.cz.models.leastsquaresolver.SolverResult;
 import org.apache.commons.math3.util.Pair;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -68,7 +68,7 @@ public abstract class ModelAbstract implements Model{
 
         double alpha = 0.05;
 
-        Map<String, String> goodnessOfFitMap = new HashMap<>();
+        Map<String, String> goodnessOfFitMap = new LinkedHashMap<>();
         goodnessOfFitMap.put(getModelName() + " AIC = ", convertResultToString(solverResult.getAic()));
         goodnessOfFitMap.put(getModelName() + " BIC = ", convertResultToString(solverResult.getBic()));
         goodnessOfFitMap.put(getModelName() + " Pseudo R2 = ", convertResultToString(solverResult.getPseudoRSquared()));
@@ -117,7 +117,7 @@ public abstract class ModelAbstract implements Model{
     }
 
     private void calculateModelPredictiveAccuracy() {
-        Map<String, String> predictiveAccuracyMap = new HashMap<>();
+        Map<String, String> predictiveAccuracyMap = new LinkedHashMap<>();
         List<Pair<Integer, Integer>> testSetEstimates = solverResult.getParameters() != null ?
                 calculateEstimatesForDataSet(testingIssueData) :
                 new ArrayList<>();
