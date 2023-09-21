@@ -74,7 +74,7 @@ public abstract class ModelAbstract implements Model{
         goodnessOfFitMap.put(getModelName() + " Pseudo R2 = ", convertResultToString(solverResult.getPseudoRSquared()));
 
         if(solverResult.getPseudoRSquared() == null) {
-            goodnessOfFitMap.put(getModelName() + " Pseudo R2 NHR = ", "IGNORED");
+            goodnessOfFitMap.put(getModelName() + " Pseudo R2 NHR = ", "Ignored");
         }
 
         if(solverResult.getPseudoRSquared() != null) {
