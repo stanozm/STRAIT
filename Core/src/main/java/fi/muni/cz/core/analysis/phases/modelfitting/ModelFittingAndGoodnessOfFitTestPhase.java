@@ -11,7 +11,9 @@ import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.Rengine;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Valtteri Valtonen valtonenvaltteri@gmail.com
@@ -61,7 +63,9 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
                                 performModelEstimationAndGoodnessofFitTest(model, testData.size())
                         );
                 });
-                modelResults.add(currentCollectionResults);
+                modelResults.add(
+                        currentCollectionResults.stream()
+                                .sorted(Comparator.comparing(ModelResult::getModelName)).collect(Collectors.toList()));
             } catch(InvalidInputException e) {
                 e.printStackTrace();
             }

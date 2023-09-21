@@ -3,7 +3,6 @@ package fi.muni.cz.core.analysis.phases.output.writers;
 import com.opencsv.CSVWriter;
 import fi.muni.cz.core.analysis.phases.modelfitting.TrendTestResult;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
-import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -42,12 +41,13 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
         List<String> header = new ArrayList();
         header.add("Project name");
 
-        for(int i = 0; i<dto.getIssueReportSets().size(); i++){
+        for(int i = 0; i<dto.getModelResults().size(); i++){
 
             header.add("Issue amount");
             header.add("Trend test");
 
             List<ModelResult> modelResults = dto.getModelResults().get(i);
+
             for(ModelResult modelResult : modelResults){
 
                 modelResult.getGoodnessOfFitData().forEach((first, second) -> header.add(first));
@@ -69,16 +69,16 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
         List<String> row = new ArrayList();
         row.add(dto.getProjectName());
 
-        for(int i = 0; i<dto.getIssueReportSets().size(); i++){
+        for(int i = 0; i<dto.getModelResults().size(); i++){
 
-            GeneralIssuesCollection currentCollection = dto.getIssueReportSets().get(i);
-            row.add(String.valueOf(currentCollection.getListOfGeneralIssues().size()));
+            row.add(String.valueOf(dto.getIssueReportAmountAfterProcessing()));
 
             TrendTestResult trendTestResult = dto.getTrendTestResults().get(i);
             row.add(String.valueOf(trendTestResult.isTrendFound()));
 
 
             List<ModelResult> modelResults = dto.getModelResults().get(i);
+
             for(ModelResult modelResult : modelResults){
 
                 modelResult.getGoodnessOfFitData().forEach((first, second) -> row.add(second));
