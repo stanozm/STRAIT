@@ -66,6 +66,7 @@ public class ArgsParser {
     public static final String OPT_FILTER_TEST_RELATED_ISSUES = "fte";
 
     public static final String OPT_FILTER_LATEST_RELEASE = "flr";
+    public static final String OPT_FILTER_BEFORE_FIRST_RELEASE = "fbfr";
 
     public static final String OPT_MODELS = "ms";
     public static final String OPT_MOVING_AVERAGE = "ma";
@@ -229,6 +230,10 @@ public class ArgsParser {
         options.addOption(option);
         option = Option.builder(OPT_FILTER_LATEST_RELEASE).longOpt("filterLatestRelease")
                 .desc("Filter issue reports from most recent release period.").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_BEFORE_FIRST_RELEASE).longOpt("filterBeforeFirstRelease")
+                .desc("Filter out issue reports that are from time before first release publish date")
+                .build();
         options.addOption(option);
         option = Option.builder(OPT_MOVING_AVERAGE).longOpt("--movingaverage").desc(
                 "Use moving average on cumulative issue counts before fitting model."
@@ -462,6 +467,15 @@ public class ArgsParser {
      */
     public boolean hasOptionFilterIssuesWithoutFix() {
         return cmdl.hasOption(OPT_FILTER_ISSUES_WITH_NO_FIX);
+    }
+
+    /**
+     * Check if option 'fbfr' is on command line.
+     *
+     * @return true if there is 'fbfr' command line, false otherwise.
+     */
+    public boolean hasOptionFilterBeforeFirstRelease() {
+        return cmdl.hasOption(OPT_FILTER_BEFORE_FIRST_RELEASE);
     }
 
     /**
