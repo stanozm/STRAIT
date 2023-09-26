@@ -39,7 +39,7 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
     public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto originalDto) {
         System.out.println("Processing issue reports");
 
-        ReliabilityAnalysisDto dto = setupTestingPeriodDates(originalDto);
+        ReliabilityAnalysisDto dto = setupTestingPeriodDatesBeforeProcessing(originalDto);
 
         dto.setIssueReportAmountBeforeProcessing(calculateTotalIssuesInDto(dto));
 
@@ -51,10 +51,9 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
 
         dto.setIssueReportSets(processedIssues);
         dto.setIssueReportAmountAfterProcessing(calculateTotalIssuesInDto(dto));
-
         dto.setIssueProcessingResults(issueProcessingResults);
 
-        return dto;
+        return setupTestingPeriodDatesAfterProcessing(dto);
     }
 
     private int calculateTotalIssuesInDto(ReliabilityAnalysisDto dto) {
@@ -75,7 +74,7 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
         return issuesCollection;
     }
 
-    private ReliabilityAnalysisDto setupTestingPeriodDates(ReliabilityAnalysisDto dto) {
+    private ReliabilityAnalysisDto setupTestingPeriodDatesBeforeProcessing(ReliabilityAnalysisDto dto) {
 
         ArgsParser configuration = dto.getConfiguration();
 
@@ -87,23 +86,39 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
             return dto;
         }
 
-        List<GeneralIssue> allIssues = dto
-                .getIssueReportSets()
-                .stream()
-                .flatMap(
-                issuesCollection -> issuesCollection.getListOfGeneralIssues().stream()
-                ).collect(Collectors.toList());
-
-        List<GeneralIssue> sortedIssues = allIssues
-                .stream()
-                .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))
-                .collect(Collectors.toList()
-                );
+        List<GeneralIssue> sortedIssues = getSortedIssuesFormDto(dto);
 
         dto.setTestingPeriodStartDate(sortedIssues.get(0).getCreatedAt());
         dto.setTestingPeriodEndDate(sortedIssues.get(sortedIssues.size() - 1).getCreatedAt());
 
         return dto;
+    }
+
+    private ReliabilityAnalysisDto setupTestingPeriodDatesAfterProcessing(ReliabilityAnalysisDto dto) {
+
+        ArgsParser configuration = dto.getConfiguration();
+
+        if (configuration.hasOptionFilterBeforeFirstRelease()) {
+            List<GeneralIssue> sortedIssues = getSortedIssuesFormDto(dto);
+            dto.setTestingPeriodStartDate(sortedIssues.get(0).getCreatedAt());
+        }
+
+        return dto;
+    }
+
+    private List<GeneralIssue> getSortedIssuesFormDto(ReliabilityAnalysisDto dto) {
+        List<GeneralIssue> allIssues = dto
+                .getIssueReportSets()
+                .stream()
+                .flatMap(
+                        issuesCollection -> issuesCollection.getListOfGeneralIssues().stream()
+                ).collect(Collectors.toList());
+
+        return allIssues
+                .stream()
+                .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))
+                .collect(Collectors.toList()
+                );
     }
 
 
