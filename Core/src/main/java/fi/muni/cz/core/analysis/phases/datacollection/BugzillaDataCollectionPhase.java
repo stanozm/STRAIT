@@ -1,5 +1,7 @@
 package fi.muni.cz.core.analysis.phases.datacollection;
 
+import static fi.muni.cz.core.analysis.phases.datacollection.DataCollectionUtil.getRepositoryInformationForFileEvaluation;
+
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
@@ -80,22 +82,5 @@ public class BugzillaDataCollectionPhase implements ReliabilityAnalysisPhase {
 
         return issueCollection;
     }
-
-
-    private static RepositoryInformation getRepositoryInformationForFileEvaluation(
-            String filePath,
-            List<GeneralIssue> listOfGeneralIssues
-    ) {
-        RepositoryInformation repositoryInformation = new RepositoryInformation();
-        repositoryInformation.setName(filePath);
-        repositoryInformation.setContributors(1);
-        repositoryInformation.setDescription("CSV repository");
-        repositoryInformation.setForks(0);
-        repositoryInformation.setSize(0);
-        repositoryInformation.setPushedAtFirst(listOfGeneralIssues.get(0).getCreatedAt());
-        repositoryInformation.setPushedAt(listOfGeneralIssues.get(listOfGeneralIssues.size()-1).getCreatedAt());
-        return repositoryInformation;
-    }
-
 }
 

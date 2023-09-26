@@ -82,7 +82,7 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
         if (configuration.hasOptionFilterTime()) {
             List<Date> parsingResult = parseDateOption(configuration);
             dto.setTestingPeriodStartDate(parsingResult.get(0));
-            dto.setTestingPeriodEndDate(parsingResult.get(0));
+            dto.setTestingPeriodEndDate(parsingResult.get(1));
 
             return dto;
         }

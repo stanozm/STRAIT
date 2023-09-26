@@ -22,9 +22,12 @@ public class MovingAverage {
             List<Pair<Integer, Integer>> inputData,
             int windowSize
     ){
+
+        List<Pair<Integer, Integer>> paddedData = padDataWithEdgeValues(inputData, windowSize - 1);
+
         List<Pair<Integer, Integer>> averagedValues = new ArrayList<>();
-        for (int i = 0; i < inputData.size(); i++) {
-            List<Pair<Integer, Integer>> windowElements = inputData.subList(Math.max(0, i-windowSize), i);
+        for (int i = windowSize - 1; i < inputData.size(); i++) {
+            List<Pair<Integer, Integer>> windowElements = paddedData.subList(i-windowSize / 2, i + windowSize / 2);
             float average = windowElements
                     .stream()
                     .map(Pair::getSecond)
@@ -33,5 +36,18 @@ public class MovingAverage {
             averagedValues.add(new Pair<>(inputData.get(i).getFirst(), Math.round(average)));
         }
         return averagedValues;
+    }
+
+    private static List<Pair<Integer, Integer>> padDataWithEdgeValues(
+            List<Pair<Integer, Integer>> data,
+            Integer padAmount
+    ) {
+        Pair<Integer, Integer> firstValue = data.get(0);
+        Pair<Integer, Integer> lastValue = data.get(data.size() - 1);
+        for (int p = 0; p < padAmount; p++) {
+            data.add(lastValue);
+            data.add(0, firstValue);
+        }
+       return data;
     }
 }
