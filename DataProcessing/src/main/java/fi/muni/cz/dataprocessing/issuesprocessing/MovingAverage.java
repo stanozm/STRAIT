@@ -44,10 +44,11 @@ public class MovingAverage {
     ) {
         Pair<Integer, Integer> firstValue = data.get(0);
         Pair<Integer, Integer> lastValue = data.get(data.size() - 1);
+        List<Pair<Integer, Integer>> paddedData = new ArrayList<>(data);
         for (int p = 0; p < padAmount; p++) {
-            data.add(lastValue);
-            data.add(0, firstValue);
+            paddedData.add(lastValue);
+            paddedData.add(0, firstValue);
         }
-       return data;
+       return paddedData;
     }
 }
