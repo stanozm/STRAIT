@@ -19,7 +19,9 @@ public class FilterOutIssuesWithLowCriticality implements Filter {
             "priority:low",
             "low priority",
             "priority:medium",
-            "medium priority"
+            "medium priority",
+            "trivial",
+            "minor"
     );
     private static final FilterByLabel FILTER_BY_LABELS = new FilterByLabel(FILTERING_WORDS, true);
 

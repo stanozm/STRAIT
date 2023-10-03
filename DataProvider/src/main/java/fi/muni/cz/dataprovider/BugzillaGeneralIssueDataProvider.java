@@ -36,7 +36,7 @@ public class BugzillaGeneralIssueDataProvider implements GeneralIssueDataProvide
 
         return new CsvToBeanBuilder<BugzillaIssue>(new FileReader(filePath))
                 .withType(BugzillaIssue.class)
-                .withSeparator(';')
+                .withSeparator(',')
                 .build()
                 .parse();
     }

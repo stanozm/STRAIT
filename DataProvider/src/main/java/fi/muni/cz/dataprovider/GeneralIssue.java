@@ -293,6 +293,9 @@ public class GeneralIssue implements Serializable {
         List<String> closedStatuses  = new ArrayList<>();
         closedStatuses.add("Done");
         closedStatuses.add("Won't do");
+        closedStatuses.add("Resolved");
+        closedStatuses.add("Closed");
+
 
         List<String> labelStatuses  = new ArrayList<>();
         labelStatuses.add("Blocked");
