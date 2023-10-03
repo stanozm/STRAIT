@@ -1,5 +1,6 @@
 package fi.muni.cz.core.analysis.phases.modelfitting;
 
+import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.analysis.phases.output.writers.ModelResult;
 import fi.muni.cz.core.dto.DataPointCollection;
@@ -21,6 +22,8 @@ import java.util.stream.Collectors;
 public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysisPhase {
 
     private Rengine rEngine;
+
+    private static final Integer DEFAULT_ROUNDING_DECIMALS = 3;
 
     /**
      * Create new model fitting and goodness of fit test phase
@@ -60,8 +63,11 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
                 List<Model> models = getModels(dto, trainingData, testData);
                 models.parallelStream().forEach(model -> {
                         currentCollectionResults.add(
-                                performModelEstimationAndGoodnessofFitTest(model, testData.size())
-                        );
+                                performModelEstimationAndGoodnessofFitTest(
+                                        model,
+                                        testData.size(),
+                                        getRoundingDecimals(dto.getConfiguration())
+                                ));
                 });
                 modelResults.add(
                         currentCollectionResults.stream()
@@ -92,10 +98,11 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
 
     private ModelResult performModelEstimationAndGoodnessofFitTest(
             Model model,
-            Integer testDataSize
+            Integer testDataSize,
+            Integer roundingDecimals
     ) {
 
-        model.estimateModelData();
+        model.estimateModelData(roundingDecimals);
 
         ModelResult modelResult = new ModelResult();
 
@@ -114,6 +121,13 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
         }
 
         return modelResult;
+    }
+
+    private Integer getRoundingDecimals(ArgsParser configuration) {
+        if(configuration.hasOptionRounding()){
+            return Integer.valueOf(configuration.getOptionValueRounding());
+        }
+        return DEFAULT_ROUNDING_DECIMALS;
     }
 
 

@@ -1,14 +1,13 @@
 package fi.muni.cz.core.analysis.phases.datacollection;
 
-import static fi.muni.cz.core.analysis.phases.datacollection.DataCollectionUtil.getRepositoryInformationForFileEvaluation;
+import static fi.muni.cz.core.analysis.phases.datacollection.DataCollectionUtil
+        .getRepositoryInformationForFileEvaluation;
 
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
 import fi.muni.cz.dataprocessing.persistence.GeneralIssuesCollection;
-import fi.muni.cz.dataprovider.GeneralIssue;
 import fi.muni.cz.dataprovider.JiraGeneralIssueDataProvider;
-import fi.muni.cz.dataprovider.RepositoryInformation;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

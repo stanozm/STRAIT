@@ -13,8 +13,9 @@ public interface Model {
     
     /**
      * Calculate all parameters need for models functions and execute all data test.
+     * @param decimalAmount The amount of decimals the result should be rounded to.
      */
-    void estimateModelData();
+    void estimateModelData(Integer decimalAmount);
 
     /**
      * Get data of executed goodness of fit (GOF) test.

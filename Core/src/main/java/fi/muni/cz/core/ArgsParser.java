@@ -76,6 +76,8 @@ public class ArgsParser {
     public static final String OPT_PERIOD_OF_TESTING = "pt";
     public static final String OPT_TIME_BETWEEN_ISSUES_UNIT = "tb";
     public static final String OPT_SOLVER = "so";
+
+    public static final String OPT_ROUNDING = "rd";
     
     //Configuraton file option
     private static final String FLAG_CONFIG_FILE = "-cf";
@@ -256,6 +258,9 @@ public class ArgsParser {
                 .desc("Solver to evaluate model parameters. Available solvers: ls, ml (Not implemented).").build();
         options.addOption(option);    
         option = Option.builder(OPT_OUT).hasArg().desc("Output type.").build();
+        options.addOption(option);
+        option = Option.builder(OPT_ROUNDING).longOpt("rounding").hasArg()
+                .desc("Amount of decimals result should be rounded to").build();
         options.addOption(option);
     }
 
@@ -569,6 +574,15 @@ public class ArgsParser {
     }
 
     /**
+     * Check if option 'rd' is on command line.
+     *
+     * @return true if there is 'rd' command line, false otherwise.
+     */
+    public boolean hasOptionRounding() {
+        return cmdl.hasOption(OPT_ROUNDING);
+    }
+
+    /**
      * Get argument value for 'url'.
      * 
      * @return argument value.
@@ -701,5 +715,14 @@ public class ArgsParser {
      * */
     public String getOptionValueMovingAverage() {
         return cmdl.getOptionValue(OPT_MOVING_AVERAGE);
+    }
+
+    /**
+     * Get argument value for 'rd'.
+     *
+     * @return argument value
+     * */
+    public String getOptionValueRounding() {
+        return cmdl.getOptionValue(OPT_ROUNDING);
     }
 }

@@ -4,6 +4,10 @@ import fi.muni.cz.dataprovider.GeneralIssue;
 import fi.muni.cz.dataprovider.RepositoryInformation;
 import java.util.List;
 
+/**
+ * @author valtonenvaltteri@gmail.com
+ */
+
 public class DataCollectionUtil {
 
     /**

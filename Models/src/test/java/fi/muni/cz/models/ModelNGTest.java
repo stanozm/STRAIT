@@ -22,7 +22,8 @@ import java.util.Map;
  *  @author Radoslav Micko, 445611@muni.cz
  */
 public class ModelNGTest {
-    
+
+    private static Integer ROUNDING_DECIMAL_AMOUNT = 3;
     private List<Pair<Integer, Integer>> listOfPairs = new ArrayList<>();
     
     @Mock
@@ -71,7 +72,7 @@ public class ModelNGTest {
     public void testGOModel() {
         prepareMocksForTwoParams();
         
-        GOModel.estimateModelData();
+        GOModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(GOModel.getModelParameters().get("a"), new Double(1));
         assertEquals(GOModel.getModelParameters().get("b"), new Double(1));
     }
@@ -80,7 +81,7 @@ public class ModelNGTest {
     public void testGOSShapedModel() {
         prepareMocksForTwoParams();
         
-        GOSShapedModel.estimateModelData();
+        GOSShapedModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(GOSShapedModel.getModelParameters().get("a"), new Double(1));
         assertEquals(GOSShapedModel.getModelParameters().get("b"), new Double(1));
     }
@@ -89,7 +90,7 @@ public class ModelNGTest {
     public void testDuaneModel() {
         prepareMocksForTwoParams();
         
-        DuaneModel.estimateModelData();
+        DuaneModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(DuaneModel.getModelParameters().get("α"), new Double(1));
         assertEquals(DuaneModel.getModelParameters().get("β"), new Double(1));
     }
@@ -98,7 +99,7 @@ public class ModelNGTest {
     public void testMusaOkumotoModel() {
         prepareMocksForTwoParams();
         
-        MusaOkumotoModel.estimateModelData();
+        MusaOkumotoModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(MusaOkumotoModel.getModelParameters().get("α"), new Double(1));
         assertEquals(MusaOkumotoModel.getModelParameters().get("β"), new Double(1));
     }
@@ -107,7 +108,7 @@ public class ModelNGTest {
     public void testHossainDahiyaModel() {
         prepareMocksForThreeParams();
         
-        HossainDahiyaModel.estimateModelData();
+        HossainDahiyaModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(HossainDahiyaModel.getModelParameters().get("a"), new Double(1));
         assertEquals(HossainDahiyaModel.getModelParameters().get("b"), new Double(1));
         assertEquals(HossainDahiyaModel.getModelParameters().get("c"), new Double(1));
