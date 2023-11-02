@@ -11,40 +11,34 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-/**
- * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
- * */
-public class BugzillaGeneralIssueDataProvider implements GeneralIssueDataProvider{
+/** @author Valtteri Valtonen, valtonenvaltteri@gmail.com */
+public class BugzillaGeneralIssueDataProvider implements GeneralIssueDataProvider {
 
-    @Override
-    public List<GeneralIssue> getIssuesByUrl(String url) {
-        try {
-            System.out.println("Reading issues from file " + url + " ...");
-            return readBugzillaIssuesFromCsvFile(url)
-                    .stream()
-                    .map(GeneralIssue::fromBugzillaIssue)
-                    .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))
-                    .collect(Collectors.toList());
-        } catch (Exception e) {
-            log(Level.SEVERE, "Error while reading Bugzilla CSV file", e);
-        }
-        return new ArrayList<>();
+  @Override
+  public List<GeneralIssue> getIssuesByUrl(String url) {
+    try {
+      System.out.println("Reading issues from file " + url + " ...");
+      return readBugzillaIssuesFromCsvFile(url).stream()
+          .map(GeneralIssue::fromBugzillaIssue)
+          .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))
+          .collect(Collectors.toList());
+    } catch (Exception e) {
+      log(Level.SEVERE, "Error while reading Bugzilla CSV file", e);
     }
+    return new ArrayList<>();
+  }
 
-    private List<BugzillaIssue> readBugzillaIssuesFromCsvFile(String filePath)
-            throws IOException, CsvValidationException {
+  private List<BugzillaIssue> readBugzillaIssuesFromCsvFile(String filePath)
+      throws IOException, CsvValidationException {
 
-        return new CsvToBeanBuilder<BugzillaIssue>(new FileReader(filePath))
-                .withType(BugzillaIssue.class)
-                .withSeparator(',')
-                .build()
-                .parse();
-    }
+    return new CsvToBeanBuilder<BugzillaIssue>(new FileReader(filePath))
+        .withType(BugzillaIssue.class)
+        .withSeparator(',')
+        .build()
+        .parse();
+  }
 
-    private void log(Level level, String message, Exception ex) {
-        Logger.getLogger(JiraGeneralIssueDataProvider.class.getName())
-                .log(level, message, ex);
-    }
-
-
+  private void log(Level level, String message, Exception ex) {
+    Logger.getLogger(JiraGeneralIssueDataProvider.class.getName()).log(level, message, ex);
+  }
 }

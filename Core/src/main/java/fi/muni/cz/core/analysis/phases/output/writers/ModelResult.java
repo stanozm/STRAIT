@@ -1,77 +1,75 @@
 package fi.muni.cz.core.analysis.phases.output.writers;
 
-import org.apache.commons.math3.util.Pair;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.math3.util.Pair;
 
-/**
- * @author Radoslav Micko, 445611@muni.cz
- */
+/** @author Radoslav Micko, 445611@muni.cz */
 public class ModelResult implements Serializable {
 
-    private Boolean ignoredModel;
-    private Map<String, String> goodnessOfFitData;
+  private Boolean ignoredModel;
+  private Map<String, String> goodnessOfFitData;
 
-    private Map<String, String> predictiveAccuracyData;
-    private Map<String, Double> modelParameters;
-    private List<Pair<Integer, Integer>> issuesPrediction;
-    private String functionTextForm;
-    private String modelName;
+  private Map<String, String> predictiveAccuracyData;
+  private Map<String, Double> modelParameters;
+  private List<Pair<Integer, Integer>> issuesPrediction;
+  private String functionTextForm;
+  private String modelName;
 
-    public Map<String, String> getGoodnessOfFitData() {
-        return goodnessOfFitData;
-    }
+  public Map<String, String> getGoodnessOfFitData() {
+    return goodnessOfFitData;
+  }
 
-    public void setGoodnessOfFitData(Map<String, String> goodnessOfFitData) {
-        this.goodnessOfFitData = goodnessOfFitData;
-    }
+  public void setGoodnessOfFitData(Map<String, String> goodnessOfFitData) {
+    this.goodnessOfFitData = goodnessOfFitData;
+  }
 
-    public Map<String, Double> getModelParameters() {
-        return modelParameters;
-    }
+  public Map<String, Double> getModelParameters() {
+    return modelParameters;
+  }
 
-    public void setModelParameters(Map<String, Double> modelParameters) {
-        this.modelParameters = modelParameters;
-    }
+  public void setModelParameters(Map<String, Double> modelParameters) {
+    this.modelParameters = modelParameters;
+  }
 
-    public List<Pair<Integer, Integer>> getIssuesPrediction() {
-        return issuesPrediction;
-    }
+  public List<Pair<Integer, Integer>> getIssuesPrediction() {
+    return issuesPrediction;
+  }
 
-    public void setIssuesPrediction(List<Pair<Integer, Integer>> issuesPrediction) {
-        this.issuesPrediction = issuesPrediction;
-    }
+  public void setIssuesPrediction(List<Pair<Integer, Integer>> issuesPrediction) {
+    this.issuesPrediction = issuesPrediction;
+  }
 
-    public String getFunctionTextForm() {
-        return functionTextForm;
-    }
+  public String getFunctionTextForm() {
+    return functionTextForm;
+  }
 
-    public void setFunctionTextForm(String functionTextForm) {
-        this.functionTextForm = functionTextForm;
-    }
+  public void setFunctionTextForm(String functionTextForm) {
+    this.functionTextForm = functionTextForm;
+  }
 
-    public String getModelName() {
-        return modelName;
-    }
+  public String getModelName() {
+    return modelName;
+  }
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
-    }
+  public void setModelName(String modelName) {
+    this.modelName = modelName;
+  }
 
-    public Map<String, String> getPredictiveAccuracyData() {
-        return predictiveAccuracyData;
-    }
+  public Map<String, String> getPredictiveAccuracyData() {
+    return predictiveAccuracyData;
+  }
 
-    public void setPredictiveAccuracyData(Map<String, String> predictiveAccuracyData) {
-        this.predictiveAccuracyData = predictiveAccuracyData;
-    }
+  public void setPredictiveAccuracyData(Map<String, String> predictiveAccuracyData) {
+    this.predictiveAccuracyData = predictiveAccuracyData;
+  }
 
-    public Boolean getIgnoredModel() {
-        return ignoredModel;
-    }
+  public Boolean getIgnoredModel() {
+    return ignoredModel;
+  }
 
-    public void setIgnoredModel(Boolean ignoredModel) {
-        this.ignoredModel = ignoredModel;
-    }
+  public void setIgnoredModel(Boolean ignoredModel) {
+    this.ignoredModel = ignoredModel;
+  }
 }

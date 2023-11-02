@@ -1,5 +1,11 @@
 package fi.muni.cz.dataprovider;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,126 +15,120 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
-/**
- * @author Radoslav Micko, 445611@muni.cz
- */
+/** @author Radoslav Micko, 445611@muni.cz */
 @Entity
 public class RepositoryInformation implements Serializable {
 
-    @Id
-    private Long id;
+  @Id private Long id;
 
-    private String name;
-    @Lob
-    @Column(columnDefinition="clob")
-    private String description;
-    private int size;
-    private int watchers;
-    private int forks;
-    private int contributors;
+  private String name;
 
-    @OneToMany(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "repo_info_id")
-    private List<Release> listOfReleases = new ArrayList<>();
+  @Lob
+  @Column(columnDefinition = "clob")
+  private String description;
 
-    // Last commit
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date pushedAt;
+  private int size;
+  private int watchers;
+  private int forks;
+  private int contributors;
 
-    // First commit
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date pushedAtFirst;
+  @OneToMany(cascade = CascadeType.MERGE)
+  @JoinColumn(name = "repo_info_id")
+  private List<Release> listOfReleases = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
+  // Last commit
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date pushedAt;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  // First commit
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date pushedAtFirst;
 
-    public String getName() {
-        return name;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Date getPushedAt() {
-        return pushedAt;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setPushedAt(Date pushedAt) {
-        this.pushedAt = pushedAt;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public int getSize() {
-        return size;
-    }
+  public Date getPushedAt() {
+    return pushedAt;
+  }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
+  public void setPushedAt(Date pushedAt) {
+    this.pushedAt = pushedAt;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public int getSize() {
+    return size;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setSize(int size) {
+    this.size = size;
+  }
 
-    public int getWatchers() {
-        return watchers;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setWatchers(int watchers) {
-        this.watchers = watchers;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public int getForks() {
-        return forks;
-    }
+  public int getWatchers() {
+    return watchers;
+  }
 
-    public void setForks(int forks) {
-        this.forks = forks;
-    }
+  public void setWatchers(int watchers) {
+    this.watchers = watchers;
+  }
 
-    public int getContributors() {
-        return contributors;
-    }
+  public int getForks() {
+    return forks;
+  }
 
-    public void setContributors(int contributors) {
-        this.contributors = contributors;
-    }
+  public void setForks(int forks) {
+    this.forks = forks;
+  }
 
-    public Date getPushedAtFirst() {
-        return pushedAtFirst;
-    }
+  public int getContributors() {
+    return contributors;
+  }
 
-    public void setPushedAtFirst(Date pushedAtFirst) {
-        this.pushedAtFirst = pushedAtFirst;
-    }
+  public void setContributors(int contributors) {
+    this.contributors = contributors;
+  }
 
-    public List<Release> getListOfReleases() {
-        return listOfReleases.stream()
-                .sorted(Comparator.comparing(Release::getPublishedAt))
-                .collect(Collectors.toList());
-    }
+  public Date getPushedAtFirst() {
+    return pushedAtFirst;
+  }
 
-    /**
-     * Add one Release to list
-     * @param release   Release to be added
-     */
-    public void addRelease(Release release) {
-        this.listOfReleases.add(release);
-    }
+  public void setPushedAtFirst(Date pushedAtFirst) {
+    this.pushedAtFirst = pushedAtFirst;
+  }
+
+  public List<Release> getListOfReleases() {
+    return listOfReleases.stream()
+        .sorted(Comparator.comparing(Release::getPublishedAt))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Add one Release to list
+   *
+   * @param release Release to be added
+   */
+  public void addRelease(Release release) {
+    this.listOfReleases.add(release);
+  }
 }

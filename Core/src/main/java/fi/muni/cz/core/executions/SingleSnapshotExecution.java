@@ -21,67 +21,59 @@ import fi.muni.cz.dataprocessing.persistence.GeneralIssuesSnapshotDaoImpl;
 import java.util.ArrayList;
 import java.util.List;
 
-
-/**
- * @author Valtteri Valtonen valtonenvaltteri@gmail.com
- */
+/** @author Valtteri Valtonen valtonenvaltteri@gmail.com */
 public class SingleSnapshotExecution extends StraitExecution {
 
-    private ReliabilityAnalysis analysis;
-    private GeneralIssuesSnapshotDao dao;
+  private ReliabilityAnalysis analysis;
+  private GeneralIssuesSnapshotDao dao;
 
+  /** Create new single snapshot execution. */
+  public SingleSnapshotExecution() {
+    this.dao = new GeneralIssuesSnapshotDaoImpl();
+  }
 
-    /**
-     * Create new single snapshot execution.
-     */
-    public SingleSnapshotExecution() {
-        this.dao = new GeneralIssuesSnapshotDaoImpl();
+  @Override
+  public void initializeAnalyses(ArgsParser configuration) {
+
+    String periodOfTestingValue =
+        configuration.getOptionValuePeriodOfTesting() != null
+            ? configuration.getOptionValuePeriodOfTesting()
+            : WEEKS;
+
+    String timeBetweenIssuesUnitValue =
+        configuration.getOptionValueTimeBetweenIssuesUnit() != null
+            ? configuration.getOptionValueTimeBetweenIssuesUnit()
+            : HOURS;
+
+    List<ReliabilityAnalysisPhase> analysisPhases = new ArrayList<>();
+
+    analysisPhases.add(
+        new SnapshotDataCollectionPhase(dao, configuration.getOptionValueSnapshotName()));
+
+    analysisPhases.add(new IssueReportProcessingPhase(getStrategyFromConfiguration(configuration)));
+
+    analysisPhases.add(new CumulativeIssueAmountCalculationPhase(periodOfTestingValue));
+
+    if (configuration.hasOptionMovingAverage()) {
+      analysisPhases.add(new MovingAveragePhase());
     }
 
-    @Override
-    public void initializeAnalyses(ArgsParser configuration) {
+    analysisPhases.add(new TimeBetweenIssuesCalculationPhase(timeBetweenIssuesUnitValue));
 
-        String periodOfTestingValue = configuration.getOptionValuePeriodOfTesting() != null
-                ? configuration.getOptionValuePeriodOfTesting() :
-                WEEKS;
+    analysisPhases.add(new TrendTestPhase());
 
-        String timeBetweenIssuesUnitValue = configuration.getOptionValueTimeBetweenIssuesUnit() != null
-                ? configuration.getOptionValueTimeBetweenIssuesUnit() :
-                HOURS;
+    analysisPhases.add(new ModelFittingAndGoodnessOfFitTestPhase(ModelFactory.getREngine()));
 
+    analysisPhases.add(new HtmlReportOutputPhase());
 
-        List<ReliabilityAnalysisPhase> analysisPhases = new ArrayList<>();
+    ReliabilityAnalysis reliabilityAnalysis = new ReliabilityAnalysis(analysisPhases);
 
-        analysisPhases.add(new SnapshotDataCollectionPhase(dao, configuration.getOptionValueSnapshotName()));
+    this.analysis = reliabilityAnalysis;
+  }
 
-        analysisPhases.add(new IssueReportProcessingPhase(getStrategyFromConfiguration(configuration)));
-
-        analysisPhases.add(
-                new CumulativeIssueAmountCalculationPhase(periodOfTestingValue)
-        );
-
-        if(configuration.hasOptionMovingAverage()){
-            analysisPhases.add(new MovingAveragePhase());
-        }
-
-        analysisPhases.add(new TimeBetweenIssuesCalculationPhase(timeBetweenIssuesUnitValue));
-
-        analysisPhases.add(new TrendTestPhase());
-
-        analysisPhases.add(new ModelFittingAndGoodnessOfFitTestPhase(ModelFactory.getREngine()));
-
-        analysisPhases.add(new HtmlReportOutputPhase());
-
-        ReliabilityAnalysis reliabilityAnalysis = new ReliabilityAnalysis(analysisPhases);
-
-        this.analysis = reliabilityAnalysis;
-
-    }
-
-    @Override
-    public void execute(ArgsParser configuration) {
-        System.out.println("Executing STRAIT in single snapshot analysis mode");
-        analysis.performAnalysis(new ReliabilityAnalysisDto(configuration));
-    }
-
+  @Override
+  public void execute(ArgsParser configuration) {
+    System.out.println("Executing STRAIT in single snapshot analysis mode");
+    analysis.performAnalysis(new ReliabilityAnalysisDto(configuration));
+  }
 }
