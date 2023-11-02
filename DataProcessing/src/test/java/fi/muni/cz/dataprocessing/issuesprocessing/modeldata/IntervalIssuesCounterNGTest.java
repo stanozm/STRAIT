@@ -3,6 +3,7 @@ package fi.muni.cz.dataprocessing.issuesprocessing.modeldata;
 import static org.testng.Assert.assertEquals;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
+import org.apache.commons.math3.util.Pair;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import java.util.ArrayList;
@@ -22,34 +23,29 @@ public class IntervalIssuesCounterNGTest {
     @BeforeClass
     public void setUp() {
         GeneralIssue issue = new GeneralIssue();
-        
-        Calendar cal = Calendar.getInstance();
-        cal.set(2018, 10, 1, 0, 0, 0);
-        Date date = cal.getTime();
+
+        Date date = getDate(2018, 10, 1);
         issue.setCreatedAt(date);
         listOfIssues.add(issue);
         
         issue = new GeneralIssue();
-        cal.set(2018, 10, 2, 0, 0, 0);
-        date = cal.getTime();
+        date = getDate(2018, 10, 2);
         issue.setCreatedAt(date);
         listOfIssues.add(issue);
         
         issue = new GeneralIssue();
-        cal.set(2018, 10, 3, 0, 0, 0);
-        date = cal.getTime();
+        date = getDate(2018, 10, 3);
         issue.setCreatedAt(date);
         listOfIssues.add(issue);
         
         issue = new GeneralIssue();
-        cal.set(2018, 10, 4, 0, 0, 0);
-        date = cal.getTime();
+
+        date = getDate(2018, 10, 4);
         issue.setCreatedAt(date);
         listOfIssues.add(issue);
         issue = new GeneralIssue();
-        
-        cal.set(2018, 10, 14, 0, 0, 0);
-        date = cal.getTime();
+
+        date = getDate(2018, 10, 13);
         issue.setCreatedAt(date);
         listOfIssues.add(issue);
         
@@ -57,8 +53,19 @@ public class IntervalIssuesCounterNGTest {
     
     @Test
     public void testIntervalIssuesCounter() {
-        Date date = new Date();
-        assertEquals(counter.countIssues(listOfIssues, date, date).get(0).getSecond(), new Integer(4));
-        assertEquals(counter.countIssues(listOfIssues, date, date).get(1).getSecond(), new Integer(1));
-    } 
+
+        List<Pair<Integer, Integer>> countedIssues = counter.countIssues(
+                listOfIssues, getDate(2018, 10, 1),
+                getDate(2018, 10, 16)
+        );
+
+        assertEquals(countedIssues.get(0).getSecond(), new Integer(4));
+        assertEquals(countedIssues.get(1).getSecond(), new Integer(1));
+    }
+
+    private Date getDate(int year, int month, int date) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, date, 0, 0, 0);
+        return cal.getTime();
+    }
 }

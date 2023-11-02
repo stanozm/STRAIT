@@ -55,7 +55,7 @@ public class CumulativeIssuesCounterNGTest {
 
         Date date = new Date();
 
-        when(counter.countIssues(listOfIssues, any(), any())).thenReturn(listOfPairs);
+        when(counter.countIssues(listOfIssues, date, date)).thenReturn(listOfPairs);
         assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues, date, date).get(0).getSecond(),
                 new Integer(1));
         assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues, date, date).get(1).getSecond(),
