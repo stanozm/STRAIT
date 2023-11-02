@@ -1,13 +1,14 @@
 package fi.muni.cz.dataprocessing.issuesprocessing.modeldata;
 
+import static org.testng.Assert.assertEquals;
+
 import fi.muni.cz.dataprovider.GeneralIssue;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import static org.testng.Assert.assertEquals;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -56,7 +57,8 @@ public class IntervalIssuesCounterNGTest {
     
     @Test
     public void testIntervalIssuesCounter() {
-        assertEquals(counter.countIssues(listOfIssues).get(0).getSecond(), new Integer(4));
-        assertEquals(counter.countIssues(listOfIssues).get(1).getSecond(), new Integer(1));
+        Date date = new Date();
+        assertEquals(counter.countIssues(listOfIssues, date, date).get(0).getSecond(), new Integer(4));
+        assertEquals(counter.countIssues(listOfIssues, date, date).get(1).getSecond(), new Integer(1));
     } 
 }

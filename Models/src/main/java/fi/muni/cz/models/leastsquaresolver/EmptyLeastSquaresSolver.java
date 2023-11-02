@@ -3,7 +3,6 @@ package fi.muni.cz.models.leastsquaresolver;
 import fi.muni.cz.models.exception.ModelException;
 import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.Rengine;
-
 import java.util.List;
 
 /**
@@ -20,7 +19,7 @@ public class EmptyLeastSquaresSolver extends SolverAbstract {
     }
 
     @Override
-    public double[] optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData) {
+    public SolverResult optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData) {
         throw new ModelException("Empty model");
     }
 }

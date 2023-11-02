@@ -1,16 +1,19 @@
 package fi.muni.cz.dataprocessing.issuesprocessing.modeldata;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+
 import fi.muni.cz.dataprovider.GeneralIssue;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.math3.util.Pair;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -49,12 +52,15 @@ public class CumulativeIssuesCounterNGTest {
     
     @Test
     public void testCumulativeIssuesCounter() {
-        when(counter.countIssues(listOfIssues)).thenReturn(listOfPairs);
-        assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues).get(0).getSecond(),
+
+        Date date = new Date();
+
+        when(counter.countIssues(listOfIssues, any(), any())).thenReturn(listOfPairs);
+        assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues, date, date).get(0).getSecond(),
                 new Integer(1));
-        assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues).get(1).getSecond(),
+        assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues, date, date).get(1).getSecond(),
                 new Integer(2));
-        assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues).get(3).getSecond(),
+        assertEquals(cumulativeIssuesCounter.countIssues(listOfIssues, date, date).get(3).getSecond(),
                 new Integer(2));
     } 
 }

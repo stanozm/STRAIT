@@ -1,12 +1,30 @@
 package fi.muni.cz.core;
 
+import static fi.muni.cz.core.executions.RunConfiguration.BATCH_AND_EVALUATE;
+import static fi.muni.cz.core.executions.RunConfiguration.HELP;
+import static fi.muni.cz.core.executions.RunConfiguration.LIST_ALL_SNAPSHOTS;
+import static fi.muni.cz.core.executions.RunConfiguration.NOT_SUPPORTED;
+import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_EVALUATE;
+import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_LIST_SNAPSHOTS;
+import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_SAVE;
+import static fi.muni.cz.core.executions.RunConfiguration.UNSPECIFIED;
+import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_EVALUATE;
+import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_LIST_SNAPSHOTS;
+import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_SAVE;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.muni.cz.core.configuration.BatchAnalysisConfiguration;
+import fi.muni.cz.core.dto.BatchAnalysisConfiguration;
 import fi.muni.cz.core.exception.InvalidInputException;
+import fi.muni.cz.core.executions.RunConfiguration;
 import fi.muni.cz.core.factory.FilterFactory;
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
-import org.apache.commons.cli.*;
-
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionGroup;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,8 +34,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static fi.muni.cz.core.RunConfiguration.*;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -49,6 +65,9 @@ public class ArgsParser {
     public static final String OPT_FILTER_ISSUES_WITH_NO_FIX = "fnf";
     public static final String OPT_FILTER_TEST_RELATED_ISSUES = "fte";
 
+    public static final String OPT_FILTER_LATEST_RELEASE = "flr";
+    public static final String OPT_FILTER_BEFORE_FIRST_RELEASE = "fbfr";
+
     public static final String OPT_MODELS = "ms";
     public static final String OPT_MOVING_AVERAGE = "ma";
     public static final String OPT_OUT = "out";
@@ -57,6 +76,8 @@ public class ArgsParser {
     public static final String OPT_PERIOD_OF_TESTING = "pt";
     public static final String OPT_TIME_BETWEEN_ISSUES_UNIT = "tb";
     public static final String OPT_SOLVER = "so";
+
+    public static final String OPT_ROUNDING = "rd";
     
     //Configuraton file option
     private static final String FLAG_CONFIG_FILE = "-cf";
@@ -179,8 +200,9 @@ public class ArgsParser {
         option = Option.builder(OPT_PREDICT).longOpt("predict").type(Number.class).hasArg().argName("Number").
                 desc("Number of test periods to predict.").build();
         options.addOption(option);
-        option = Option.builder(OPT_NEW_SNAPSHOT).longOpt("newSnapshot").hasArg().argName("Name of new snapshot").
-                desc("Name of new snapshot that will be persisted.").build();
+        option = Option.builder(OPT_NEW_SNAPSHOT).longOpt("newSnapshot").
+                desc("Overwrite snapshot if there is one")
+                .build();
         options.addOption(option);
         option = Option.builder(OPT_FILTER_LABELS).longOpt("filterLabel").optionalArg(true)
                 .hasArgs().argName("Filtering labels").desc("Filter by specified labels.").build();
@@ -208,6 +230,13 @@ public class ArgsParser {
         options.addOption(option);
         option = Option.builder(OPT_FILTER_DEFECTS).longOpt("filterDefects").desc("Filter defects.").build();
         options.addOption(option);
+        option = Option.builder(OPT_FILTER_LATEST_RELEASE).longOpt("filterLatestRelease")
+                .desc("Filter issue reports from most recent release period.").build();
+        options.addOption(option);
+        option = Option.builder(OPT_FILTER_BEFORE_FIRST_RELEASE).longOpt("filterBeforeFirstRelease")
+                .desc("Filter out issue reports that are from time before first release publish date")
+                .build();
+        options.addOption(option);
         option = Option.builder(OPT_MOVING_AVERAGE).longOpt("--movingaverage").desc(
                 "Use moving average on cumulative issue counts before fitting model."
         ).hasArgs().argName("Moving average window size").build();
@@ -229,6 +258,9 @@ public class ArgsParser {
                 .desc("Solver to evaluate model parameters. Available solvers: ls, ml (Not implemented).").build();
         options.addOption(option);    
         option = Option.builder(OPT_OUT).hasArg().desc("Output type.").build();
+        options.addOption(option);
+        option = Option.builder(OPT_ROUNDING).longOpt("rounding").hasArg()
+                .desc("Amount of decimals result should be rounded to").build();
         options.addOption(option);
     }
 
@@ -443,12 +475,30 @@ public class ArgsParser {
     }
 
     /**
+     * Check if option 'fbfr' is on command line.
+     *
+     * @return true if there is 'fbfr' command line, false otherwise.
+     */
+    public boolean hasOptionFilterBeforeFirstRelease() {
+        return cmdl.hasOption(OPT_FILTER_BEFORE_FIRST_RELEASE);
+    }
+
+    /**
      * Check if option 'flc' is on command line.
      *
      * @return true if there is 'flc' command line, false otherwise.
      */
     public boolean hasOptionFilterIssuesWithLowCriticality() {
         return cmdl.hasOption(OPT_FILTER_ISSUES_WITH_LOW_CRITICALITY);
+    }
+
+    /**
+     * Check if option 'flr' is on command line.
+     *
+     * @return true if there is 'flr' command line, false otherwise.
+     */
+    public boolean hasOptionFilterLatestRelease() {
+        return cmdl.hasOption(OPT_FILTER_LATEST_RELEASE);
     }
 
     /**
@@ -522,7 +572,16 @@ public class ArgsParser {
     public boolean hasOptionNewSnapshot() {
         return cmdl.hasOption(OPT_NEW_SNAPSHOT);
     }
-    
+
+    /**
+     * Check if option 'rd' is on command line.
+     *
+     * @return true if there is 'rd' command line, false otherwise.
+     */
+    public boolean hasOptionRounding() {
+        return cmdl.hasOption(OPT_ROUNDING);
+    }
+
     /**
      * Get argument value for 'url'.
      * 
@@ -656,5 +715,14 @@ public class ArgsParser {
      * */
     public String getOptionValueMovingAverage() {
         return cmdl.getOptionValue(OPT_MOVING_AVERAGE);
+    }
+
+    /**
+     * Get argument value for 'rd'.
+     *
+     * @return argument value
+     * */
+    public String getOptionValueRounding() {
+        return cmdl.getOptionValue(OPT_ROUNDING);
     }
 }

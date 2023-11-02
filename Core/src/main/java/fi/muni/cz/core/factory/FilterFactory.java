@@ -21,20 +21,6 @@ public class FilterFactory {
     public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
     
     /**
-     * Get string representation of filters with detail info.
-     * 
-     * @param parser  parsed CommandLine.
-     * @return list of filters as String.
-     */
-    public static List<String> getFiltersRanWithInfoAsList(ArgsParser parser) {
-        List<String> list = new ArrayList<>();
-        for (IssueProcessingAction filter: getFilters(parser)) {
-            list.add(filter.infoAboutIssueProcessingAction());
-        }
-        return list;
-    }
-    
-    /**
      * Get all filters to run.
      * 
      * @param parser  parsed CommandLine.
@@ -57,17 +43,9 @@ public class FilterFactory {
         }
         
         if (parser.hasOptionFilterTime()) {
-            DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
-            Date startOfTesting = null;
-            Date endOfTesting = null;
-            try {
-                startOfTesting = formatter.parse(parser.getOptionValuesFilterTime()[0]);
-                endOfTesting = formatter.parse(parser.getOptionValuesFilterTime()[1]);
-            } catch (ParseException ex) {
-                throw new DataProcessingException("Wrong format of date. Should match: " + DATE_FORMAT);
-            }
+            List<Date> parsingResult = parseDateOption(parser);
             
-            listOfFilters.add(new FilterByTime(startOfTesting, endOfTesting));
+            listOfFilters.add(new FilterByTime(parsingResult.get(0), parsingResult.get(1)));
         }
 
         if (parser.hasOptionFilterDuplications()) {
@@ -93,7 +71,35 @@ public class FilterFactory {
         if (parser.hasOptionFilterIssuesWithoutFix()) {
             listOfFilters.add(new FilterOutIssuesWithoutFix());
         }
+
+        if (parser.hasOptionFilterLatestRelease()){
+            listOfFilters.add(new FilterLatestRelease());
+        }
+
+        if (parser.hasOptionFilterBeforeFirstRelease()){
+            listOfFilters.add(new FilterOutIssuesBeforeFirstRelease());
+        }
         
         return listOfFilters;
     }
+
+    /**
+     * Parse date option from configuration object
+     * @param configuration The configuration object
+     * @return List of dates where the first date is the date period start date and the second date is the end date.
+     */
+    public static List<Date> parseDateOption(ArgsParser configuration) {
+        DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        List<Date> parsedDates = new ArrayList<>();
+        try {
+            parsedDates.add(formatter.parse(configuration.getOptionValuesFilterTime()[0]));
+            parsedDates.add(formatter.parse(configuration.getOptionValuesFilterTime()[1]));
+            return parsedDates;
+        } catch (ParseException ex) {
+            throw new DataProcessingException("Wrong format of date. Should match: " + DATE_FORMAT);
+        }
+    }
+
+
+
 }

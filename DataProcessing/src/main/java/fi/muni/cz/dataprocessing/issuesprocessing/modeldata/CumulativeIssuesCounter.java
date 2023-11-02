@@ -1,9 +1,10 @@
 package fi.muni.cz.dataprocessing.issuesprocessing.modeldata;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.math3.util.Pair;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -30,8 +31,11 @@ public class CumulativeIssuesCounter implements IssuesCounter {
     
     @Override
     public List<Pair<Integer, Integer>> countIssues(
-            List<GeneralIssue> listOfIssues) {
-        List<Pair<Integer, Integer>> spreadedIssues = getIntervalIssues(listOfIssues);
+            List<GeneralIssue> listOfIssues,
+            Date startOfTesting,
+            Date endOfTesting
+    ) {
+        List<Pair<Integer, Integer>> spreadedIssues = getIntervalIssues(listOfIssues, startOfTesting, endOfTesting);
         Integer totalNumber = 0;
         List<Pair<Integer, Integer>> listOfTotalIssues = new ArrayList<>();
         for (Pair<Integer, Integer> pair: spreadedIssues) {
@@ -41,7 +45,11 @@ public class CumulativeIssuesCounter implements IssuesCounter {
         return listOfTotalIssues;
     }
     
-    private List<Pair<Integer, Integer>> getIntervalIssues(List<GeneralIssue> listOfIssues) {
-        return counter.countIssues(listOfIssues);
+    private List<Pair<Integer, Integer>> getIntervalIssues(
+            List<GeneralIssue> listOfIssues,
+            Date startOfTesting,
+            Date endOfTesting
+    ) {
+        return counter.countIssues(listOfIssues, startOfTesting, endOfTesting);
     }
 }

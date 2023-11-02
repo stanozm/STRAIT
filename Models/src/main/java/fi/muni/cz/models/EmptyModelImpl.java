@@ -1,9 +1,7 @@
 package fi.muni.cz.models;
 
 import fi.muni.cz.models.leastsquaresolver.Solver;
-import fi.muni.cz.models.testing.GoodnessOfFitTest;
 import org.apache.commons.math3.util.Pair;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,15 +13,16 @@ public class EmptyModelImpl extends ModelAbstract {
     /**
      * Initialize model attributes.
      *
-     * @param listOfIssues      list of issues.
-     * @param goodnessOfFitTest Goodness of fit test to execute.
+     * @param trainingData      list of issues.
+     * @param testData          list of issues.
      * @param solver            Solver to estimate model parameters.
      */
     public EmptyModelImpl(
-            List<Pair<Integer, Integer>> listOfIssues,
-            GoodnessOfFitTest goodnessOfFitTest,
-            Solver solver) {
-        super(listOfIssues, goodnessOfFitTest, solver);
+            List<Pair<Integer, Integer>> trainingData,
+            List<Pair<Integer, Integer>> testData,
+            Solver solver
+    ) {
+        super(trainingData, testData, solver);
     }
 
 

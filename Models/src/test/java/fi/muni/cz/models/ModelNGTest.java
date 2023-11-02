@@ -1,50 +1,44 @@
 package fi.muni.cz.models;
 
-import fi.muni.cz.models.GOSShapedModelImpl;
-import fi.muni.cz.models.GOModelImpl;
-import fi.muni.cz.models.HossainDahiyaModelImpl;
-import fi.muni.cz.models.DuaneModelImpl;
-import fi.muni.cz.models.MusaOkumotoModelImpl;
-import fi.muni.cz.models.Model;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+
 import fi.muni.cz.models.leastsquaresolver.Solver;
+import fi.muni.cz.models.leastsquaresolver.SolverResult;
 import fi.muni.cz.models.testing.GoodnessOfFitTest;
+import org.apache.commons.math3.util.Pair;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.math3.util.Pair;
-import static org.mockito.ArgumentMatchers.any;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import static org.mockito.Mockito.when;
-import org.mockito.MockitoAnnotations;
-import static org.testng.Assert.assertEquals;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 /**
  *  @author Radoslav Micko, 445611@muni.cz
  */
 public class ModelNGTest {
-    
+
+    private static Integer ROUNDING_DECIMAL_AMOUNT = 3;
     private List<Pair<Integer, Integer>> listOfPairs = new ArrayList<>();
-    
-    @Mock
-    private GoodnessOfFitTest goodnessOfFitTest;
     
     @Mock
     private Solver solver;
     
     @InjectMocks
-    private Model GOModel = new GOModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model GOModel = new GOModelImpl(listOfPairs, listOfPairs, solver);
     @InjectMocks
-    private Model GOSShapedModel = new GOSShapedModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model GOSShapedModel = new GOSShapedModelImpl(listOfPairs, listOfPairs, solver);
     @InjectMocks
-    private Model DuaneModel = new DuaneModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model DuaneModel = new DuaneModelImpl(listOfPairs, listOfPairs, solver);
     @InjectMocks
-    private Model HossainDahiyaModel = new HossainDahiyaModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model HossainDahiyaModel = new HossainDahiyaModelImpl(listOfPairs, listOfPairs, solver);
     @InjectMocks
-    private Model MusaOkumotoModel = new MusaOkumotoModelImpl(listOfPairs, goodnessOfFitTest, solver);
+    private Model MusaOkumotoModel = new MusaOkumotoModelImpl(listOfPairs, listOfPairs, solver);
     
     @BeforeClass
     public void setUp() {
@@ -57,25 +51,28 @@ public class ModelNGTest {
     private void prepareMocksForTwoParams() {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("a", "a");
-        when(solver.optimize(any(int[].class), any(List.class))).thenReturn(new double[]{1, 1});
-        when(goodnessOfFitTest.executeGoodnessOfFitTest(any(List.class), any(List.class), any()))
-                .thenReturn(map);
+        SolverResult solverResult = new SolverResult();
+        solverResult.setParameters(new double[]{1, 1});
+        solverResult.setAic(1.0);
+        solverResult.setBic(1.0);
+        when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);
     }
     
     private void prepareMocksForThreeParams() {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("a", "a");
-        when(solver.optimize(any(int[].class), any(List.class))).thenReturn(new double[]{1, 1, 1});
-        when(goodnessOfFitTest.executeGoodnessOfFitTest(any(List.class), any(List.class), any()))
-                .thenReturn(map);
+        SolverResult solverResult = new SolverResult();
+        solverResult.setParameters(new double[]{1, 1, 1});
+        solverResult.setAic(1.0);
+        solverResult.setBic(1.0);
+        when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);
     }
     
     @Test
     public void testGOModel() {
         prepareMocksForTwoParams();
         
-        GOModel.estimateModelData();
-        assertEquals(GOModel.getGoodnessOfFitData().get("a"), "a");
+        GOModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(GOModel.getModelParameters().get("a"), new Double(1));
         assertEquals(GOModel.getModelParameters().get("b"), new Double(1));
     }
@@ -84,8 +81,7 @@ public class ModelNGTest {
     public void testGOSShapedModel() {
         prepareMocksForTwoParams();
         
-        GOSShapedModel.estimateModelData();
-        assertEquals(GOSShapedModel.getGoodnessOfFitData().get("a"), "a");
+        GOSShapedModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(GOSShapedModel.getModelParameters().get("a"), new Double(1));
         assertEquals(GOSShapedModel.getModelParameters().get("b"), new Double(1));
     }
@@ -94,8 +90,7 @@ public class ModelNGTest {
     public void testDuaneModel() {
         prepareMocksForTwoParams();
         
-        DuaneModel.estimateModelData();
-        assertEquals(DuaneModel.getGoodnessOfFitData().get("a"), "a");
+        DuaneModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(DuaneModel.getModelParameters().get("α"), new Double(1));
         assertEquals(DuaneModel.getModelParameters().get("β"), new Double(1));
     }
@@ -104,8 +99,7 @@ public class ModelNGTest {
     public void testMusaOkumotoModel() {
         prepareMocksForTwoParams();
         
-        MusaOkumotoModel.estimateModelData();
-        assertEquals(MusaOkumotoModel.getGoodnessOfFitData().get("a"), "a");
+        MusaOkumotoModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(MusaOkumotoModel.getModelParameters().get("α"), new Double(1));
         assertEquals(MusaOkumotoModel.getModelParameters().get("β"), new Double(1));
     }
@@ -114,8 +108,7 @@ public class ModelNGTest {
     public void testHossainDahiyaModel() {
         prepareMocksForThreeParams();
         
-        HossainDahiyaModel.estimateModelData();
-        assertEquals(HossainDahiyaModel.getGoodnessOfFitData().get("a"), "a");
+        HossainDahiyaModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
         assertEquals(HossainDahiyaModel.getModelParameters().get("a"), new Double(1));
         assertEquals(HossainDahiyaModel.getModelParameters().get("b"), new Double(1));
         assertEquals(HossainDahiyaModel.getModelParameters().get("c"), new Double(1));

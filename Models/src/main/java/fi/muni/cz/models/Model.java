@@ -1,8 +1,8 @@
 package fi.muni.cz.models;
 
+import org.apache.commons.math3.util.Pair;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.math3.util.Pair;
 
 /**
  * Represents interface for software reliability models
@@ -13,8 +13,9 @@ public interface Model {
     
     /**
      * Calculate all parameters need for models functions and execute all data test.
+     * @param decimalAmount The amount of decimals the result should be rounded to.
      */
-    void estimateModelData();
+    void estimateModelData(Integer decimalAmount);
 
     /**
      * Get data of executed goodness of fit (GOF) test.
@@ -22,6 +23,13 @@ public interface Model {
      * @return  Map with test output data.
      */
     Map<String, String> getGoodnessOfFitData();
+
+    /**
+     * Get predictive accuracy data.
+     *
+     * @return  Map with test output data.
+     */
+    Map<String, String> getPredictiveAccuracyData();
     
     /**
      * Get parameters of model.
@@ -44,4 +52,10 @@ public interface Model {
      * @return String form.
      */
     String getTextFormOfTheFunction();
+
+    /**
+     * Get model name in string form
+     * @return Model name string
+     */
+    String getModelName();
 }

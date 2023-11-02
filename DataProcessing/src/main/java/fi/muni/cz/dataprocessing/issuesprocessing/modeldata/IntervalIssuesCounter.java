@@ -2,12 +2,12 @@ package fi.muni.cz.dataprocessing.issuesprocessing.modeldata;
 
 import fi.muni.cz.dataprocessing.exception.DataProcessingException;
 import fi.muni.cz.dataprovider.GeneralIssue;
+import org.apache.commons.math3.util.Pair;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import org.apache.commons.math3.util.Pair;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -34,14 +34,16 @@ public class IntervalIssuesCounter implements IssuesCounter {
     }
 
     @Override
-    public List<Pair<Integer, Integer>> countIssues(List<GeneralIssue> issues) {
+    public List<Pair<Integer, Integer>> countIssues(List<GeneralIssue> issues, Date startOfTesting, Date endOfTesting) {
         if (issues == null || issues.isEmpty()) {
             throw new NullPointerException("listOfIssues is null or empty.");
         }
-        Date startOfTesting  = getDateFromMidNight(issues.get(0).getCreatedAt());
-        Date endOfTesting = getDateFromMidNight(
-                addSpecificTimeToDate(issues.get(issues.size() - 1).getCreatedAt(), WEEKS));
-        return sortingIssuesIntoTimePeriods(issues, startOfTesting, endOfTesting);
+
+        return sortingIssuesIntoTimePeriods(
+                issues,
+                getDateFromMidNight(startOfTesting),
+                getDateFromMidNight(endOfTesting)
+        );
     }
     
     /**

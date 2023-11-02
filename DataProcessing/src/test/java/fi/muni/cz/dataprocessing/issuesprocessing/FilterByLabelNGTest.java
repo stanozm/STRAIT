@@ -1,13 +1,15 @@
 package fi.muni.cz.dataprocessing.issuesprocessing;
 
+import static org.testng.Assert.assertEquals;
+
 import fi.muni.cz.dataprocessing.exception.DataProcessingException;
 import fi.muni.cz.dataprovider.GeneralIssue;
+import fi.muni.cz.dataprovider.RepositoryInformation;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import static org.testng.Assert.assertEquals;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -37,12 +39,12 @@ public class FilterByLabelNGTest {
     
     @Test(expectedExceptions = DataProcessingException.class)
     public void testFilterWithNoWords() {
-        filterWithNoWords.apply(listOfIssues);
+        filterWithNoWords.apply(listOfIssues, new RepositoryInformation());
     }
     
     @Test
     public void testFilterWithWords() {
-        assertEquals(filterForWordError.apply(listOfIssues).size(), 1);
-        assertEquals(filterForSomeWord.apply(listOfIssues).size(), 0);
+        assertEquals(filterForWordError.apply(listOfIssues, new RepositoryInformation()).size(), 1);
+        assertEquals(filterForSomeWord.apply(listOfIssues, new RepositoryInformation()).size(), 0);
     }
 }

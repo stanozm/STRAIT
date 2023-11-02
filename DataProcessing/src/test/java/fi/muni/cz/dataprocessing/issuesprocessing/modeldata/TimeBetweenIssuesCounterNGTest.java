@@ -1,13 +1,14 @@
 package fi.muni.cz.dataprocessing.issuesprocessing.modeldata;
 
+import static org.testng.Assert.assertEquals;
+
 import fi.muni.cz.dataprovider.GeneralIssue;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import static org.testng.Assert.assertEquals;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz
@@ -37,28 +38,38 @@ public class TimeBetweenIssuesCounterNGTest {
     @Test
     public void testTimeBetweenIssuesCounter() {
         IssuesCounter counter = new TimeBetweenIssuesCounter(IssuesCounter.SECONDS);
-        assertEquals(counter.countIssues(listOfIssues).get(0).getSecond().longValue(), 0);
-        assertEquals(counter.countIssues(listOfIssues).get(1).getSecond().longValue(),
+        assertEquals(
+                counter.countIssues(listOfIssues, firstDate, secondDate).get(0).getSecond().longValue(), 0
+        );
+        assertEquals(counter.countIssues(listOfIssues, firstDate, secondDate).get(1).getSecond().longValue(),
                 (secondDate.getTime() - firstDate.getTime()) / 1000);
         
         counter = new TimeBetweenIssuesCounter(IssuesCounter.MINUTES);
-        assertEquals(counter.countIssues(listOfIssues).get(0).getSecond().longValue(), 0);
-        assertEquals(counter.countIssues(listOfIssues).get(1).getSecond().longValue(),
+        assertEquals(
+                counter.countIssues(listOfIssues, firstDate, secondDate).get(0).getSecond().longValue(),
+                0);
+        assertEquals(counter.countIssues(listOfIssues, firstDate, secondDate).get(1).getSecond().longValue(),
                 (secondDate.getTime() - firstDate.getTime()) / 1000 / 60);
         
         counter = new TimeBetweenIssuesCounter(IssuesCounter.HOURS);
-        assertEquals(counter.countIssues(listOfIssues).get(0).getSecond().longValue(), 0);
-        assertEquals(counter.countIssues(listOfIssues).get(1).getSecond().longValue(),
+        assertEquals(counter.countIssues(
+                listOfIssues, firstDate, secondDate).get(0).getSecond().longValue(),
+                0);
+        assertEquals(counter.countIssues(listOfIssues, firstDate, secondDate).get(1).getSecond().longValue(),
                 (secondDate.getTime() - firstDate.getTime()) / 1000 / 60 / 60);
         
         counter = new TimeBetweenIssuesCounter(IssuesCounter.DAYS);
-        assertEquals(counter.countIssues(listOfIssues).get(0).getSecond().longValue(), 0);
-        assertEquals(counter.countIssues(listOfIssues).get(1).getSecond().longValue(),
+        assertEquals(
+                counter.countIssues(listOfIssues, firstDate, secondDate).get(0).getSecond().longValue(),
+                0);
+        assertEquals(counter.countIssues(listOfIssues, firstDate, secondDate).get(1).getSecond().longValue(),
                 (secondDate.getTime() - firstDate.getTime()) / 1000 / 60 / 60 / 24);
         
         counter = new TimeBetweenIssuesCounter(IssuesCounter.WEEKS);
-        assertEquals(counter.countIssues(listOfIssues).get(0).getSecond().longValue(), 0);
-        assertEquals(counter.countIssues(listOfIssues).get(1).getSecond().longValue(),
+        assertEquals(
+                counter.countIssues(listOfIssues, firstDate, secondDate).get(0).getSecond().longValue(),
+                0);
+        assertEquals(counter.countIssues(listOfIssues, firstDate, secondDate).get(1).getSecond().longValue(),
                 (secondDate.getTime() - firstDate.getTime()) / 1000 / 60 / 60 / 24 / 7);
     } 
 }

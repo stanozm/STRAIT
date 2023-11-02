@@ -1,23 +1,18 @@
 package fi.muni.cz.models.leastsquaresolver;
 
-import fi.muni.cz.models.leastsquaresolver.DuaneLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.MusaOkumotoLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.GOLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.HossainDahiyaLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.GOSShapedLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.Solver;
-import java.util.ArrayList;
-import java.util.List;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+
 import org.apache.commons.math3.util.Pair;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Radoslav Micko, 445611@muni.cz

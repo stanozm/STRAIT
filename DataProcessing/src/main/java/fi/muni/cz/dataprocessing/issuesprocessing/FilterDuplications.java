@@ -1,7 +1,7 @@
 package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
-
+import fi.muni.cz.dataprovider.RepositoryInformation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class FilterDuplications implements Filter {
     private int issueAmountBefore;
     private int issueAmountAfter;
     @Override
-    public List<GeneralIssue> apply(List<GeneralIssue> list) {
+    public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
         issueAmountBefore = list.size();
         List<GeneralIssue> filteredList = new ArrayList<>();
         for (GeneralIssue issue: allLabelsToLowerCase(list)) {
@@ -45,6 +45,6 @@ public class FilterDuplications implements Filter {
 
     private List<GeneralIssue> allLabelsToLowerCase(List<GeneralIssue> list) {
         IssuesProcessor toLowerCaseProcessor = new LabelsToLowerCaseProcessor();
-        return toLowerCaseProcessor.apply(list);
+        return toLowerCaseProcessor.apply(list, null);
     }
 }
