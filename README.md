@@ -1,8 +1,12 @@
 # STRAIT
-A tool for software reliability analysis using GitHub repositories, developed as part of my [**Bachelor's thesis**](https://is.muni.cz/th/a2htp/) and extended in [**Master's thesis**](TODO). It was proposed in paper http://dx.doi.org/10.1109/MSR.2019.00025 on *2021 IEEE/ACM 18th International Conference on Mining Software Repositories (MSR)*
 
+STRAIT is an automated software reliability analysis tool that works from the command line.
+It can be used to fit software reliability growth models onto software project time - cumulative issue amount data.
 
-The tool allows automated reliability analysis of the projects hosted on GitHub using the selected Software Reliability Growth Models (SRGMs). The input data for the model will be collected from the issue tracker of the GitHub projects.
+The tool accepts software project issue report data as input.
+Currently Github, Jira and Bugzilla issues are supported.
+
+Reliability analysis reports are produced as output.
 
 Tool Requirements
 * Java, version 8+: [https://www.java.com/en/](https://www.java.com/en/)
@@ -10,7 +14,19 @@ Tool Requirements
 * Apache Derby DB, version 10.14.2.0+: [https://db.apache.org/derby](https://db.apache.org/derby/papers/DerbyTut/install_software.html#derby)
 * Define properties in *git_hub_authentication_file.properties*
 
-# Installation for MS Windows
+STRAIT was proposed in paper http://dx.doi.org/10.1109/MSR.2019.00025 on *2021 IEEE/ACM 18th International Conference on Mining Software Repositories (MSR)*
+The tool was developed by Radoslaw Micko as part of his [**Bachelor's thesis**](https://is.muni.cz/th/a2htp/) and extended in his Master's thesis.
+The tool was later extended and refactored by Valtteri Valtonen as part of his Master's thesis.
+This is the two times extended and refactored version of STRAIT.
+
+
+## Tool Requirements
+* Java, version 8+: [https://www.java.com/en/](https://www.java.com/en/)
+* R Project, version 3.5.0+: [https://cloud.r-project.org/](https://cloud.r-project.org/)
+* Apache Derby DB, version 10.14.2.0+: [https://db.apache.org/derby](https://db.apache.org/derby/papers/DerbyTut/install_software.html#derby)
+* Define properties in *git_hub_authentication_file.properties*
+
+## Installation for MS Windows
 
 1. If Java is not installed, run the Java installer
 2. Append Java bin directory to the environment PATH variable (e.g., C:\Program FilesJava\jdk1.8.0\_171\bin)
@@ -28,7 +44,7 @@ Tool Requirements
 
 If 32-bit operating system is used the *\x64* part should be replaced with *\i386*.
 
-# Installation for Unix
+## Installation for Unix
 
 The Unix installation assumes that the Aptitude package
 manager is available. The following commands should be
@@ -47,7 +63,7 @@ executed via terminal:
 8. Set the R_HOME variable
 9. Make sure Apache Derby client server is running or run - *startNetworkServer*
 
-# Usage
+## Usage
 
 The tool can be executed from command-line by running:
 
@@ -66,6 +82,10 @@ project hosted at Github may look like:
 > With the *-url* option, it specifies the location of the project. The option *-ns* specify the name of the
 snapshot for storing the gathered issues. At the second run, the
 snapshot name with *-sn* can be provided instead of the *-url* - the local data stored in the database will be used for the analysis. The option *-e* starts the execution of the SRGM analysis. No specific models are selected, so all of the available SRGMs will be applied. The *-fde* will filter only defects from issue reports. With the option *-fc*, closed issues are only concidered. The *-fdu* option filters out duplicated issues. Furthermore, with *-ft* it limits the time period for which issue reports will be considered.
+
+Currently only Github issue reports can be downloaded automatically from the source repository based on the URL.
+Jira and Bugzilla issues require CSV files that have been cleaned of extra columns. 
+Examples of acceptable files are located in the exampleinput folder of the repository.
 
 # Table - options
 | Short option | Long option | Arguments |
