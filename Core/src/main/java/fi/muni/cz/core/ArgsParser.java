@@ -1,16 +1,6 @@
 package fi.muni.cz.core;
 
-import static fi.muni.cz.core.executions.RunConfiguration.BATCH_AND_EVALUATE;
-import static fi.muni.cz.core.executions.RunConfiguration.HELP;
-import static fi.muni.cz.core.executions.RunConfiguration.LIST_ALL_SNAPSHOTS;
-import static fi.muni.cz.core.executions.RunConfiguration.NOT_SUPPORTED;
-import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_EVALUATE;
-import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_LIST_SNAPSHOTS;
-import static fi.muni.cz.core.executions.RunConfiguration.SNAPSHOT_NAME_AND_SAVE;
-import static fi.muni.cz.core.executions.RunConfiguration.UNSPECIFIED;
-import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_EVALUATE;
-import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_LIST_SNAPSHOTS;
-import static fi.muni.cz.core.executions.RunConfiguration.URL_AND_SAVE;
+import static fi.muni.cz.core.executions.RunConfiguration.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fi.muni.cz.core.dto.BatchAnalysisConfiguration;
@@ -27,13 +17,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionGroup;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 
 /** @author Radoslav Micko, 445611@muni.cz */
 public class ArgsParser {
@@ -49,7 +33,6 @@ public class ArgsParser {
 
   // Rest of Mandatory options
   public static final String OPT_LIST_SNAPSHOTS = "sl";
-  public static final String OPT_SAVE = "s";
   public static final String OPT_EVALUATE = "e";
   public static final String OPT_PREDICT = "p";
   public static final String OPT_FILTER_LABELS = "fl";
@@ -162,9 +145,9 @@ public class ArgsParser {
     }
   }
 
+  @SuppressWarnings("checkstyle:methodlength")
   private void getConfiguredOptions() {
     options = new Options();
-
     OptionGroup mandatoryOptionGroup = new OptionGroup();
     Option option =
         Option.builder(OPT_CONFIG_FILE)
@@ -198,14 +181,6 @@ public class ArgsParser {
 
     mandatoryOptionGroup = new OptionGroup();
     option = Option.builder(OPT_LIST_SNAPSHOTS).longOpt("snapshotsList").build();
-    mandatoryOptionGroup.addOption(option);
-    option =
-        Option.builder(OPT_SAVE)
-            .longOpt("save")
-            .hasArg()
-            .argName("Format of data")
-            .desc("Save repository data to file with specified format.")
-            .build();
     mandatoryOptionGroup.addOption(option);
     option =
         Option.builder(OPT_EVALUATE)
@@ -386,14 +361,10 @@ public class ArgsParser {
       return HELP;
     } else if (hasOptionBatchConfigFile() && hasOptionEvaluate()) {
       return BATCH_AND_EVALUATE;
-    } else if (hasOptionUrl() && hasOptionSave()) {
-      return URL_AND_SAVE;
     } else if (hasOptionUrl() && hasOptionListSnapshots()) {
       return URL_AND_LIST_SNAPSHOTS;
     } else if (hasOptionUrl() && hasOptionEvaluate()) {
       return URL_AND_EVALUATE;
-    } else if (hasOptionSnapshotName() && hasOptionSave()) {
-      return SNAPSHOT_NAME_AND_SAVE;
     } else if (hasOptionSnapshotName() && hasOptionEvaluate()) {
       return SNAPSHOT_NAME_AND_EVALUATE;
     } else if (hasOptionSnapshotName() && hasOptionListSnapshots()) {
@@ -640,15 +611,6 @@ public class ArgsParser {
   }
 
   /**
-   * Check if option 's' is on command line.
-   *
-   * @return true if there is 's' command line, false otherwise.
-   */
-  public boolean hasOptionSave() {
-    return cmdl.hasOption(OPT_SAVE);
-  }
-
-  /**
    * Check if option 'gm' is on command line.
    *
    * @return true if there is 'gm' command line, false otherwise.
@@ -763,15 +725,6 @@ public class ArgsParser {
    */
   public String[] getOptionValuesFilterTime() {
     return cmdl.getOptionValues(OPT_FILTER_TIME);
-  }
-
-  /**
-   * Get argument value for 's'.
-   *
-   * @return argument value.
-   */
-  public String getOptionValueSave() {
-    return cmdl.getOptionValue(OPT_SAVE);
   }
 
   /**

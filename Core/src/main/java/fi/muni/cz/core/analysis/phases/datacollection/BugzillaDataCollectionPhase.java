@@ -1,6 +1,7 @@
 package fi.muni.cz.core.analysis.phases.datacollection;
 
-import static fi.muni.cz.core.analysis.phases.datacollection.DataCollectionUtil.getRepositoryInformationForFileEvaluation;
+import static
+        fi.muni.cz.core.analysis.phases.datacollection.DataCollectionUtil.getRepositoryInformationForFileEvaluation;
 
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.dto.DataSource;
