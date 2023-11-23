@@ -24,17 +24,17 @@
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
+            <version>1.0.2.Final</version>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>10.14.1.0</version>
+            <version>10.14.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
-            <version>10.14.1.0</version>
+            <version>10.14.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
