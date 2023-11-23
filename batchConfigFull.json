@@ -1,5 +1,6 @@
 {
   "dataSources": [
+    {"type": "github", "location": "https://github.com/novuhq/novu"},
     {"type": "github", "location": "https://github.com/wichtounet/thor-os"},
     {"type": "github", "location": "https://github.com/vvaltchev/tilck"},
     {"type": "github", "location": "https://github.com/ReturnInfinity/BareMetal-OS-legacy"},
@@ -14,7 +15,6 @@
     {"type": "github", "location": "https://github.com/testing-library/react-testing-library"},
     {"type": "github", "location": "https://github.com/ggreer/the_silver_searcher"},
     {"type": "github", "location": "https://github.com/Gallopsled/pwntools"},
-    {"type": "github", "location": "https://github.com/novuhq/novu"},
     {"type": "github", "location": "https://github.com/ossrs/srs"},
     {"type": "github", "location": "https://github.com/sst/sst"},
     {"type": "github", "location": "https://github.com/skylot/jadx"},

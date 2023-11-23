@@ -1,5 +1,5 @@
 {
   "dataSources": [
-    {"type": "github", "location": "https://github.com/wichtounet/thor-os"}
+    {"type": "github", "location": "https://github.com/novuhq/novu"}
   ]
 }
