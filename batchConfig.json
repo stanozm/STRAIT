@@ -1,5 +1,5 @@
 {
   "dataSources": [
-    {"type": "github", "location": "https://github.com/novuhq/novu"}
+    {"type": "github", "location": "https://github.com/pbatard/rufus"}
   ]
 }

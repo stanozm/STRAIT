@@ -1,15 +1,18 @@
 package fi.muni.cz.dataprovider.mapping;
 
+import com.github.dozermapper.core.DozerBeanMapper;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import org.dozer.DozerBeanMapper;
 
 /** @author Radoslav Micko, 445611@muni.cz */
 public class GitHubMapping implements BeanMapping {
 
-  private final DozerBeanMapper dozerBeanMapper;
+  private final Mapper dozerBeanMapper;
 
   /**
    * Initialize DozerBeanMapper with specified mapping file.
@@ -17,7 +20,7 @@ public class GitHubMapping implements BeanMapping {
    * @param mappingFile name of mapping file.
    */
   public GitHubMapping(String mappingFile) {
-    dozerBeanMapper = new DozerBeanMapper(Arrays.asList(mappingFile));
+    dozerBeanMapper = DozerBeanMapperBuilder.create().withMappingFiles(List.of(mappingFile)).build();
   }
 
   @Override

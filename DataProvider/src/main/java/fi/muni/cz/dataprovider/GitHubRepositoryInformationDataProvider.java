@@ -1,5 +1,7 @@
 package fi.muni.cz.dataprovider;
 
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 import fi.muni.cz.dataprovider.authenticationdata.GitHubAuthenticationDataProvider;
 import fi.muni.cz.dataprovider.exception.AuthenticationException;
 import fi.muni.cz.dataprovider.utils.GitHubUrlParser;
@@ -8,7 +10,6 @@ import fi.muni.cz.dataprovider.utils.UrlParser;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.dozer.DozerBeanMapper;
 import org.eclipse.egit.github.core.Repository;
 import org.eclipse.egit.github.core.client.GitHubClient;
 import org.eclipse.egit.github.core.client.RequestException;
@@ -22,7 +23,7 @@ public class GitHubRepositoryInformationDataProvider implements RepositoryInform
 
   private final RepositoryService repositoryService;
   private final CommitService commitService;
-  private final DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
+  private final Mapper dozerBeanMapper = DozerBeanMapperBuilder.buildDefault();
   private final GitHub github;
 
   /**
