@@ -1,0 +1,281 @@
+<html lang="EN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>HTML Output</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.5.4/c3.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js" charset="utf-8"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.5.4/c3.min.js"></script>
+
+        <style>
+            .row.content {height: 100%;}
+            
+            .borders {
+                border-left: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+                margin: -1px;
+            }
+            
+            .row{
+                overflow-y: hidden;
+                background-color: #def2f1;
+            }
+            
+            .container-fluid{
+		background-color: #def2f1;
+            }
+            
+            .container{
+                background-color: #def2f1;
+            }
+            
+            html ,body {
+                height: 100%;
+                background-color: #ffffff;
+            }
+
+            .testimonial-group > .row {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            h3,h1{
+                font-weight: bold; 
+            }
+            
+            .testimonial-group > .row > .col-sm-8 {
+                display: inline-block;
+                float: none;
+            }
+            
+            .sidenav {
+                background-color: #ffffff;
+            }
+
+            hr.hrstyle {
+                border: 0;
+                height: 1px;
+                background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+            }
+
+            .c3-circle {
+                opacity: 1 !important;
+            }
+
+            table, th, td {
+                text-align: center;
+                border:1px solid black;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <div class="container-fluid">    
+            <div class="row text-left">
+                <div class="col-sm-2 sidenav"></div>
+                <div class="col-sm-8 text-left"> 
+                    <center><h1>thor-os</h1></center>
+                    <p>
+                        URL = <a href="https://github.com/wichtounet/thor-os">https://github.com/wichtounet/thor-os</a><br>
+                        This is a reliability analysis report for  <a href="https://github.com/wichtounet/thor-os">thor-os</a> of user Github.<br>
+                    </p>
+                    <b>Project information:</b><br>
+                    <p>
+                        Simple operating system in C++, written from scratch
+                    </p>
+                    <b>Size:</b> 2 698<br>
+                    <b>Contributors:</b> 9<br>
+                    <b>Watchers:</b> 1 561<br>
+                    <b>Forks:</b> 175<br>
+                    <b>First pushed at:</b> 9.10.2013 14.28.24<br>
+                    <b>Last pushed at:</b> 24.5.2021 12.15.10<br>
+                    <b>Count of development days:</b> 2 783<br>
+                    <hr class="hrstyle">
+                    <h3>Releases:</h3>
+                    <table>
+                        <tr>
+                            <th>#</th>
+                            <th>Name of Release</th>
+                            <th>Date of Release</th>
+                        </tr>
+                    </table>
+                    <hr class="hrstyle">
+                    <h3>Reliability analysis:</h3>
+                    <p>
+                        This analysis was performed <b>23.11.2023 15.15.20</b>.
+                    </p>
+                    <p>
+                        Results are reported for a total of <b>1</b> issue report sets.
+                    </p>
+
+                        <b>Data processing overview</b>
+                        <p>
+                            Initial number of issue reports = 46<br>
+                            Number of issue reports after processing and filtering = 19<br>
+                        </p>
+                        <table>
+                            <tr>
+                                <th>Issue processing action</th>
+                                <th>Issue processing action result</th>
+                            </tr>
+                                    <tr>
+                                        <td>FilterDefects</td>
+                                        <td>Removed 27 issue reports</td>
+                                    </tr>
+                        </table>
+                        <p>
+                            <b>Trend test</b>
+                            Trend does not exist .<br>
+                            Trend = 2.430202241224554
+                        </p>
+                        <hr class="hrstyle">
+                        <center><h3>Time between failures</h3></center>
+                        <div id="timebetweenchart0"></div>
+                        <hr class="hrstyle">
+
+                        <div class="container-fluid testimonial-group">
+                            <center><h3>Comparison of 3 models:</h3></center>
+                            <div class="row text-center flex-nowrap">
+                                <div class="col-sm-8 col-md-8 col-lg-4 borders">
+                                    <h3>LL</h3>
+                                        <p>
+                                            Model function:<br>
+                                            μ(t) = a * <html><sup>(λ*t)<sup>K</sup></sup>&frasl;<sub>1 + (λ*t)<sup>K</sup></sub></html><br>
+                                            Estimated parameters:<br>
+                                                a = 6159.017291689754<br>
+                                                λ = 0.0001077748831209<br>
+                                                K = 1.649598033202133<br>
+                                            Estimated by Least Squares solver.
+                                        </p>
+                                            <h3>Goodness of fit:</h3>
+                                            <p>
+                                                    LL Pseudo R2 NHR = REJECT<br>
+                                                    LL PA = 0.935<br>
+                                                    LL BIC = 581.946<br>
+                                                    LL AIC = 568.464<br>
+                                                    LL NRMSE = 0.08<br>
+                                                    LL Pseudo R2 = 0.943<br>
+                                                    LL MSE = 0.916<br>
+                                                    LL AOFP = 0<br>
+                                                    LL RSE = 0<br>
+                                            </p>
+                                            <h3>Predictive accuracy:</h3>
+                                            <p>
+                                                LL Pred. Acc. NRMSE = 0.141<br>
+                                                LL Pred. Acc. RSE = 2.449<br>
+                                                LL Pred. Acc. MSE = 6.445<br>
+                                                LL Pred. Acc. PA = 1<br>
+                                                LL Pred. Acc. AOFP = 0.333<br>
+                                            </p>
+                                </div>
+                                <div class="col-sm-8 col-md-8 col-lg-4 borders">
+                                    <h3>WE</h3>
+                                        <p>
+                                            Model function:<br>
+                                            μ(t) = a * (1 - e<html><sup>-b*t<sup>c</sup></sup></html>)<br>
+                                            Estimated parameters:<br>
+                                                a = 2167.3547835269046<br>
+                                                b = 0.0000008080617057<br>
+                                                c = 1.6503132451914257<br>
+                                            Estimated by Least Squares solver.
+                                        </p>
+                                            <h3>Goodness of fit:</h3>
+                                            <p>
+                                                    WE AIC = 568.488<br>
+                                                    WE BIC = 581.971<br>
+                                                    WE PA = 0.935<br>
+                                                    WE Pseudo R2 NHR = REJECT<br>
+                                                    WE MSE = 0.916<br>
+                                                    WE RSE = 0<br>
+                                                    WE NRMSE = 0.08<br>
+                                                    WE AOFP = 0<br>
+                                                    WE Pseudo R2 = 0.943<br>
+                                            </p>
+                                            <h3>Predictive accuracy:</h3>
+                                            <p>
+                                                WE Pred. Acc. PA = 1<br>
+                                                WE Pred. Acc. NRMSE = 0.14<br>
+                                                WE Pred. Acc. MSE = 6.382<br>
+                                                WE Pred. Acc. AOFP = 0.333<br>
+                                                WE Pred. Acc. RSE = 2.449<br>
+                                            </p>
+                                </div>
+                                <div class="col-sm-8 col-md-8 col-lg-4 borders">
+                                    <h3>YR</h3>
+                                        <p>IGNORED</p>
+                                </div>
+                        </div>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
+                                    <hr class="hrstyle">
+                                    <center><h3>Failure occurence</h3></center>
+                                    <div id="cumulativechart0"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <script>
+                            var timebetweenchart0 = c3.generate({
+                                bindto: '#timebetweenchart0',
+                                data: {
+                                    columns: [
+                                        ['Time between failures', 0,13345,434,935,64,7103,1592,5755,1413,2,603,42,5006,3320,1049,870,3272,5058,4315,],
+                            ],
+                            type: 'scatter',
+                                colors: {
+                                'Time between failures': '#ff4444'
+                            }
+                            },
+                            axis: {
+                                x: {
+                                    label: {
+                                        text: 'Failures',
+                                            position: 'outer-center'
+                                    }
+                                },
+                                y: {
+                                    label: {
+                                        text: 'Time between failures (Hours)',
+                                            position: 'outer-middle'
+                                    }
+                                }
+                            }
+                            });
+                            var cumulativechart0 = c3.generate({
+                                bindto: '#cumulativechart0',
+                                size: {
+                                    height: 500
+                                },
+                                data: {
+                                    columns: [
+                                        ['Real issues', 0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,3,3,3,3,3,3,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,10,10,10,10,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,14,14,14,14,14,14,15,15,15,15,15,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,16,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,18,],
+                                    ['LL', 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,11,11,11,12,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13,13,13,14,14,14,14,14,14,14,14,14,14,15,15,15,15,15,15,15,15,15,16,16,16,16,16,16,16,16,16,16,17,17,17,17,17,17,17,17,17,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,19,20,20,20,20,20,20,20,20,21,21,21,21,21,21,21,21,21,22,22,22,22,22,22,22,22,23,23,23,23,23,23,23,23,23,24,24,],
+                                    ['WE', 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,6,6,6,6,6,6,6,6,6,6,6,6,6,7,7,7,7,7,7,7,7,7,7,7,7,7,8,8,8,8,8,8,8,8,8,8,8,8,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,10,10,10,10,10,10,10,11,11,11,11,11,11,11,11,11,11,11,12,12,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,13,13,13,13,14,14,14,14,14,14,14,14,14,14,15,15,15,15,15,15,15,15,15,16,16,16,16,16,16,16,16,16,16,17,17,17,17,17,17,17,17,17,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,19,20,20,20,20,20,20,20,20,20,21,21,21,21,21,21,21,21,22,22,22,22,22,22,22,22,23,23,23,23,23,23,23,23,23,24,24,],
+                            ]
+                            },
+                            axis: {
+                                x: {
+                                    label: {
+                                        text: 'Testing periods (Weeks)',
+                                            position: 'outer-center'
+                                    }
+                                },
+                                y: {
+                                    label: {
+                                        text: 'Total failures',
+                                            position: 'outer-middle'
+                                    }
+                                }
+                            }
+                            });
+                        </script>
+
+
+    </body>
+</html>
