@@ -9,7 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 
 /** @author Radoslav Micko, 445611@muni.cz */

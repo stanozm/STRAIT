@@ -1,5 +1,7 @@
 package fi.muni.cz.dataprovider;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+
 
 /** @author Radoslav Micko, 445611@muni.cz */
 @Entity
