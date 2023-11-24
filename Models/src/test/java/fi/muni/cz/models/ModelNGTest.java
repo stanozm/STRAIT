@@ -40,7 +40,7 @@ public class ModelNGTest {
 
   @BeforeClass
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
 
     Pair<Integer, Integer> pair = new Pair<>(1, 1);
     listOfPairs.add(pair);
@@ -50,7 +50,7 @@ public class ModelNGTest {
     Map<String, String> map = new LinkedHashMap<>();
     map.put("a", "a");
     SolverResult solverResult = new SolverResult();
-    solverResult.setParameters(new double[] {1, 1});
+    solverResult.setParameters(new double[]{1, 1});
     solverResult.setAic(1.0);
     solverResult.setBic(1.0);
     when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);
@@ -60,7 +60,7 @@ public class ModelNGTest {
     Map<String, String> map = new LinkedHashMap<>();
     map.put("a", "a");
     SolverResult solverResult = new SolverResult();
-    solverResult.setParameters(new double[] {1, 1, 1});
+    solverResult.setParameters(new double[]{1.0, 1.0, 1.0});
     solverResult.setAic(1.0);
     solverResult.setBic(1.0);
     when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);
@@ -71,8 +71,8 @@ public class ModelNGTest {
     prepareMocksForTwoParams();
 
     GOModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
-    assertEquals(GOModel.getModelParameters().get("a"), new Double(1));
-    assertEquals(GOModel.getModelParameters().get("b"), new Double(1));
+    assertEquals(GOModel.getModelParameters().get("a"), Double.valueOf(1));
+    assertEquals(GOModel.getModelParameters().get("b"), Double.valueOf(1));
   }
 
   @Test
@@ -80,8 +80,8 @@ public class ModelNGTest {
     prepareMocksForTwoParams();
 
     GOSShapedModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
-    assertEquals(GOSShapedModel.getModelParameters().get("a"), new Double(1));
-    assertEquals(GOSShapedModel.getModelParameters().get("b"), new Double(1));
+    assertEquals(GOSShapedModel.getModelParameters().get("a"), Double.valueOf(1));
+    assertEquals(GOSShapedModel.getModelParameters().get("b"), Double.valueOf(1));
   }
 
   @Test
@@ -89,8 +89,8 @@ public class ModelNGTest {
     prepareMocksForTwoParams();
 
     DuaneModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
-    assertEquals(DuaneModel.getModelParameters().get("α"), new Double(1));
-    assertEquals(DuaneModel.getModelParameters().get("β"), new Double(1));
+    assertEquals(DuaneModel.getModelParameters().get("α"), Double.valueOf(1));
+    assertEquals(DuaneModel.getModelParameters().get("β"), Double.valueOf(1));
   }
 
   @Test
@@ -98,8 +98,8 @@ public class ModelNGTest {
     prepareMocksForTwoParams();
 
     MusaOkumotoModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
-    assertEquals(MusaOkumotoModel.getModelParameters().get("α"), new Double(1));
-    assertEquals(MusaOkumotoModel.getModelParameters().get("β"), new Double(1));
+    assertEquals(MusaOkumotoModel.getModelParameters().get("α"), Double.valueOf(1));
+    assertEquals(MusaOkumotoModel.getModelParameters().get("β"), Double.valueOf(1));
   }
 
   @Test
@@ -107,8 +107,8 @@ public class ModelNGTest {
     prepareMocksForThreeParams();
 
     HossainDahiyaModel.estimateModelData(ROUNDING_DECIMAL_AMOUNT);
-    assertEquals(HossainDahiyaModel.getModelParameters().get("a"), new Double(1));
-    assertEquals(HossainDahiyaModel.getModelParameters().get("b"), new Double(1));
-    assertEquals(HossainDahiyaModel.getModelParameters().get("c"), new Double(1));
+    assertEquals(HossainDahiyaModel.getModelParameters().get("a"), Double.valueOf(1));
+    assertEquals(HossainDahiyaModel.getModelParameters().get("b"), Double.valueOf(1));
+    assertEquals(HossainDahiyaModel.getModelParameters().get("c"), Double.valueOf(1));
   }
 }

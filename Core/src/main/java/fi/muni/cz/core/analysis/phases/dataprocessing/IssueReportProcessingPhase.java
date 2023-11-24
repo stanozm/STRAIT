@@ -31,7 +31,7 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
     this.issueProcessingStrategy = issueProcessingStrategy;
     this.issueProcessingResults = new ArrayList<>();
     this.processedIssues = new ArrayList<>();
-  };
+  }
 
   @Override
   public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto originalDto) {
@@ -109,7 +109,7 @@ public class IssueReportProcessingPhase implements ReliabilityAnalysisPhase {
     List<GeneralIssue> allIssues =
         dto.getIssueReportSets().stream()
             .flatMap(issuesCollection -> issuesCollection.getListOfGeneralIssues().stream())
-            .collect(Collectors.toList());
+            .toList();
 
     return allIssues.stream()
         .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))

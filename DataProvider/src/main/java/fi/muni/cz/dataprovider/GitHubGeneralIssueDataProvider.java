@@ -7,10 +7,7 @@ import fi.muni.cz.dataprovider.utils.GitHubUrlParser;
 import fi.muni.cz.dataprovider.utils.ParsedUrlData;
 import fi.muni.cz.dataprovider.utils.UrlParser;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.egit.github.core.Issue;
@@ -76,7 +73,7 @@ public class GitHubGeneralIssueDataProvider implements GeneralIssueDataProvider 
     List<Issue> allIssues = new ArrayList<>();
     allIssues.addAll(issueService.getIssues(owner, repositoryName, getFilterForClosedIssues()));
     allIssues.addAll(issueService.getIssues(owner, repositoryName, getFilterForOpenedIssues()));
-    allIssues.sort((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt()));
+    allIssues.sort(Comparator.comparing(Issue::getCreatedAt));
     return allIssues;
   }
 

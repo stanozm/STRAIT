@@ -23,7 +23,7 @@ public class CumulativeIssueAmountCalculationPhase implements ReliabilityAnalysi
   public CumulativeIssueAmountCalculationPhase(String timeUnit) {
     this.cumulativeCounter = new CumulativeIssuesCounter(timeUnit);
     this.timeUnit = timeUnit;
-  };
+  }
 
   @Override
   public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
@@ -53,5 +53,5 @@ public class CumulativeIssueAmountCalculationPhase implements ReliabilityAnalysi
         cumulativeCounter.countIssues(
             issuesCollection.getListOfGeneralIssues(), startOfTesting, endOfTesting));
     return dataPointCollection;
-  };
+  }
 }

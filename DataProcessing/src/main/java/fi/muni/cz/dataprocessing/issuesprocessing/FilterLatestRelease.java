@@ -29,7 +29,7 @@ public class FilterLatestRelease implements Filter {
         repositoryInformation != null
             ? repositoryInformation.getListOfReleases().stream()
                 .sorted(Comparator.comparing(Release::getPublishedAt))
-                .collect(Collectors.toList())
+                .toList()
             : new ArrayList<>();
 
     if (releases.size() < 2) {

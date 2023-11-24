@@ -26,7 +26,7 @@ public class CumulativeIssuesCounterNGTest {
 
   @BeforeClass
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
 
     GeneralIssue issue = new GeneralIssue();
     listOfIssues.add(issue);
@@ -52,12 +52,12 @@ public class CumulativeIssuesCounterNGTest {
     when(counter.countIssues(listOfIssues, date, date)).thenReturn(listOfPairs);
     assertEquals(
         cumulativeIssuesCounter.countIssues(listOfIssues, date, date).get(0).getSecond(),
-        new Integer(1));
+        Integer.valueOf(1));
     assertEquals(
         cumulativeIssuesCounter.countIssues(listOfIssues, date, date).get(1).getSecond(),
-        new Integer(2));
+        Integer.valueOf(2));
     assertEquals(
         cumulativeIssuesCounter.countIssues(listOfIssues, date, date).get(3).getSecond(),
-        new Integer(2));
+        Integer.valueOf(2));
   }
 }

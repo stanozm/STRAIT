@@ -54,8 +54,8 @@ public class IntervalIssuesCounterNGTest {
     List<Pair<Integer, Integer>> countedIssues =
         counter.countIssues(listOfIssues, getDate(2018, 10, 1), getDate(2018, 10, 16));
 
-    assertEquals(countedIssues.get(0).getSecond(), new Integer(4));
-    assertEquals(countedIssues.get(1).getSecond(), new Integer(1));
+    assertEquals(countedIssues.get(0).getSecond(), Integer.valueOf(4));
+    assertEquals(countedIssues.get(1).getSecond(), Integer.valueOf(1));
   }
 
   private Date getDate(int year, int month, int date) {

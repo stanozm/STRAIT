@@ -40,7 +40,7 @@ public class GeneralIssuesSnapshotDaoImpl implements GeneralIssuesSnapshotDao {
     if (result.isEmpty()) {
       snapshot = null;
     } else {
-      snapshot = (GeneralIssuesCollection) result.get(0);
+      snapshot = result.get(0);
     }
     endTransaction();
     return snapshot;

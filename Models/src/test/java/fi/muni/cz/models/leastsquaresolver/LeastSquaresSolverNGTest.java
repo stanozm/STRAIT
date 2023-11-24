@@ -36,7 +36,7 @@ public class LeastSquaresSolverNGTest {
 
   @BeforeClass
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
 
     Pair<Integer, Integer> pair = new Pair<>(1, 1);
     listOfPairs.add(pair);
@@ -55,10 +55,10 @@ public class LeastSquaresSolverNGTest {
     when(rEngine.eval("coef(modelMO2)")).thenReturn(new REXP(doubleArr));
     int[] intArr = {1, 1};
 
-    assertEquals(GOSolver.optimize(intArr, listOfPairs), doubleArr);
-    assertEquals(GOSShapedSolver.optimize(intArr, listOfPairs), doubleArr);
-    assertEquals(duaneSolver.optimize(intArr, listOfPairs), doubleArr);
-    assertEquals(musaOkumotoSolver.optimize(intArr, listOfPairs), doubleArr);
+    assertEquals(GOSolver.optimize(intArr, listOfPairs).getParameters(), doubleArr);
+    assertEquals(GOSShapedSolver.optimize(intArr, listOfPairs).getParameters(), doubleArr);
+    assertEquals(duaneSolver.optimize(intArr, listOfPairs).getParameters(), doubleArr);
+    assertEquals(musaOkumotoSolver.optimize(intArr, listOfPairs).getParameters(), doubleArr);
 
     int[] int3Arr = {1, 1, 1};
     double[] double3Arr = {1.0, 1.0, 1.0};
@@ -72,10 +72,10 @@ public class LeastSquaresSolverNGTest {
     when(rEngine.eval("coef(modelLogLogistic2)")).thenReturn(new REXP(double3Arr));
     when(rEngine.eval("coef(modelYamadaExponential2)")).thenReturn(new REXP(double3Arr));
     when(rEngine.eval("coef(modelYamadaRaleigh2)")).thenReturn(new REXP(double3Arr));
-    assertEquals(hossainDahiyaSolver.optimize(int3Arr, listOfPairs), double3Arr);
-    assertEquals(weibullSolver.optimize(int3Arr, listOfPairs), double3Arr);
-    assertEquals(logLogisticSolver.optimize(int3Arr, listOfPairs), double3Arr);
-    assertEquals(yamadaExponentialSolver.optimize(int3Arr, listOfPairs), double3Arr);
-    assertEquals(yamadaRaleighSolver.optimize(int3Arr, listOfPairs), double3Arr);
+    assertEquals(hossainDahiyaSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
+    assertEquals(weibullSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
+    assertEquals(logLogisticSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
+    assertEquals(yamadaExponentialSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
+    assertEquals(yamadaRaleighSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
   }
 }

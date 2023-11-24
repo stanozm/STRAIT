@@ -77,7 +77,7 @@ public class ReliabilityAnalysisDto {
    *
    * @param repositoryInformation repository information object
    * @param projectUrlString project url
-   * @param projectUserString project user name
+   * @param projectUserString project username
    */
   public void addRepositoryInformationData(
       RepositoryInformation repositoryInformation,

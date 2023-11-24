@@ -50,7 +50,7 @@ public abstract class StraitExecution {
   }
 
   /**
-   * Get cache mode for Github data collection from configuration
+   * Get cache mode for GitHub data collection from configuration
    *
    * @param configuration Configuration object
    * @return Cache mode

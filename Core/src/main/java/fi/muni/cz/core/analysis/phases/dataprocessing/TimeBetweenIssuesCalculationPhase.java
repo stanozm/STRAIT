@@ -23,7 +23,7 @@ public class TimeBetweenIssuesCalculationPhase implements ReliabilityAnalysisPha
   public TimeBetweenIssuesCalculationPhase(String timeUnit) {
     this.timeUnit = timeUnit;
     this.timeBetweenIssuesCounter = new TimeBetweenIssuesCounter(timeUnit);
-  };
+  }
 
   @Override
   public ReliabilityAnalysisDto execute(ReliabilityAnalysisDto dto) {
@@ -48,5 +48,5 @@ public class TimeBetweenIssuesCalculationPhase implements ReliabilityAnalysisPha
         timeBetweenIssuesCounter.countIssues(
             issuesCollection.getListOfGeneralIssues(), new Date(), new Date()));
     return dataPointCollection;
-  };
+  }
 }

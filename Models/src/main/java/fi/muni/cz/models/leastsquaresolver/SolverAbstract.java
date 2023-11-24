@@ -26,7 +26,7 @@ public abstract class SolverAbstract implements Solver {
    * @return string of elements separated with comma.
    */
   protected String getPreparedListWithCommas(List<Integer> list) {
-    String out = new String();
+    String out = "";
     for (int i = 0; i < list.size(); i++) {
       if (i == list.size() - 1) {
         out = out + list.get(i);
@@ -44,7 +44,7 @@ public abstract class SolverAbstract implements Solver {
    * @return List of first elements.
    */
   protected List<Integer> getListOfFirstFromPair(List<Pair<Integer, Integer>> listOfData) {
-    return listOfData.stream().map((pair) -> pair.getFirst()).collect(Collectors.toList());
+    return listOfData.stream().map(Pair::getFirst).collect(Collectors.toList());
   }
 
   /**
@@ -54,7 +54,7 @@ public abstract class SolverAbstract implements Solver {
    * @return List of second elements.
    */
   protected List<Integer> getListOfSecondFromPair(List<Pair<Integer, Integer>> listOfData) {
-    return listOfData.stream().map((pair) -> pair.getSecond()).collect(Collectors.toList());
+    return listOfData.stream().map(Pair::getSecond).collect(Collectors.toList());
   }
 
   protected void initializeOptimizationInR(List<Pair<Integer, Integer>> listOfData) {

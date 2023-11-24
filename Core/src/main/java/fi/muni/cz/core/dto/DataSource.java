@@ -1,7 +1,7 @@
 package fi.muni.cz.core.dto;
 
 /**
- * Class that represents a data source. This could be a Github URL, path to a JIRA CSV file etc.
+ * Class that represents a data source. This could be a GitHub URL, path to a JIRA CSV file etc.
  *
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
  */

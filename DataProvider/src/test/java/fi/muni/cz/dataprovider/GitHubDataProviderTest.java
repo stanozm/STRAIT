@@ -29,7 +29,7 @@ public class GitHubDataProviderTest {
 
   @BeforeClass
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
   }
 
   @Test

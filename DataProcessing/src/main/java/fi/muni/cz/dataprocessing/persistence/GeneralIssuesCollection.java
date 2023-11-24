@@ -205,7 +205,7 @@ public class GeneralIssuesCollection implements Serializable {
     }
 
     /**
-     * Set user name.
+     * Set username.
      *
      * @param userName user name.
      * @return this builder, to allow method chaining.

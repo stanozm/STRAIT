@@ -4,7 +4,7 @@ STRAIT is an automated software reliability analysis tool that works from the co
 It can be used to fit software reliability growth models onto software project time - cumulative issue amount data.
 
 The tool accepts software project issue report data as input.
-Currently Github, Jira and Bugzilla issues are supported.
+Currently GitHub, Jira and Bugzilla issues are supported.
 
 Reliability analysis reports are produced as output.
 
@@ -75,15 +75,15 @@ list of all options if no argument is provided. The help can be accessed by runn
 ```java -jar strait.jar --help```
 
 A simple execution of the tool to evaluate the testify
-project hosted at Github may look like:
+project hosted at GitHub may look like:
 
 ```java -jar strait.jar -url https://github.com/stretchr/testify -ns testify -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2021-01-01T00:00:00```
 
 > With the *-url* option, it specifies the location of the project. The option *-ns* specify the name of the
 snapshot for storing the gathered issues. At the second run, the
-snapshot name with *-sn* can be provided instead of the *-url* - the local data stored in the database will be used for the analysis. The option *-e* starts the execution of the SRGM analysis. No specific models are selected, so all of the available SRGMs will be applied. The *-fde* will filter only defects from issue reports. With the option *-fc*, closed issues are only concidered. The *-fdu* option filters out duplicated issues. Furthermore, with *-ft* it limits the time period for which issue reports will be considered.
+snapshot name with *-sn* can be provided instead of the *-url* - the local data stored in the database will be used for the analysis. The option *-e* starts the execution of the SRGM analysis. No specific models are selected, so all the available SRGMs will be applied. The *-fde* will filter only defects from issue reports. With the option *-fc*, closed issues are only concidered. The *-fdu* option filters out duplicated issues. Furthermore, with *-ft* it limits the time period for which issue reports will be considered.
 
-Currently only Github issue reports can be downloaded automatically from the source repository based on the URL.
+Currently only GitHub issue reports can be downloaded automatically from the source repository based on the URL.
 Jira and Bugzilla issues require CSV files that have been cleaned of extra columns. 
 Examples of acceptable files are located in the exampleinput folder of the repository.
 

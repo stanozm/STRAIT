@@ -17,7 +17,7 @@ public class LaplaceTrendTest implements TrendTest {
   /**
    * Initialize timeUnit for IssuesCounter as time between issue unit.
    *
-   * @param timeUnit time between issue unit. (eg. IssueCounter.WEEK).
+   * @param timeUnit time between issue unit. (e.g. IssueCounter.WEEK).
    */
   public LaplaceTrendTest(String timeUnit) {
     this.timeUnit = timeUnit;
@@ -33,7 +33,7 @@ public class LaplaceTrendTest implements TrendTest {
         timeBetweenIssues.stream().mapToDouble(a -> a.getSecond().doubleValue()).sum();
     double numerator =
         (sumOfDuration / totalNumberOfIssues
-            - timeBetweenIssues.get(timeBetweenIssues.size() - 1).getSecond() / 2);
+            - (double) timeBetweenIssues.get(timeBetweenIssues.size() - 1).getSecond() / 2);
     double denumerator =
         timeBetweenIssues.get(timeBetweenIssues.size() - 1).getSecond()
             * Math.sqrt(1 / (12 * totalNumberOfIssues));

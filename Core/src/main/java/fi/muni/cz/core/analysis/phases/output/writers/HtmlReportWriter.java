@@ -46,7 +46,7 @@ public class HtmlReportWriter implements OutputWriter {
     try (BufferedWriter writer =
         new BufferedWriter(
             new OutputStreamWriter(
-                Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8)); ) {
+                Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8))) {
       Template template = freemakerTemplateConfiguration.getTemplate(TEMPLATE_PATH);
       template.process(templateMap, writer);
       System.out.println("File created - " + fileName + ".html");

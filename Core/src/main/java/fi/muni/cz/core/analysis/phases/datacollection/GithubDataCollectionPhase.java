@@ -28,9 +28,9 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
   private List<GeneralIssuesCollection> issueReportCollections;
 
   /**
-   * Create new Github data collection phase
+   * Create new GitHub data collection phase
    *
-   * @param dataSources List of Github data sources to be used for this collection phase
+   * @param dataSources List of GitHub data sources to be used for this collection phase
    * @param cacheMode Cache mode
    * @param githubIssueDataProvider Github issue data provider
    * @param githubRepositoryDataProvider Github repository data provider

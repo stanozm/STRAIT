@@ -16,7 +16,7 @@ public class TimeBetweenIssuesCounter implements IssuesCounter {
   /**
    * Initialize timeUnit for time unit between issues.
    *
-   * @param timeUnit representation of time unit. (eg. IssueCounter.WEEK).
+   * @param timeUnit representation of time unit. (e.g. IssueCounter.WEEK).
    */
   public TimeBetweenIssuesCounter(String timeUnit) {
     this.timeUnit = timeUnit;

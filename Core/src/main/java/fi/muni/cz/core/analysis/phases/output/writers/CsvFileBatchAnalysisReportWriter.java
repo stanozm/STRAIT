@@ -35,7 +35,7 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
   }
 
   private List<String> generateFileHeader(ReliabilityAnalysisDto dto) {
-    List<String> header = new ArrayList();
+    List<String> header = new ArrayList<>();
     header.add("Project name");
 
     for (int i = 0; i < dto.getModelResults().size(); i++) {
@@ -63,7 +63,7 @@ public class CsvFileBatchAnalysisReportWriter implements BatchOutputWriter {
   }
 
   private List<String> generateFileRow(ReliabilityAnalysisDto dto) {
-    List<String> row = new ArrayList();
+    List<String> row = new ArrayList<>();
     row.add(dto.getProjectName());
 
     for (int i = 0; i < dto.getModelResults().size(); i++) {

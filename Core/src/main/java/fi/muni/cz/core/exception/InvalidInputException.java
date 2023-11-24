@@ -1,7 +1,4 @@
 package fi.muni.cz.core.exception;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /** @author Radoslav Micko, 445611@muni.cz */
@@ -16,7 +13,7 @@ public class InvalidInputException extends Exception {
    */
   public InvalidInputException(List<String> causes) {
     super();
-    this.causes = Collections.unmodifiableList(new ArrayList<>(causes));
+    this.causes = List.copyOf(causes);
   }
 
   /** @return causes of exception. */

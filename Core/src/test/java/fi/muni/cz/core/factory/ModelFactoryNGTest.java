@@ -33,7 +33,7 @@ public class ModelFactoryNGTest {
 
   @BeforeMethod
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
   }
 
   @Test

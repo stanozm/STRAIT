@@ -2,10 +2,8 @@ package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
 import fi.muni.cz.dataprovider.RepositoryInformation;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -41,7 +39,7 @@ public class FilterOutIssuesWithoutFix implements Filter {
         new HashSet<>(FILTER_BY_LABELS.apply(FILTER_DEFECTS.apply(list, null), null));
     issueAmountAfter = filteredList.size();
     return filteredList.stream()
-        .sorted((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt()))
+        .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))
         .collect(Collectors.toList());
   }
 

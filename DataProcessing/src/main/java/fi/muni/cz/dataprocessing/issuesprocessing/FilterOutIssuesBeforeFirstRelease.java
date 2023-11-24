@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Remove GeneralIssue objects that have a creation date before the publish date of the first
+ * Remove GeneralIssue objects that have a creation date before the publishing date of the first
  * release
  *
  * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
@@ -25,7 +25,7 @@ public class FilterOutIssuesBeforeFirstRelease implements Filter {
         repositoryInformation != null
             ? repositoryInformation.getListOfReleases().stream()
                 .sorted(Comparator.comparing(Release::getPublishedAt))
-                .collect(Collectors.toList())
+                .toList()
             : new ArrayList<>();
 
     if (releases.isEmpty()) {

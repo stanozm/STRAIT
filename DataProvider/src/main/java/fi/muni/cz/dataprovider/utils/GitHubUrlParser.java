@@ -2,6 +2,7 @@ package fi.muni.cz.dataprovider.utils;
 
 import fi.muni.cz.dataprovider.exception.DataProviderException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 /** @author Radoslav Micko, 445611@muni.cz */
@@ -12,13 +13,13 @@ public class GitHubUrlParser implements UrlParser {
   @Override
   public ParsedUrlData parseUrlAndCheck(String urlString) {
     try {
-      URL url = new URL(urlString);
+      URL url = URI.create(urlString).toURL();
       String[] ownerAndRepositoryName = url.getPath().split("/");
       if (ownerAndRepositoryName.length < 3 || !url.getHost().equals(HOST)) {
         throw new DataProviderException("Incorrect URL.");
       }
       return new ParsedUrlData(url, ownerAndRepositoryName[1], ownerAndRepositoryName[2]);
-    } catch (MalformedURLException ex) {
+    } catch (MalformedURLException | IllegalArgumentException ex) {
       throw new DataProviderException("Incorrect URL.");
     }
   }

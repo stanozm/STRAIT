@@ -34,7 +34,7 @@ public class CumulativeIssuesCounter implements IssuesCounter {
     List<Pair<Integer, Integer>> listOfTotalIssues = new ArrayList<>();
     for (Pair<Integer, Integer> pair : spreadedIssues) {
       totalNumber = totalNumber + pair.getSecond();
-      listOfTotalIssues.add(new Pair(pair.getFirst(), totalNumber));
+      listOfTotalIssues.add(Pair.create(pair.getFirst(), totalNumber));
     }
     return listOfTotalIssues;
   }

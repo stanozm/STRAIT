@@ -6,7 +6,7 @@ public interface UrlParser {
   /**
    * Check URL if it is with owner and repository name then parse
    *
-   * @param urlString to check an parse
+   * @param urlString to check and parse
    * @return String[] parsed URL. String[]={Host, Owner, Repository}
    */
   ParsedUrlData parseUrlAndCheck(String urlString);

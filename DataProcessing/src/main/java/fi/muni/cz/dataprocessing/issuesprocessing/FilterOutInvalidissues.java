@@ -3,6 +3,7 @@ package fi.muni.cz.dataprocessing.issuesprocessing;
 import fi.muni.cz.dataprovider.GeneralIssue;
 import fi.muni.cz.dataprovider.RepositoryInformation;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,7 +37,7 @@ public class FilterOutInvalidissues implements Filter {
 
     issueAmountAfter = filteredList.size();
     return filteredList.stream()
-        .sorted((a, b) -> a.getCreatedAt().compareTo(b.getCreatedAt()))
+        .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))
         .collect(Collectors.toList());
   }
 
