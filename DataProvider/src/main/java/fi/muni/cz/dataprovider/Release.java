@@ -1,5 +1,6 @@
 package fi.muni.cz.dataprovider;
 
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -9,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
 
 /** @author Radoslav Micko, 445611@muni.cz */

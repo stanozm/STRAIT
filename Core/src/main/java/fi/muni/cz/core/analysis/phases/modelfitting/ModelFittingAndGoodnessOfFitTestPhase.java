@@ -60,9 +60,10 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
         models
             .parallelStream()
             .forEach(
-                model -> currentCollectionResults.add(
-                    performModelEstimationAndGoodnessofFitTest(
-                        model, testData.size(), getRoundingDecimals(dto.getConfiguration()))));
+                model ->
+                    currentCollectionResults.add(
+                        performModelEstimationAndGoodnessofFitTest(
+                            model, testData.size(), getRoundingDecimals(dto.getConfiguration()))));
         modelResults.add(
             currentCollectionResults.stream()
                 .sorted(Comparator.comparing(ModelResult::getModelName))

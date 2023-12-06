@@ -68,12 +68,11 @@ public class BatchExecution extends StraitExecution {
   @Override
   public void execute(ArgsParser configuration) {
     System.out.println("Executing STRAIT in batch mode");
-      for (ReliabilityAnalysis analysis : analyses) {
-          ReliabilityAnalysisDto dto = new ReliabilityAnalysisDto(configuration);
-          dto.setConfiguration(this.configuration);
-
-          analysisData.add(analysis.performAnalysis(dto));
-      }
+    for (ReliabilityAnalysis analysis : analyses) {
+      ReliabilityAnalysisDto dto = new ReliabilityAnalysisDto(configuration);
+      dto.setConfiguration(this.configuration);
+      analysisData.add(analysis.performAnalysis(dto));
+    }
 
     fileWriter.writeBatchOutputDataToFile(analysisData);
   }
@@ -113,6 +112,7 @@ public class BatchExecution extends StraitExecution {
     if (dataSources.get(0).getType().equals("bugzilla")) {
       analysisPhases.add(new BugzillaDataCollectionPhase(dataSources));
     }
+
     analysisPhases.add(new IssueReportProcessingPhase(getStrategyFromConfiguration(configuration)));
 
     analysisPhases.add(new CumulativeIssueAmountCalculationPhase(periodOfTestingValue));

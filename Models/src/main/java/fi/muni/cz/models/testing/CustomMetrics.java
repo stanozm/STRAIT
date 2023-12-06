@@ -141,10 +141,10 @@ public class CustomMetrics {
   private static BigInteger calculateSumOfSquaresOfDataPointValues(
       List<Pair<Integer, Integer>> dataPoints) {
     BigInteger result = BigInteger.ZERO;
-      for (Pair<Integer, Integer> currentPoint : dataPoints) {
-          BigInteger pointValue = BigInteger.valueOf(currentPoint.getValue());
-          result = result.add(pointValue.pow(2));
-      }
+    for (Pair<Integer, Integer> currentPoint : dataPoints) {
+      BigInteger pointValue = BigInteger.valueOf(currentPoint.getValue());
+      result = result.add(pointValue.pow(2));
+    }
     return result;
   }
 }

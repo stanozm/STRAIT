@@ -2,7 +2,6 @@ package fi.muni.cz.dataprovider.mapping;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +17,8 @@ public class GitHubMapping implements BeanMapping {
    * @param mappingFile name of mapping file.
    */
   public GitHubMapping(String mappingFile) {
-    dozerBeanMapper = DozerBeanMapperBuilder.create().withMappingFiles(List.of(mappingFile)).build();
+    dozerBeanMapper =
+        DozerBeanMapperBuilder.create().withMappingFiles(List.of(mappingFile)).build();
   }
 
   @Override

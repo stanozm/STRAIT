@@ -1,4 +1,5 @@
 package fi.muni.cz.core.exception;
+
 import java.util.List;
 
 /** @author Radoslav Micko, 445611@muni.cz */

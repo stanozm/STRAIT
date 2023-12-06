@@ -23,7 +23,7 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
   private GitHubRepositoryInformationDataProvider githubRepositoryDataProvider;
   private GeneralIssuesSnapshotDao localDataAccess;
 
-  private DataCollectionCacheMode cacheMode;
+  private DatabaseUsageMode dbMode;
 
   private List<GeneralIssuesCollection> issueReportCollections;
 
@@ -31,14 +31,14 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
    * Create new GitHub data collection phase
    *
    * @param dataSources List of GitHub data sources to be used for this collection phase
-   * @param cacheMode Cache mode
+   * @param dbMode Cache mode
    * @param githubIssueDataProvider Github issue data provider
    * @param githubRepositoryDataProvider Github repository data provider
    * @param localDataAccess Object that provides database access
    */
   public GithubDataCollectionPhase(
       List<DataSource> dataSources,
-      DataCollectionCacheMode cacheMode,
+      DatabaseUsageMode dbMode,
       GitHubGeneralIssueDataProvider githubIssueDataProvider,
       GitHubRepositoryInformationDataProvider githubRepositoryDataProvider,
       GeneralIssuesSnapshotDao localDataAccess) {
@@ -50,7 +50,7 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
 
     this.localDataAccess = localDataAccess;
 
-    this.cacheMode = cacheMode;
+    this.dbMode = dbMode;
   }
 
   /**
@@ -63,15 +63,15 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
 
     System.out.println("Collecting data from Github");
 
-    if (cacheMode.equals(DataCollectionCacheMode.NO_CACHE)) {
+    if (dbMode.equals(DatabaseUsageMode.DO_NOT_USE_DATABASE)) {
       collectDataWithoutCaching();
     }
 
-    if (cacheMode.equals(DataCollectionCacheMode.CACHE)) {
+    if (dbMode.equals(DatabaseUsageMode.USE_DATABASE_IF_SNAPSHOT_AVAILABLE)) {
       collectDataWithCaching();
     }
 
-    if (cacheMode.equals(DataCollectionCacheMode.OVERWRITE_CACHE)) {
+    if (dbMode.equals(DatabaseUsageMode.USE_DATABASE_AND_OVERWRITE_SNAPSHOTS)) {
       collectDataAndOverwriteCache();
     }
 
@@ -138,9 +138,7 @@ public class GithubDataCollectionPhase implements ReliabilityAnalysisPhase {
 
   private GeneralIssuesCollection collectIssuesFromDatabase(DataSource dataSource) {
     System.out.println("Attempting issues collection from database");
-    GeneralIssuesCollection issuesCollection =
-        localDataAccess.getSnapshotByName(dataSource.getLocation());
-    return issuesCollection;
+    return localDataAccess.getSnapshotByName(dataSource.getLocation());
   }
 
   private void saveIssuesToDatabase(GeneralIssuesCollection issueReportSet) {

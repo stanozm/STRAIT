@@ -1,5 +1,7 @@
 package fi.muni.cz.models.testing;
 
+import static org.testng.Assert.*;
+
 import fi.muni.cz.dataprocessing.issuesprocessing.modeldata.IssuesCounter;
 import fi.muni.cz.dataprovider.GeneralIssue;
 import java.util.ArrayList;
@@ -9,8 +11,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
 
 /** @author Radoslav Micko, 445611@muni.cz */
 public class LaplaceTrendTestNGTest {
@@ -64,7 +64,7 @@ public class LaplaceTrendTestNGTest {
   public void testNoTrend() {
     TrendTest test = new LaplaceTrendTest(IssuesCounter.SECONDS);
     test.executeTrendTest(listOfIssues);
-      assertFalse(test.getResult());
+    assertFalse(test.getResult());
     assertTrue(test.getTrendValue() > -1.645);
   }
 
@@ -72,7 +72,7 @@ public class LaplaceTrendTestNGTest {
   public void testDecreasingTrend() {
     TrendTest test = new LaplaceTrendTest(IssuesCounter.SECONDS);
     test.executeTrendTest(decreasingReliabilityListOfIssues);
-      assertFalse(test.getResult());
+    assertFalse(test.getResult());
     assertTrue(test.getTrendValue() > 1.645);
   }
 
@@ -80,7 +80,7 @@ public class LaplaceTrendTestNGTest {
   public void testIncreasingTrend() {
     TrendTest test = new LaplaceTrendTest(IssuesCounter.SECONDS);
     test.executeTrendTest(increasingReliabilityListOfIssues);
-      assertTrue(test.getResult());
+    assertTrue(test.getResult());
     assertTrue(test.getTrendValue() < -1.645);
   }
 }

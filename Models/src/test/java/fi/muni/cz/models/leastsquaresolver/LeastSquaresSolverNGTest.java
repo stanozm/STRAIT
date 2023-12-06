@@ -75,7 +75,8 @@ public class LeastSquaresSolverNGTest {
     assertEquals(hossainDahiyaSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
     assertEquals(weibullSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
     assertEquals(logLogisticSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
-    assertEquals(yamadaExponentialSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
+    assertEquals(
+        yamadaExponentialSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
     assertEquals(yamadaRaleighSolver.optimize(int3Arr, listOfPairs).getParameters(), double3Arr);
   }
 }

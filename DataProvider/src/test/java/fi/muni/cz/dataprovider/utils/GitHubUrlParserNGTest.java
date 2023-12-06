@@ -5,7 +5,6 @@ import static org.testng.Assert.assertEquals;
 import fi.muni.cz.dataprovider.exception.DataProviderException;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import org.testng.annotations.Test;
 
 /** @author Radoslav Micko, 445611@muni.cz */

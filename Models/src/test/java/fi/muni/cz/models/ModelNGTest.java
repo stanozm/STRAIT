@@ -50,7 +50,7 @@ public class ModelNGTest {
     Map<String, String> map = new LinkedHashMap<>();
     map.put("a", "a");
     SolverResult solverResult = new SolverResult();
-    solverResult.setParameters(new double[]{1, 1});
+    solverResult.setParameters(new double[] {1, 1});
     solverResult.setAic(1.0);
     solverResult.setBic(1.0);
     when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);
@@ -60,7 +60,7 @@ public class ModelNGTest {
     Map<String, String> map = new LinkedHashMap<>();
     map.put("a", "a");
     SolverResult solverResult = new SolverResult();
-    solverResult.setParameters(new double[]{1.0, 1.0, 1.0});
+    solverResult.setParameters(new double[] {1.0, 1.0, 1.0});
     solverResult.setAic(1.0);
     solverResult.setBic(1.0);
     when(solver.optimize(any(int[].class), any(List.class))).thenReturn(solverResult);

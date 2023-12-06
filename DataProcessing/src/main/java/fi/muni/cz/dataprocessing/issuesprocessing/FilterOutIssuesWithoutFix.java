@@ -2,7 +2,6 @@ package fi.muni.cz.dataprocessing.issuesprocessing;
 
 import fi.muni.cz.dataprovider.GeneralIssue;
 import fi.muni.cz.dataprovider.RepositoryInformation;
-
 import java.util.*;
 import java.util.stream.Collectors;
 

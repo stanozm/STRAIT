@@ -53,10 +53,12 @@ public class ArgsParser {
   public static final String OPT_MOVING_AVERAGE = "ma";
   public static final String OPT_OUT = "out";
   public static final String OPT_GRAPH_MULTIPLE = "gm";
-  public static final String OPT_NEW_SNAPSHOT = "ns";
   public static final String OPT_PERIOD_OF_TESTING = "pt";
   public static final String OPT_TIME_BETWEEN_ISSUES_UNIT = "tb";
   public static final String OPT_SOLVER = "so";
+
+  public static final String OPT_NO_DATABASE = "ndb";
+  public static final String OPT_OVERWRITE_DATABASE = "odb";
 
   public static final String OPT_ROUNDING = "rd";
 
@@ -203,12 +205,6 @@ public class ArgsParser {
             .build();
     options.addOption(option);
     option =
-        Option.builder(OPT_NEW_SNAPSHOT)
-            .longOpt("newSnapshot")
-            .desc("Overwrite snapshot if there is one")
-            .build();
-    options.addOption(option);
-    option =
         Option.builder(OPT_FILTER_LABELS)
             .longOpt("filterLabel")
             .optionalArg(true)
@@ -276,7 +272,7 @@ public class ArgsParser {
     options.addOption(option);
     option =
         Option.builder(OPT_MOVING_AVERAGE)
-            .longOpt("--movingaverage")
+            .longOpt("--movingAverage")
             .desc("Use moving average on cumulative issue counts before fitting model.")
             .hasArgs()
             .argName("Moving average window size")
@@ -329,6 +325,20 @@ public class ArgsParser {
             .desc("Amount of decimals result should be rounded to")
             .build();
     options.addOption(option);
+    option =
+        Option.builder(OPT_NO_DATABASE)
+            .longOpt("noDatabase")
+            .desc(
+                "Disable use of database when collecting issues from GitHub. Meant for use in batch mode.")
+            .build();
+    options.addOption(option);
+    option =
+        Option.builder(OPT_OVERWRITE_DATABASE)
+            .longOpt("overwriteDatabase")
+            .desc(
+                "Overwrite snapshots in database when collecting issues from Github. Meant for use in batch mode.")
+            .build();
+    options.addOption(option);
   }
 
   /**
@@ -365,9 +375,13 @@ public class ArgsParser {
       return URL_AND_LIST_SNAPSHOTS;
     } else if (hasOptionUrl() && hasOptionEvaluate()) {
       return URL_AND_EVALUATE;
-    } else if (hasOptionSnapshotName() && hasOptionEvaluate()) {
+    } else if (hasOptionSnapshotName()
+        && hasOptionEvaluate()
+        && !(hasOptionNoDatabase() || hasOptionOverwriteDatabase())) {
       return SNAPSHOT_NAME_AND_EVALUATE;
-    } else if (hasOptionSnapshotName() && hasOptionListSnapshots()) {
+    } else if (hasOptionSnapshotName()
+        && hasOptionListSnapshots()
+        && !(hasOptionNoDatabase() || hasOptionOverwriteDatabase())) {
       return SNAPSHOT_NAME_AND_LIST_SNAPSHOTS;
     } else if (hasOptionSnapshotName()) {
       return NOT_SUPPORTED;
@@ -620,12 +634,21 @@ public class ArgsParser {
   }
 
   /**
-   * Check if option 'ns' is on command line.
+   * Check if option 'ndb' is on command line.
    *
-   * @return true if there is 'ns' command line, false otherwise.
+   * @return true if there is 'ndb' command line, false otherwise.
    */
-  public boolean hasOptionNewSnapshot() {
-    return cmdl.hasOption(OPT_NEW_SNAPSHOT);
+  public boolean hasOptionNoDatabase() {
+    return cmdl.hasOption(OPT_NO_DATABASE);
+  }
+
+  /**
+   * Check if option 'odb' is on command line.
+   *
+   * @return true if there is 'ndb' command line, false otherwise.
+   */
+  public boolean hasOptionOverwriteDatabase() {
+    return cmdl.hasOption(OPT_OVERWRITE_DATABASE);
   }
 
   /**
@@ -671,15 +694,6 @@ public class ArgsParser {
    */
   public String getOptionValueTimeBetweenIssuesUnit() {
     return cmdl.getOptionValue(OPT_TIME_BETWEEN_ISSUES_UNIT);
-  }
-
-  /**
-   * Get argument value for 'ns'.
-   *
-   * @return argument value.
-   */
-  public String getOptionValueNewSnapshot() {
-    return cmdl.getOptionValue(OPT_NEW_SNAPSHOT);
   }
 
   /**

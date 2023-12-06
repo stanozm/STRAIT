@@ -1,7 +1,7 @@
 package fi.muni.cz.core.executions;
 
 import fi.muni.cz.core.ArgsParser;
-import fi.muni.cz.core.analysis.phases.datacollection.DataCollectionCacheMode;
+import fi.muni.cz.core.analysis.phases.datacollection.DatabaseUsageMode;
 import fi.muni.cz.core.factory.FilterFactory;
 import fi.muni.cz.core.factory.ProcessorFactory;
 import fi.muni.cz.dataprocessing.issuesprocessing.IssueProcessingStrategy;
@@ -55,14 +55,18 @@ public abstract class StraitExecution {
    * @param configuration Configuration object
    * @return Cache mode
    */
-  protected DataCollectionCacheMode getDataCollectionCacheModeFromConfiguration(
+  protected DatabaseUsageMode getDataCollectionCacheModeFromConfiguration(
       ArgsParser configuration) {
 
-    if (configuration.hasOptionNewSnapshot()) {
-      return DataCollectionCacheMode.OVERWRITE_CACHE;
+    if (configuration.hasOptionNoDatabase()) {
+      return DatabaseUsageMode.DO_NOT_USE_DATABASE;
     }
 
-    return DataCollectionCacheMode.CACHE;
+    if (configuration.hasOptionOverwriteDatabase()) {
+      return DatabaseUsageMode.USE_DATABASE_AND_OVERWRITE_SNAPSHOTS;
+    }
+
+    return DatabaseUsageMode.USE_DATABASE_IF_SNAPSHOT_AVAILABLE;
   }
 
   protected IssueProcessingStrategy getStrategyFromConfiguration(ArgsParser configuration) {
