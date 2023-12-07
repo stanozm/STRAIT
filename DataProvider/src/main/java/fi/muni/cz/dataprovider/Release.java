@@ -1,6 +1,8 @@
 package fi.muni.cz.dataprovider;
 
-import org.apache.commons.lang3.StringUtils;
+import jakarta.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,65 +10,65 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Date;
+import org.apache.commons.lang3.StringUtils;
 
-/**
- * @author Radoslav Micko, 445611@muni.cz
- */
+/** @author Radoslav Micko, 445611@muni.cz */
 @Entity
 public class Release implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @NotNull
-    @Column(name = "repo_info_id")
-    private Long repositoryInformationId;
+  @NotNull
+  @Column(name = "repo_info_id")
+  private Long repositoryInformationId;
 
-    private String name;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date publishedAt;
+  private String name;
 
-    public Long getRepositoryInformationId() {
-        return repositoryInformationId;
-    }
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date publishedAt;
 
-    public void setRepositoryInformationId(Long repositoryInformationId) {
-        this.repositoryInformationId = repositoryInformationId;
-    }
+  public Long getRepositoryInformationId() {
+    return repositoryInformationId;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public void setRepositoryInformationId(Long repositoryInformationId) {
+    this.repositoryInformationId = repositoryInformationId;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Date getPublishedAt() {
-        return publishedAt;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setPublishedAt(Date publishedAt) {
-        this.publishedAt = publishedAt;
-    }
+  public Date getPublishedAt() {
+    return publishedAt;
+  }
 
-    /**
-     * Convert to DTO.
-     * @return  DTO
-     */
-    public ReleaseDTO toDto() {
-        return new ReleaseDTO().setName(StringUtils.isBlank(name) ? "Release" : name).setPublishedAt(publishedAt);
-    }
+  public void setPublishedAt(Date publishedAt) {
+    this.publishedAt = publishedAt;
+  }
+
+  /**
+   * Convert to DTO.
+   *
+   * @return DTO
+   */
+  public ReleaseDTO toDto() {
+    return new ReleaseDTO()
+        .setName(StringUtils.isBlank(name) ? "Release" : name)
+        .setPublishedAt(publishedAt);
+  }
 }

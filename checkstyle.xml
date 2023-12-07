@@ -9,10 +9,11 @@
   <!-- Checks for whitespace                               -->
   <!-- See http://checkstyle.sf.net/config_whitespace.html -->
   <module name="FileTabCharacter"/>
-
+  <module name="SuppressWarningsFilter" />
   <module name="TreeWalker">
     <!-- Checks for Javadoc comments.                     -->
     <!-- See http://checkstyle.sf.net/config_javadoc.html -->
+    <module name="SuppressWarningsHolder" />
     <module name="JavadocMethod">
       <property name="scope" value="public"/>
       <property name="allowMissingPropertyJavadoc" value="true"/>

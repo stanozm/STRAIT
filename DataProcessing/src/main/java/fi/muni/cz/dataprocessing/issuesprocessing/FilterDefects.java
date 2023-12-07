@@ -16,55 +16,53 @@ import java.util.stream.Collectors;
  */
 public class FilterDefects implements Filter {
 
-    private static final List<String> FILTERING_WORDS = Arrays.asList("bug","error","fail","fault","defect");
-    private static final List<String> NEGATIVE_FILTERING_WORDS = Arrays.asList(
-            "not-a-bug",
-            "not a bug",
-            "not a defect"
-    );
-    private static final FilterByLabel FILTER_BY_LABELS = new FilterByLabel(FILTERING_WORDS, false);
+  private static final List<String> FILTERING_WORDS =
+      Arrays.asList("bug", "error", "fail", "fault", "defect");
+  private static final List<String> NEGATIVE_FILTERING_WORDS =
+      Arrays.asList("not-a-bug", "not a bug", "not a defect");
+  private static final FilterByLabel FILTER_BY_LABELS = new FilterByLabel(FILTERING_WORDS, false);
 
-    private static final FilterByLabel NEGATIVE_FILTER_BY_LABELS = new FilterByLabel(
-            NEGATIVE_FILTERING_WORDS,
-            true
-    );
+  private static final FilterByLabel NEGATIVE_FILTER_BY_LABELS =
+      new FilterByLabel(NEGATIVE_FILTERING_WORDS, true);
 
-    private int issueAmountBefore;
-    private int issueAmountAfter;
+  private int issueAmountBefore;
+  private int issueAmountAfter;
 
-    @Override
-    public List<GeneralIssue> apply(List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
-        issueAmountBefore = list.size();
-        Set<GeneralIssue> filteredList = new HashSet<>(NEGATIVE_FILTER_BY_LABELS.apply(
-                FILTER_BY_LABELS.apply(list, null), null)
-         );
+  @Override
+  public List<GeneralIssue> apply(
+      List<GeneralIssue> list, RepositoryInformation repositoryInformation) {
+    issueAmountBefore = list.size();
+    Set<GeneralIssue> filteredList =
+        new HashSet<>(NEGATIVE_FILTER_BY_LABELS.apply(FILTER_BY_LABELS.apply(list, null), null));
 
-        for (GeneralIssue issue: list) {
-            if (issue.getBody() == null) {
-                continue;
-            }
-            if (FILTERING_WORDS.stream().anyMatch(filteringWord -> issue.getBody().contains(filteringWord))) {
-                filteredList.add(issue);
-            }
-        }
-
-        issueAmountAfter = filteredList.size();
-        return filteredList.stream()
-                .sorted(Comparator.comparing(GeneralIssue::getCreatedAt)).collect(Collectors.toList());
+    for (GeneralIssue issue : list) {
+      if (issue.getBody() == null) {
+        continue;
+      }
+      if (FILTERING_WORDS.stream()
+          .anyMatch(filteringWord -> issue.getBody().contains(filteringWord))) {
+        filteredList.add(issue);
+      }
     }
 
-    @Override
-    public String infoAboutIssueProcessingAction() {
-        return "FilterDefects used to get only defects.";
-    }
+    issueAmountAfter = filteredList.size();
+    return filteredList.stream()
+        .sorted(Comparator.comparing(GeneralIssue::getCreatedAt))
+        .collect(Collectors.toList());
+  }
 
-    @Override
-    public String infoAboutApplicationResult(){
-        return String.format("Removed %d issue reports", issueAmountBefore - issueAmountAfter);
-    }
+  @Override
+  public String infoAboutIssueProcessingAction() {
+    return "FilterDefects used to get only defects.";
+  }
 
-    @Override
-    public String toString() {
-        return "FilterDefects";
-    }
+  @Override
+  public String infoAboutApplicationResult() {
+    return String.format("Removed %d issue reports", issueAmountBefore - issueAmountAfter);
+  }
+
+  @Override
+  public String toString() {
+    return "FilterDefects";
+  }
 }

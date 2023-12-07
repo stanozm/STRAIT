@@ -3,100 +3,105 @@ package fi.muni.cz.dataprovider;
 import com.opencsv.bean.CsvBindByName;
 import java.util.Date;
 
-/**
- * @author Valtteri Valtonen, valtonenvaltteri@gmail.com
- * */
-
+/** @author Valtteri Valtonen, valtonenvaltteri@gmail.com */
 public class JiraIssue {
 
-    @CsvBindByName(column = "Summary")
-    private String summary;
-    @CsvBindByName(column = "IssueType")
-    private String issueType;
-    @CsvBindByName(column = "Status")
-    private String status;
-    @CsvBindByName(column = "Priority")
-    private String priority;
-    @CsvBindByName(column = "Created")
-    private Date created;
-    @CsvBindByName(column = "Updated")
-    private Date updated;
-    @CsvBindByName(column = "Last Viewed")
-    private Date lastViewed;
-    @CsvBindByName(column = "Description")
-    private String description;
-    @CsvBindByName(column = "Resolved")
-    private String resolved;
+  @CsvBindByName(column = "Summary")
+  private String summary;
 
-    public String getSummary() {
-        return summary;
-    }
+  @CsvBindByName(column = "IssueType")
+  private String issueType;
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
+  @CsvBindByName(column = "Status")
+  private String status;
 
-    public String getIssueType() {
-        return issueType;
-    }
+  @CsvBindByName(column = "Priority")
+  private String priority;
 
-    public void setIssueType(String issueType) {
-        this.issueType = issueType;
-    }
+  @CsvBindByName(column = "Created")
+  private Date created;
 
-    public String getStatus() {
-        return status;
-    }
+  @CsvBindByName(column = "Updated")
+  private Date updated;
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  @CsvBindByName(column = "Last Viewed")
+  private Date lastViewed;
 
-    public String getPriority() {
-        return priority;
-    }
+  @CsvBindByName(column = "Description")
+  private String description;
 
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
+  @CsvBindByName(column = "Resolved")
+  private String resolved;
 
-    public Date getCreated() {
-        return created;
-    }
+  public String getSummary() {
+    return summary;
+  }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
+  public void setSummary(String summary) {
+    this.summary = summary;
+  }
 
-    public Date getUpdated() {
-        return updated;
-    }
+  public String getIssueType() {
+    return issueType;
+  }
 
-    public void setUpdated(Date updated) {
-        this.updated = updated;
-    }
+  public void setIssueType(String issueType) {
+    this.issueType = issueType;
+  }
 
-    public Date getLastViewed() {
-        return lastViewed;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public void setLastViewed(Date lastViewed) {
-        this.lastViewed = lastViewed;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getPriority() {
+    return priority;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setPriority(String priority) {
+    this.priority = priority;
+  }
 
-    public String getResolved() {
-        return resolved;
-    }
+  public Date getCreated() {
+    return created;
+  }
 
-    public void setResolved(String resolved) {
-        this.resolved = resolved;
-    }
+  public void setCreated(Date created) {
+    this.created = created;
+  }
+
+  public Date getUpdated() {
+    return updated;
+  }
+
+  public void setUpdated(Date updated) {
+    this.updated = updated;
+  }
+
+  public Date getLastViewed() {
+    return lastViewed;
+  }
+
+  public void setLastViewed(Date lastViewed) {
+    this.lastViewed = lastViewed;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public String getResolved() {
+    return resolved;
+  }
+
+  public void setResolved(String resolved) {
+    this.resolved = resolved;
+  }
 }
