@@ -1,0 +1,18 @@
+services:
+  java-app:
+    build: ./Core
+    image: STRAIT-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - derby-db
+
+  derby-db:
+    image: az82/docker-derby
+    ports:
+      - "1527:1527"
+    volumes:
+      - derby-data:/derby
+
+volumes:
+  derby-data:
