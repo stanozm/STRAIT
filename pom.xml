@@ -12,7 +12,7 @@
         <module>DataProcessing</module>
         <module>Core</module>
     </modules>
-    
+
     <build>
         <plugins>
             <plugin>

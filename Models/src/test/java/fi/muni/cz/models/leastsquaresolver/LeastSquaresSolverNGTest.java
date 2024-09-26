@@ -7,7 +7,6 @@ import static org.testng.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.math3.util.Pair;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -56,8 +55,8 @@ public class LeastSquaresSolverNGTest {
     when(rEngine.eval("coef(modelDuane2)")).thenReturn(new REXP(doubleArr));
     when(rEngine.eval("coef(modelMO2)")).thenReturn(new REXP(doubleArr));
 
-    when(rEngine.eval(contains("glance"))).thenReturn(new REXP(new int[]{1}));
-    when(rEngine.eval(contains("R2nls"))).thenReturn(new REXP(new int[]{1}));
+    when(rEngine.eval(contains("glance"))).thenReturn(new REXP(new int[] {1}));
+    when(rEngine.eval(contains("R2nls"))).thenReturn(new REXP(new int[] {1}));
 
     int[] intArr = {1, 1};
 

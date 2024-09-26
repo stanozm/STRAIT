@@ -1,8 +1,5 @@
 package fi.muni.cz.core.analysis.phases.datacollection;
 
-import static
-        fi.muni.cz.core.analysis.phases.datacollection.DataCollectionUtil.getRepositoryInformationForFileEvaluation;
-
 import fi.muni.cz.core.analysis.phases.ReliabilityAnalysisPhase;
 import fi.muni.cz.core.dto.DataSource;
 import fi.muni.cz.core.dto.ReliabilityAnalysisDto;
@@ -73,7 +70,8 @@ public class JiraDataCollectionPhase implements ReliabilityAnalysisPhase {
     issueCollection.setUserName("Jira");
 
     issueCollection.setRepositoryInformation(
-        getRepositoryInformationForFileEvaluation(url, issueCollection.getListOfGeneralIssues()));
+        DataCollectionUtil.getRepositoryInformationForFileEvaluation(
+            url, issueCollection.getListOfGeneralIssues()));
 
     return issueCollection;
   }
