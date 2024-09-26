@@ -33,7 +33,7 @@ Follow the following installation and running instructions for the dependencies:
 1. If Java is not installed, run the Java installer
 2. Append Java bin directory to the environment PATH variable (e.g., C:\Program FilesJava\jdk1.8.0\_171\bin)
 3. If R Project is not installed, run the installer
-4. Run the R.exe and in the console, install the packages: 
+4. Run the R.exe (as administrator) and in the console, install the packages: 
     * install.packages("rJava")
     * install.packages("nls2")
     * install.packages("broom")
@@ -55,8 +55,8 @@ executed via terminal:
 
 1. sudo apt-get install default-jdk
 2. sudo apt install dirmngr apt-transport-https ca-certificates software-properties-common gnupg2
-3. sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF'
-4. sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/debian stretch-cran35/'
+3. sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 'E298A3A825C0D65DFD57CBB651716619E084DAB9'
+4. sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/'
 5. sudo apt update
 6. sudo apt install r-base
 7. sudo -i R
@@ -70,6 +70,12 @@ executed via terminal:
 Once the instructions above are completed, 
 you may add a git_hub_authentication_file.properties file to the project folder.
 This file should include your Github credentials as well as the Github api token that starts with ghp_ .
+It should look something like this:
+```
+name=my_github_name
+password=my_github_password
+token=ghp_XXXX...
+```
 
 At this point, the Maven package action should complete. 
 The resulting .jar file can be used to perform reliability analysis. 
