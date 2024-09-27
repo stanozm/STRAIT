@@ -23,7 +23,7 @@ hs_err_pid*
 
 nbproject/
 target/
-#output/
+output/
 .idea/
 .vscode/
 git_hub_authentication_file.properties
