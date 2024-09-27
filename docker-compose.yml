@@ -1,15 +1,18 @@
 services:
   java-app:
     image: strait-service:latest
-    command: ["-url", "https://github.com/stretchr/testify", "-ms", "we", "-e", "-fde", "-fc", "-fdu", "-ft", "2018-01-01T00:00:00", "2021-01-01T00:00:00"]
+    environment:
+      - PARAMS=${PARAMS}
     volumes:
       - ./git_hub_authentication_file.properties:/app/git_hub_authentication_file.properties
       - ./output:/app/output
     depends_on:
       - db
+    entrypoint: ["sh", "-c", "java -jar /app.jar $PARAMS"]
 
   db:
     image: az82/docker-derby
+    container_name: derby-db
     ports:
       - "1527:1527"
     volumes:
