@@ -20,4 +20,3 @@ RUN R -e "remotes::install_github('onofriAndreaPG/aomisc', dependencies=TRUE)"
 ENV R_HOME=/usr/lib/R
 ENV LD_LIBRARY_PATH=/usr/local/lib/R/site-library/rJava/jri
 COPY target/STRAIT.jar /app.jar
-ENTRYPOINT ["java", "-jar", "/app.jar"]
