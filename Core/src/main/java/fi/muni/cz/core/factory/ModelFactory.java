@@ -25,6 +25,7 @@ public class ModelFactory {
   public static final String PHAM_NORDMANN_ZHANG = "pnz";
   public static final String PHAM_ZHANG = "pz";
   public static final String WANG = "wa";
+  public static final String LI = "li";
   public static final String EMPTY_MODEL = "em";
 
   public static final String SOLVER_LEAST_SQUARES = "ls";
@@ -77,6 +78,7 @@ public class ModelFactory {
           ModelFactory.getModel(trainingData, testData, ModelFactory.PHAM_NORDMANN_ZHANG, parser));
       models.add(ModelFactory.getModel(trainingData, testData, ModelFactory.PHAM_ZHANG, parser));
       models.add(ModelFactory.getModel(trainingData, testData, ModelFactory.WANG, parser));
+      models.add(ModelFactory.getModel(trainingData, testData, ModelFactory.LI, parser));
     }
     return models;
   }
@@ -157,6 +159,11 @@ public class ModelFactory {
             cumulativeTrainingData,
             cumulativeTestData,
             getSolverBySolverArgument(parser, WangLeastSquaresSolver.class));
+      case LI:
+        return new PhamZhangModelImpl(
+            cumulativeTrainingData,
+            cumulativeTestData,
+            getSolverBySolverArgument(parser, LiLeastSquaresSolver.class));
       case EMPTY_MODEL:
         return new EmptyModelImpl(
             cumulativeTrainingData,
