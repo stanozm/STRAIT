@@ -155,12 +155,12 @@ public class ModelFactory {
             cumulativeTestData,
             getSolverBySolverArgument(parser, PhamZhangLeastSquaresSolver.class));
       case WANG:
-        return new PhamZhangModelImpl(
+        return new WangModelImpl(
             cumulativeTrainingData,
             cumulativeTestData,
             getSolverBySolverArgument(parser, WangLeastSquaresSolver.class));
       case LI:
-        return new PhamZhangModelImpl(
+        return new LiModelImpl(
             cumulativeTrainingData,
             cumulativeTestData,
             getSolverBySolverArgument(parser, LiLeastSquaresSolver.class));
