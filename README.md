@@ -117,7 +117,7 @@ The tool can also be run in a Docker container. One of the benefits is that you 
 **Running the analysis**
 
 1. Edit the analysis.txt file in the project root folder to specify the analysis options the same way you would do in 
-the command line. You can run multiple analysis each defined in a separate line.
+the command line. You can run multiple analyses at the same time each defined in a separate line.
 For example:
 ```
 -url https://github.com/stretchr/testify -ms mo -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
