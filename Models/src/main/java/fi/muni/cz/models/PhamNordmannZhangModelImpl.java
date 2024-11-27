@@ -10,8 +10,8 @@ import org.apache.commons.math3.util.Pair;
 public class PhamNordmannZhangModelImpl extends ModelAbstract {
   private final String firstParameter = "a";
   private final String secondParameter = "b";
-  private final String thirdParameter = "α";
-  private final String fourthParameter = "β";
+  private final String thirdParameter = "alpha";
+  private final String fourthParameter = "beta";
 
   /**
    * Initialize model attributes.

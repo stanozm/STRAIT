@@ -10,7 +10,7 @@ import org.rosuda.JRI.Rengine;
 /** @author Andrej Mrazik, 456651@muni.cz */
 public class WangLeastSquaresSolver extends SolverAbstract {
   private static final String MODEL_FUNCTION =
-      "a^d * (1 - exp(-b * xvalues)) / (1 + beta * exp(1 - exp(-b * xvalues)))";
+      "a * (1 - exp(-b * xvalues)) / (1 + beta * exp(1 - exp(-b * xvalues)))";
   private static final String MODEL_NAME = "modelWang";
 
   /**
@@ -29,7 +29,7 @@ public class WangLeastSquaresSolver extends SolverAbstract {
         "modelWang2 <- nls2(yvalues ~ "
             + MODEL_FUNCTION
             + ", "
-            + "start = data.frame(a = c(10, 1000),b = c(0.01, 10), c = c(0.01, 10)), "
+            + "start = data.frame(a = c(10, 1000),b = c(0.01, 10), beta = c(0.01, 10)), "
             + "algorithm = \"brute-force\", control = list(warnOnly = TRUE, maxiter = 100000))");
     REXP intermediate = rEngine.eval("coef(" + MODEL_NAME + "2)");
     if (intermediate == null) {
@@ -41,8 +41,8 @@ public class WangLeastSquaresSolver extends SolverAbstract {
             "modelWang <- nls(yvalues ~ "
                 + MODEL_FUNCTION
                 + ", "
-                + "start = list(a = %.10f,b = %.10f, c = %.10f), "
-                + "lower = list(a = 0, b = 0, c = 0), "
+                + "start = list(a = %.10f,b = %.10f, beta = %.10f), "
+                + "lower = list(a = 0, b = 0, beta = 0), "
                 + "control = list(warnOnly = TRUE, maxiter = 100000), "
                 + "algorithm = \"port\")",
             intermediate.asDoubleArray()[0],

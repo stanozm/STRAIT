@@ -10,7 +10,7 @@ import org.rosuda.JRI.Rengine;
 /** @author Andrej Mrazik, 456651@muni.cz */
 public class PhamNordmannZhangLeastSquaresSolver extends SolverAbstract {
   private static final String MODEL_FUNCTION =
-      "(a / (1 + d*exp(-b * xvalues))) * (1 - exp(-b * xvalues)) * (1 - c/b) + (c*xvalues)";
+      "(a / (1 + beta*exp(-b * xvalues))) * (1 - exp(-b * xvalues)) * (1 - alpha/b) + (alpha*xvalues)";
   private static final String MODEL_NAME = "modelPhamNordmannZhang";
 
   /**
@@ -29,7 +29,7 @@ public class PhamNordmannZhangLeastSquaresSolver extends SolverAbstract {
         "modelPhamNordmannZhang2 <- nls2(yvalues ~ "
             + MODEL_FUNCTION
             + ", "
-            + "start = data.frame(a = c(10, 1000),b = c(0.01, 10), c = c(0.01, 10), d = c(0.1, 10)), "
+            + "start = data.frame(a = c(10, 1000),b = c(0.01, 10), alpha = c(0.01, 10), beta = c(0.1, 10)), "
             + "algorithm = \"brute-force\", control = list(warnOnly = TRUE, maxiter = 100000))");
     REXP intermediate = rEngine.eval("coef(" + MODEL_NAME + "2)");
     if (intermediate == null) {
@@ -41,8 +41,8 @@ public class PhamNordmannZhangLeastSquaresSolver extends SolverAbstract {
             "modelPhamNordmannZhang <- nls(yvalues ~ "
                 + MODEL_FUNCTION
                 + ", "
-                + "start = list(a = %.10f,b = %.10f, c = %.10f, d = %.10f), "
-                + "lower = list(a = 0, b = 0, c = 0, d = 0), "
+                + "start = list(a = %.10f,b = %.10f, alpha = %.10f, beta = %.10f), "
+                + "lower = list(a = 0, b = 0, alpha = 0, beta = 0), "
                 + "control = list(warnOnly = TRUE, maxiter = 100000), "
                 + "algorithm = \"port\")",
             intermediate.asDoubleArray()[0],

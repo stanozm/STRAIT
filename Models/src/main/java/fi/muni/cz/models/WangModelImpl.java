@@ -10,7 +10,7 @@ import org.apache.commons.math3.util.Pair;
 public class WangModelImpl extends ModelAbstract {
   private final String firstParameter = "a";
   private final String secondParameter = "b";
-  private final String thirdParameter = "β";
+  private final String thirdParameter = "beta";
 
   /**
    * Initialize model attributes.

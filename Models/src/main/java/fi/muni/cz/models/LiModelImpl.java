@@ -9,9 +9,9 @@ import org.apache.commons.math3.util.Pair;
 /** @author Andrej Mrazik, 456651@muni.cz */
 public class LiModelImpl extends ModelAbstract {
   private final String firstParameter = "a";
-  private final String secondParameter = "v";
-  private final String thirdParameter = "N";
-  private final String fourthParameter = "ϕ";
+  private final String secondParameter = "n";
+  private final String thirdParameter = "phi";
+  private final String fourthParameter = "v";
 
   /**
    * Initialize model attributes.
@@ -30,9 +30,9 @@ public class LiModelImpl extends ModelAbstract {
   @Override
   protected double getFunctionValue(Integer testPeriod) {
     double a = modelParameters.get(firstParameter);
-    double v = modelParameters.get(secondParameter);
-    double n = modelParameters.get(thirdParameter);
-    double phi = modelParameters.get(fourthParameter);
+    double n = modelParameters.get(secondParameter);
+    double phi = modelParameters.get(thirdParameter);
+    double v = modelParameters.get(fourthParameter);
 
     double expVTerm = Math.exp(-v * testPeriod);
     double firstTerm = 1 / (1 + phi * expVTerm);

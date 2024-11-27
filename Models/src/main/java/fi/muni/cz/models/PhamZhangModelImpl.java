@@ -10,9 +10,9 @@ import org.apache.commons.math3.util.Pair;
 public class PhamZhangModelImpl extends ModelAbstract {
   private final String firstParameter = "a";
   private final String secondParameter = "b";
-  private final String thirdParameter = "α";
-  private final String fourthParameter = "β";
-  private final String fifthParameter = "C";
+  private final String thirdParameter = "c";
+  private final String fourthParameter = "alpha";
+  private final String fifthParameter = "beta";
 
   /**
    * Initialize model attributes.
@@ -32,9 +32,9 @@ public class PhamZhangModelImpl extends ModelAbstract {
   protected double getFunctionValue(Integer testPeriod) {
     double a = modelParameters.get(firstParameter);
     double b = modelParameters.get(secondParameter);
-    double alpha = modelParameters.get(thirdParameter);
-    double beta = modelParameters.get(fourthParameter);
-    double c = modelParameters.get(fifthParameter);
+    double c = modelParameters.get(thirdParameter);
+    double alpha = modelParameters.get(fourthParameter);
+    double beta = modelParameters.get(fifthParameter);
 
     double expBTerm = Math.exp(-b * testPeriod);
     double expAlphaTerm = Math.exp(-alpha * testPeriod);
