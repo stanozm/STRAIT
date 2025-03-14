@@ -43,7 +43,7 @@ Follow the following installation and running instructions for the dependencies:
     *  path=R_HOME\bin\x64
     *  path=R_HOME\library\rJava\libs\x64
     *  path=R_HOME\library\rJava\jri\x64
-6. Make sure Apache Derby client server is running or run - *startNetworkServer.bat*
+6. Make sure Apache Derby client server is running or run - *startNetworkServer.bat* (not necessary if you are using the docker setup)
 
 If 32-bit operating system is used the *\x64* part should be replaced with *\i386*.
 
@@ -65,7 +65,7 @@ executed via terminal:
     * install.packages("broom")
     * install.packages("aomisc")
 8. Set the R_HOME variable
-9. Make sure Apache Derby client server is running or run - *startNetworkServer*
+9. Make sure Apache Derby client server is running or run - *startNetworkServer* (not necessary if you are using the docker setup)
 
 Once the instructions above are completed, 
 you may add a git_hub_authentication_file.properties file to the project folder.
@@ -103,6 +103,29 @@ project hosted at GitHub may look like:
 ```java -jar strait.jar -url https://github.com/stretchr/testify -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2021-01-01T00:00:00```
 
 > With the *-url* option, it specifies the location of the project.  The option *-e* starts the execution of the SRGM analysis. No specific models are selected, so all the available SRGMs will be applied. The *-fde* will filter only defects from issue reports. With the option *-fc*, closed issues are only concidered. The *-fdu* option filters out duplicated issues. Furthermore, with *-ft* it limits the time period for which issue reports will be considered.
+
+### Docker setup
+
+The tool can also be run in a Docker container. One of the benefits is that you do not need to manually run a client server.
+
+**Setup**
+
+1. You need to have Docker installed and running on your machine.
+2. Build an image from the Dockerfile in the core module folder by running the following command:
+```docker build -t strait-service:latest Core```
+
+**Running the analysis**
+
+1. Edit the analysis.txt file in the project root folder to specify the analysis options the same way you would do in 
+the command line. You can run multiple analyses at the same time each defined in a separate line.
+For example:
+```
+-url https://github.com/stretchr/testify -ms mo -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
+-url https://github.com/PRML/PRMLT -ms du -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
+```
+2. Run the script in the project root folder to start the analysis:
+```.\run_analysis.sh```
+
 
 ## Run modes
 

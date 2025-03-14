@@ -1,5 +1,1 @@
--url https://github.com/stretchr/testify -ms mo -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
--url https://github.com/PRML/PRMLT -ms du -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
--url https://github.com/FerretDB/FerretDB -ms hd -e -fde -fc -fdu -ft 2022-01-01T00:00:00 2022-05-05T00:00:00
--url https://github.com/json-iterator/go -ms we -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
--url https://github.com/JakeChampion/fetch -ms ye -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
+-url https://github.com/stretchr/testify -ms jw -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00

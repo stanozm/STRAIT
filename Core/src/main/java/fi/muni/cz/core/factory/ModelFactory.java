@@ -2,27 +2,8 @@ package fi.muni.cz.core.factory;
 
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.exception.InvalidInputException;
-import fi.muni.cz.models.DuaneModelImpl;
-import fi.muni.cz.models.EmptyModelImpl;
-import fi.muni.cz.models.GOModelImpl;
-import fi.muni.cz.models.GOSShapedModelImpl;
-import fi.muni.cz.models.HossainDahiyaModelImpl;
-import fi.muni.cz.models.LogLogisticModelImpl;
-import fi.muni.cz.models.Model;
-import fi.muni.cz.models.MusaOkumotoModelImpl;
-import fi.muni.cz.models.WeibullModelImpl;
-import fi.muni.cz.models.YamadaExponentialModelImpl;
-import fi.muni.cz.models.YamadaRaleighModelImpl;
-import fi.muni.cz.models.leastsquaresolver.DuaneLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.EmptyLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.GOLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.GOSShapedLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.HossainDahiyaLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.LogLogisticLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.MusaOkumotoLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.WeibullLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.YamadaExponentialLeastSquaresSolver;
-import fi.muni.cz.models.leastsquaresolver.YamadaRaleighLeastSquaresSolver;
+import fi.muni.cz.models.*;
+import fi.muni.cz.models.leastsquaresolver.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +22,11 @@ public class ModelFactory {
   public static final String YAMADA_EXPONENTIAL = "ye";
   public static final String YAMADA_RALEIGH = "yr";
   public static final String LOG_LOGISITC = "ll";
+  public static final String PHAM_NORDMANN_ZHANG = "pnz";
+  public static final String PHAM_ZHANG = "pz";
+  public static final String WANG = "wa";
+  public static final String LI = "li";
+  public static final String JINYONG_WANG = "jw";
   public static final String EMPTY_MODEL = "em";
 
   public static final String SOLVER_LEAST_SQUARES = "ls";
@@ -89,6 +75,12 @@ public class ModelFactory {
       models.add(
           ModelFactory.getModel(trainingData, testData, ModelFactory.YAMADA_RALEIGH, parser));
       models.add(ModelFactory.getModel(trainingData, testData, ModelFactory.LOG_LOGISITC, parser));
+      models.add(
+          ModelFactory.getModel(trainingData, testData, ModelFactory.PHAM_NORDMANN_ZHANG, parser));
+      models.add(ModelFactory.getModel(trainingData, testData, ModelFactory.PHAM_ZHANG, parser));
+      models.add(ModelFactory.getModel(trainingData, testData, ModelFactory.WANG, parser));
+      models.add(ModelFactory.getModel(trainingData, testData, ModelFactory.LI, parser));
+      models.add(ModelFactory.getModel(trainingData, testData, ModelFactory.JINYONG_WANG, parser));
     }
     return models;
   }
@@ -154,6 +146,31 @@ public class ModelFactory {
             cumulativeTrainingData,
             cumulativeTestData,
             getSolverBySolverArgument(parser, LogLogisticLeastSquaresSolver.class));
+      case PHAM_NORDMANN_ZHANG:
+        return new PhamNordmannZhangModelImpl(
+            cumulativeTrainingData,
+            cumulativeTestData,
+            getSolverBySolverArgument(parser, PhamNordmannZhangLeastSquaresSolver.class));
+      case PHAM_ZHANG:
+        return new PhamZhangModelImpl(
+            cumulativeTrainingData,
+            cumulativeTestData,
+            getSolverBySolverArgument(parser, PhamZhangLeastSquaresSolver.class));
+      case WANG:
+        return new WangModelImpl(
+            cumulativeTrainingData,
+            cumulativeTestData,
+            getSolverBySolverArgument(parser, WangLeastSquaresSolver.class));
+      case LI:
+        return new LiModelImpl(
+            cumulativeTrainingData,
+            cumulativeTestData,
+            getSolverBySolverArgument(parser, LiLeastSquaresSolver.class));
+      case JINYONG_WANG:
+        return new JinyongWangModelImpl(
+            cumulativeTrainingData,
+            cumulativeTestData,
+            getSolverBySolverArgument(parser, JinyongWangLeastSquaresSolver.class));
       case EMPTY_MODEL:
         return new EmptyModelImpl(
             cumulativeTrainingData,
