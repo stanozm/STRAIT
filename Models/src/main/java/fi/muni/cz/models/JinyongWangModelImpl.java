@@ -9,11 +9,10 @@ import org.apache.commons.math3.util.Pair;
 /** @author Andrej Mrazik, 456651@muni.cz */
 public class JinyongWangModelImpl extends ModelAbstract {
   private final String firstParameter = "a";
-  private final String secondParameter = "d";
-  private final String thirdParameter = "n";
+  private final String secondParameter = "theta";
+  private final String thirdParameter = "omega";
   private final String fourthParameter = "beta";
-  private final String fifthParameter = "omega";
-  private final String sixthParameter = "theta";
+  private final String fifthParameter = "d";
 
   /**
    * Initialize model attributes.
@@ -29,9 +28,18 @@ public class JinyongWangModelImpl extends ModelAbstract {
     super(trainingData, testData, solver);
   }
 
+  /**
+   * Calculate factorial with protection against overflow.
+   *
+   * @param num Integer for factorial calculation
+   * @return Factorial as double
+   */
   private double factorial(int num) {
     if (num == 0 || num == 1) {
       return 1.0;
+    }
+    if (num > 170) { // Protect against overflow, same limit as in R
+      return Double.POSITIVE_INFINITY;
     }
     double result = 1.0;
     for (int i = 2; i <= num; i++) {
@@ -40,25 +48,70 @@ public class JinyongWangModelImpl extends ModelAbstract {
     return result;
   }
 
+  /**
+   * Calculate the sum term using logarithms for numerical stability. This matches the R
+   * implementation of calc_sum_term_total.
+   *
+   * @param omega Parameter omega
+   * @param t Time value
+   * @param d Parameter d
+   * @param n Maximum iteration
+   * @return Sum of terms
+   */
+  private double calcSumTermTotal(double omega, double t, double d, int n) {
+    double total = 0.0;
+
+    for (int i = 0; i <= n; i++) {
+      if (i > 170) break; // Same factorial limit as in R
+
+      // Use logarithms for more stable calculation
+      double logTerm =
+          i * Math.log(omega) + (i + d) * Math.log(t) - Math.log(factorial(i)) - Math.log(i + d);
+      double term = Math.exp(logTerm);
+
+      if (Double.isFinite(term)) {
+        total += term;
+      }
+    }
+
+    return total;
+  }
+
   @Override
   protected double getFunctionValue(Integer testPeriod) {
     double a = modelParameters.get(firstParameter);
-    double d = modelParameters.get(secondParameter);
-    double n = modelParameters.get(thirdParameter);
+    double theta = modelParameters.get(secondParameter);
+    double omega = modelParameters.get(thirdParameter);
     double beta = modelParameters.get(fourthParameter);
-    double omega = modelParameters.get(fifthParameter);
-    double theta = modelParameters.get(sixthParameter);
+    double d = modelParameters.get(fifthParameter);
+    int n = 5;
 
-    double expOmegaT = Math.exp(omega * testPeriod);
-    double expBetaOmega = Math.exp(beta * Math.pow(testPeriod, d) + omega * testPeriod);
+    double t = testPeriod;
 
-    double summation = 0.0;
-    for (int i = 0; i <= n; i++) {
-      double term = (Math.pow(omega, i) * Math.pow(testPeriod, i + d)) / (factorial(i) * (i + d));
-      summation += term;
+    // Check for overflow condition
+    if (omega * t > 700) {
+      return a; // Asymptotic behavior for high values
     }
 
-    return (a / (theta + expOmegaT)) * (expBetaOmega - beta * d * summation - 1);
+    // Calculate sum term using the numerically stable method
+    double sumTerm = calcSumTermTotal(omega, t, d, n);
+
+    // Calculate components
+    double denominator = theta + Math.exp(omega * t);
+    double expTermExponent = beta * Math.pow(t, d) + omega * t;
+
+    double expTerm;
+    if (expTermExponent > 700) {
+      expTerm = a; // Asymptotic behavior for high values
+    } else {
+      expTerm = Math.exp(expTermExponent);
+    }
+
+    // Calculate result with checks for validity
+    double result = (a / denominator) * (expTerm - beta * d * sumTerm - 1);
+
+    // Ensure result is non-negative
+    return Math.max(0, result);
   }
 
   @Override
@@ -69,25 +122,17 @@ public class JinyongWangModelImpl extends ModelAbstract {
     map.put(thirdParameter, params[2]);
     map.put(fourthParameter, params[3]);
     map.put(fifthParameter, params[4]);
-    map.put(sixthParameter, params[5]);
     modelParameters = map;
   }
 
   @Override
   protected int[] getInitialParametersValue() {
-    return new int[] {
-      trainingIssueData.get(trainingIssueData.size() - 1).getSecond(), 1, 1, 1, 1, 1
-    };
+    return new int[] {trainingIssueData.get(trainingIssueData.size() - 1).getSecond(), 1, 1, 1, 1};
   }
 
   @Override
   public String getTextFormOfTheFunction() {
-    //    return "μ(t) = a / (theta + e<html><sup>omega*t</sup></html>) "
-    //        + "* (e<html><sup>beta*t<html><sup>d</sup></html> + omega*t</sup></html> - beta * d *
-    // "
-    //        + "<html>&sum;</html><sub>i=0</sub><sup>n</sup> ((omega<html><sup>i</sup></html> "
-    //        + "* t<html><sup>(i+d)</sup></html>) / (i! * (i + d))) - 1)";
-    return "μ(t) = toBeImplemented";
+    return "μ(t) = a / (θ + e^(ωt)) * (e^(βt^d + ωt) - βd * sum_term - 1)";
   }
 
   @Override

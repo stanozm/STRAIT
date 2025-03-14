@@ -29,7 +29,7 @@ public class WangLeastSquaresSolver extends SolverAbstract {
         "modelWang2 <- nls2(yvalues ~ "
             + MODEL_FUNCTION
             + ", "
-            + "start = data.frame(a = c(10, 1000),b = c(0.01, 10), beta = c(0.01, 10)), "
+            + "start = data.frame(a = c(10, 100000),b = c(0.0001, 1000), beta = c(0.0001, 1000)), "
             + "algorithm = \"brute-force\", control = list(warnOnly = TRUE, maxiter = 100000))");
     REXP intermediate = rEngine.eval("coef(" + MODEL_NAME + "2)");
     if (intermediate == null) {

@@ -1,20 +1,22 @@
 package fi.muni.cz.models.leastsquaresolver;
 
 import fi.muni.cz.models.exception.ModelException;
+import fi.muni.cz.models.utils.RScriptExceptionHandler;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.Locale;
 import org.apache.commons.math3.util.Pair;
-import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
 
 /** @author Andrej Mrazik, 456651@muni.cz */
 public class JinyongWangLeastSquaresSolver extends SolverAbstract {
-  private static final String MODEL_FUNCTION =
-      "a / (theta + exp(omega * xvalues)) *"
-          + "  (exp(beta * xvalues^d + omega * xvalues) -"
-          + "   beta * d * "
-          + "sum(sapply(0:n, function(i) ((omega^i * xvalues^(i + d)) / (factorial(i) * (i + d)))) - 1))";
-  private static final String MODEL_NAME = "modelJinyongWang";
+  private static final String MODEL_NAME = "jinyongWangModel";
+  private static final String R_SCRIPT_RESOURCE = "/scripts/jinyong_wang_model.R"; // Resource path
 
   /**
    * Initialize Rengine.
@@ -27,56 +29,165 @@ public class JinyongWangLeastSquaresSolver extends SolverAbstract {
 
   @Override
   public SolverResult optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData) {
-    initializeOptimizationInR(listOfData);
-    rEngine.eval(
-        "modelJinyongWang2 <- nls2(yvalues ~ "
-            + MODEL_FUNCTION
-            + ", "
-            + "start = data.frame("
-            + "a = c(100, 10000), d = c(0.01, 10), n = 3, beta = c(0.0001,1), "
-            + "omega = c(0.01, 1), theta = c(0.1, 10000)), "
-            + "algorithm = \"brute-force\", control = list(warnOnly = TRUE, maxiter = 100000))");
-    REXP intermediate = rEngine.eval("coef(" + MODEL_NAME + "2)");
-    if (intermediate == null) {
-      throw new ModelException("Repository data not suitable for R evaluation.");
+    File rScriptFile = null;
+    File dataFile = null;
+    File resultsFile = null;
+
+    try {
+      // Extract and prepare files
+      rScriptFile = extractRScriptToTempFile();
+      dataFile = createDataFile(listOfData);
+      resultsFile = File.createTempFile("results", ".csv");
+      resultsFile.deleteOnExit();
+
+      // Execute the R script
+      String scriptOutput = executeRScript(rScriptFile, dataFile, resultsFile);
+
+      // Process the results
+      return processResults(resultsFile, scriptOutput);
+
+    } catch (IOException | InterruptedException e) {
+      handleException(e);
+      return null; // Will not reach here due to exception being thrown
     }
-    rEngine.eval(
-        String.format(
-            Locale.US,
-            "modelJinyongWang <- nls(yvalues ~ "
-                + MODEL_FUNCTION
-                + ", "
-                + "start = list(a = %.10f,d = %.10f, n = %.10f, beta = %.10f, omega = %.10f, theta = %.10f), "
-                + "lower = list(a = 0, d = 0, n = 0, beta = 0, omega = 0, theta = 0), "
-                + "control = list(warnOnly = TRUE, maxiter = 100000), "
-                + "algorithm = \"port\")",
-            intermediate.asDoubleArray()[0],
-            intermediate.asDoubleArray()[1],
-            intermediate.asDoubleArray()[2],
-            intermediate.asDoubleArray()[3],
-            intermediate.asDoubleArray()[4],
-            intermediate.asDoubleArray()[5]));
-    REXP result = rEngine.eval("coef(" + MODEL_NAME + ")");
+  }
 
-    rEngine.eval("library(broom)");
-    REXP aic = rEngine.eval(String.format("glance(%s)$AIC", MODEL_NAME));
-    REXP bic = rEngine.eval(String.format("glance(%s)$BIC", MODEL_NAME));
+  /**
+   * Extracts the R script from resources to a temporary file.
+   *
+   * @return A File object for the extracted R script
+   * @throws IOException If file operations fail
+   * @throws ModelException If the R script resource cannot be found
+   */
+  private File extractRScriptToTempFile() throws IOException, ModelException {
+    try (InputStream inputStream = getClass().getResourceAsStream(R_SCRIPT_RESOURCE)) {
+      if (inputStream == null) {
+        throw new ModelException("R script not found in resources: " + R_SCRIPT_RESOURCE);
+      }
 
-    rEngine.eval("library(aomisc)");
-    REXP pseudoRSquared = rEngine.eval(String.format("R2nls(%s)$PseudoR2", MODEL_NAME));
-
-    rEngine.end();
-    if (result == null || result.asDoubleArray().length < 6) {
-      return new SolverResult();
+      File rScriptFile = File.createTempFile("jinyong_wang_model", ".R");
+      Files.copy(inputStream, rScriptFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+      rScriptFile.deleteOnExit();
+      return rScriptFile;
     }
-    double[] d = result.asDoubleArray();
+  }
 
+  /**
+   * Creates a CSV file with the data.
+   *
+   * @param listOfData The data to write
+   * @return A File object for the created CSV file
+   * @throws IOException If file writing fails
+   */
+  private File createDataFile(List<Pair<Integer, Integer>> listOfData) throws IOException {
+    File dataFile = File.createTempFile("data", ".csv");
+    dataFile.deleteOnExit();
+
+    try (FileWriter writer = new FileWriter(dataFile)) {
+      writer.write("x,y\n"); // Header
+      for (Pair<Integer, Integer> pair : listOfData) {
+        writer.write(pair.getFirst() + "," + pair.getSecond() + "\n");
+      }
+    }
+
+    return dataFile;
+  }
+
+  /**
+   * Executes the R script with the provided input and output files.
+   *
+   * @param rScriptFile The R script file
+   * @param dataFile The input data file
+   * @param resultsFile The output results file
+   * @return The captured console output (for error reporting)
+   * @throws IOException If process I/O fails
+   * @throws InterruptedException If the process is interrupted
+   * @throws ModelException If the R script execution fails
+   */
+  private String executeRScript(File rScriptFile, File dataFile, File resultsFile)
+      throws IOException, InterruptedException, ModelException {
+    // Use the RScriptExceptionHandler to execute the R script
+    String[] args = {dataFile.getAbsolutePath(), resultsFile.getAbsolutePath()};
+
+    return RScriptExceptionHandler.executeRScriptWithOutput(rScriptFile.getAbsolutePath(), args);
+  }
+
+  /**
+   * Processes the results from the R script execution.
+   *
+   * @param resultsFile The file containing the results
+   * @param scriptOutput The captured console output (for error reporting)
+   * @return A SolverResult object with the model parameters and statistics
+   * @throws IOException If file reading fails
+   * @throws ModelException If results processing fails
+   */
+  private SolverResult processResults(File resultsFile, String scriptOutput)
+      throws IOException, ModelException {
+    // Validate results file
+    RScriptExceptionHandler.validateResultsFile(resultsFile, scriptOutput);
+
+    // Read results from the output file
+    List<String> resultLines = Files.readAllLines(Paths.get(resultsFile.getAbsolutePath()));
+    RScriptExceptionHandler.validateResultLines(resultLines, scriptOutput);
+
+    // Parse the results (skip header line)
+    String[] values = resultLines.get(1).split(",");
+    RScriptExceptionHandler.validateValues(values, 8, scriptOutput);
+
+    return createSolverResult(values, scriptOutput);
+  }
+
+  /**
+   * Creates a SolverResult object from the parsed values.
+   *
+   * @param values Array of string values to parse
+   * @param scriptOutput The captured console output (for error reporting)
+   * @return A SolverResult object
+   * @throws ModelException If parsing fails
+   */
+  private SolverResult createSolverResult(String[] values, String scriptOutput)
+      throws ModelException {
+    // Extract parameters
+    double[] params = new double[5];
+    for (int i = 0; i < 5; i++) {
+      params[i] = RScriptExceptionHandler.parseParameterValue(values[i], i, scriptOutput);
+    }
+
+    // Extract statistics
+    double aic = RScriptExceptionHandler.parseParameterValue(values[5], 5, scriptOutput);
+    double bic = RScriptExceptionHandler.parseParameterValue(values[6], 6, scriptOutput);
+    double rSquared = RScriptExceptionHandler.parseParameterValue(values[7], 7, scriptOutput);
+
+    // Create the solver result
     SolverResult solverResult = new SolverResult();
-    solverResult.setParameters(new double[] {d[0], d[1], d[2], d[3], d[4], d[5]});
-    solverResult.setAic(aic.asDoubleArray()[0]);
-    solverResult.setBic(bic.asDoubleArray()[0]);
-    solverResult.setPseudoRSquared(pseudoRSquared.asDoubleArray()[0]);
+    solverResult.setParameters(params);
+    solverResult.setAic(aic);
+    solverResult.setBic(bic);
+    solverResult.setPseudoRSquared(rSquared);
 
     return solverResult;
+  }
+
+  /**
+   * Handles exceptions by logging and re-throwing with appropriate type.
+   *
+   * @param e The exception to handle
+   * @throws ModelException Always throws a ModelException with the appropriate message
+   */
+  private void handleException(Exception e) throws ModelException {
+    if (e instanceof IOException) {
+      System.err.println("I/O error during R script execution: " + e.getMessage());
+      e.printStackTrace();
+      throw new ModelException("I/O error during R script execution: " + e.getMessage());
+    } else if (e instanceof InterruptedException) {
+      System.err.println("R script execution was interrupted: " + e.getMessage());
+      e.printStackTrace();
+      Thread.currentThread().interrupt(); // Restore interrupted status
+      throw new ModelException("R script execution was interrupted: " + e.getMessage());
+    } else {
+      System.err.println("Error during R script execution: " + e.getMessage());
+      e.printStackTrace();
+      throw new ModelException("Error during R script execution: " + e.getMessage());
+    }
   }
 }

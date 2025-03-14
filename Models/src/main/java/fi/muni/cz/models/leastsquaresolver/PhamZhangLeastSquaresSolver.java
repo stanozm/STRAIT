@@ -32,7 +32,8 @@ public class PhamZhangLeastSquaresSolver extends SolverAbstract {
             + MODEL_FUNCTION
             + ", "
             + "start = data.frame("
-            + "a = c(10, 1000),b = c(0.01, 10), c = 10, alpha = c(0.01, 10), beta = c(0.01, 10)), "
+            + "a = c(100, 100000),b = c(0.0001, 1), c = c(0.01, 10), alpha = c(0.01, 100), "
+            + "beta = c(0.01, 100)), "
             + "algorithm = \"brute-force\", control = list(warnOnly = TRUE, maxiter = 100000))");
     REXP intermediate = rEngine.eval("coef(" + MODEL_NAME + "2)");
     if (intermediate == null) {

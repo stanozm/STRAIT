@@ -29,7 +29,7 @@ public class LiLeastSquaresSolver extends SolverAbstract {
         "modelLi2 <- nls2(yvalues ~ "
             + MODEL_FUNCTION
             + ", "
-            + "start = data.frame(a = c(10, 1000),n = c(0.1, 10), phi = c(0.01, 10), v = c(0.1, 10)), "
+            + "start = data.frame(a = c(10, 100000),n = c(0.0001, 1000), phi = c(0.0001, 1000), v = c(0.0001, 1000)), "
             + "algorithm = \"brute-force\", control = list(warnOnly = TRUE, maxiter = 100000))");
     REXP intermediate = rEngine.eval("coef(" + MODEL_NAME + "2)");
     if (intermediate == null) {
