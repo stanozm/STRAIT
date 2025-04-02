@@ -33,7 +33,7 @@ Follow the following installation and running instructions for the dependencies:
 1. If Java is not installed, run the Java installer
 2. Append Java bin directory to the environment PATH variable (e.g., C:\Program FilesJava\jdk1.8.0\_171\bin)
 3. If R Project is not installed, run the installer
-4. Run the R.exe and in the console, install the packages: 
+4. Run the R.exe (as administrator) and in the console, install the packages: 
     * install.packages("rJava")
     * install.packages("nls2")
     * install.packages("broom")
@@ -43,7 +43,7 @@ Follow the following installation and running instructions for the dependencies:
     *  path=R_HOME\bin\x64
     *  path=R_HOME\library\rJava\libs\x64
     *  path=R_HOME\library\rJava\jri\x64
-6. Make sure Apache Derby client server is running or run - *startNetworkServer.bat*
+6. Make sure Apache Derby client server is running or run - *startNetworkServer.bat* (not necessary if you are using the docker setup)
 
 If 32-bit operating system is used the *\x64* part should be replaced with *\i386*.
 
@@ -55,8 +55,8 @@ executed via terminal:
 
 1. sudo apt-get install default-jdk
 2. sudo apt install dirmngr apt-transport-https ca-certificates software-properties-common gnupg2
-3. sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 'E19F5F87128899B192B1A2C2AD5F960A256A04AF'
-4. sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/debian stretch-cran35/'
+3. sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 'E298A3A825C0D65DFD57CBB651716619E084DAB9'
+4. sudo add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu jammy-cran40/'
 5. sudo apt update
 6. sudo apt install r-base
 7. sudo -i R
@@ -65,11 +65,17 @@ executed via terminal:
     * install.packages("broom")
     * install.packages("aomisc")
 8. Set the R_HOME variable
-9. Make sure Apache Derby client server is running or run - *startNetworkServer*
+9. Make sure Apache Derby client server is running or run - *startNetworkServer* (not necessary if you are using the docker setup)
 
 Once the instructions above are completed, 
 you may add a git_hub_authentication_file.properties file to the project folder.
 This file should include your Github credentials as well as the Github api token that starts with ghp_ .
+It should look something like this:
+```
+name=my_github_name
+password=my_github_password
+token=ghp_XXXX...
+```
 
 At this point, the Maven package action should complete. 
 The resulting .jar file can be used to perform reliability analysis. 
@@ -97,6 +103,29 @@ project hosted at GitHub may look like:
 ```java -jar strait.jar -url https://github.com/stretchr/testify -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2021-01-01T00:00:00```
 
 > With the *-url* option, it specifies the location of the project.  The option *-e* starts the execution of the SRGM analysis. No specific models are selected, so all the available SRGMs will be applied. The *-fde* will filter only defects from issue reports. With the option *-fc*, closed issues are only concidered. The *-fdu* option filters out duplicated issues. Furthermore, with *-ft* it limits the time period for which issue reports will be considered.
+
+### Docker setup
+
+The tool can also be run in a Docker container. One of the benefits is that you do not need to manually run a client server.
+
+**Setup**
+
+1. You need to have Docker installed and running on your machine.
+2. Build an image from the Dockerfile in the core module folder by running the following command:
+```docker build -t strait-service:latest Core```
+
+**Running the analysis**
+
+1. Edit the analysis.txt file in the project root folder to specify the analysis options the same way you would do in 
+the command line. You can run multiple analyses at the same time each defined in a separate line.
+For example:
+```
+-url https://github.com/stretchr/testify -ms mo -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
+-url https://github.com/PRML/PRMLT -ms du -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
+```
+2. Run the script in the project root folder to start the analysis:
+```.\run_analysis.sh```
+
 
 ## Run modes
 

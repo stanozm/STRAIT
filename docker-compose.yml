@@ -1,0 +1,22 @@
+services:
+  java-app:
+    image: strait-service:latest
+    environment:
+      - PARAMS=${PARAMS}
+    volumes:
+      - ./git_hub_authentication_file.properties:/app/git_hub_authentication_file.properties
+      - ./output:/app/output
+    depends_on:
+      - db
+    entrypoint: ["sh", "-c", "java -jar /app.jar $PARAMS"]
+
+  db:
+    image: az82/docker-derby
+    container_name: derby-db
+    ports:
+      - "1527:1527"
+    volumes:
+      - db_data:/derby_data
+
+volumes:
+  db_data:
