@@ -3,6 +3,7 @@ package fi.muni.cz.core.factory;
 import fi.muni.cz.core.ArgsParser;
 import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.models.*;
+import fi.muni.cz.models.exception.RJriExceptionHandler;
 import fi.muni.cz.models.leastsquaresolver.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +34,7 @@ public class ModelFactory {
   public static final String SOLVER_MAXIMUM_LIKELIHOOD = "ml";
 
   private static Rengine rengine;
+  private static RJriExceptionHandler handler;
 
   public static void setREngine(Rengine rEngine) {
     rengine = rEngine;
@@ -40,6 +42,10 @@ public class ModelFactory {
 
   public static Rengine getREngine() {
     return rengine;
+  }
+
+  public static void setHandler(RJriExceptionHandler exceptionHandler) {
+    handler = exceptionHandler;
   }
 
   /**
@@ -89,7 +95,6 @@ public class ModelFactory {
    * Get Model for string value.
    *
    * @param cumulativeTrainingData cumulative data.
-   * @param goodnes-of-fit.
    * @param modelArg represnetation of model.
    * @return Model
    * @throws InvalidInputException when there is no such implmented model.
@@ -188,7 +193,9 @@ public class ModelFactory {
       if (parser.hasOptionSolver()) {
         switch (parser.getOptionValueSolver()) {
           case SOLVER_LEAST_SQUARES:
-            return solverClass.getDeclaredConstructor(Rengine.class).newInstance(rengine);
+            return solverClass
+                .getDeclaredConstructor(Rengine.class, RJriExceptionHandler.class)
+                .newInstance(rengine, handler);
           case SOLVER_MAXIMUM_LIKELIHOOD:
             // To be implemented
             throw new InvalidInputException(
@@ -200,7 +207,9 @@ public class ModelFactory {
                     "No such solver implemented: '" + parser.getOptionValueSolver() + "'"));
         }
       } else {
-        return solverClass.getDeclaredConstructor(Rengine.class).newInstance(rengine);
+        return solverClass
+            .getDeclaredConstructor(Rengine.class, RJriExceptionHandler.class)
+            .newInstance(rengine, handler);
       }
     } catch (ReflectiveOperationException ex) {
       throw new IllegalArgumentException(ex);
