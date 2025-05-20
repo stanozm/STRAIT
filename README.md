@@ -104,29 +104,6 @@ project hosted at GitHub may look like:
 
 > With the *-url* option, it specifies the location of the project.  The option *-e* starts the execution of the SRGM analysis. No specific models are selected, so all the available SRGMs will be applied. The *-fde* will filter only defects from issue reports. With the option *-fc*, closed issues are only concidered. The *-fdu* option filters out duplicated issues. Furthermore, with *-ft* it limits the time period for which issue reports will be considered.
 
-### Docker setup
-
-The tool can also be run in a Docker container. One of the benefits is that you do not need to manually run a client server.
-
-**Setup**
-
-1. You need to have Docker installed and running on your machine.
-2. Build an image from the Dockerfile in the core module folder by running the following command:
-```docker build -t strait-service:latest Core```
-
-**Running the analysis**
-
-1. Edit the analysis.txt file in the project root folder to specify the analysis options the same way you would do in 
-the command line. You can run multiple analyses at the same time each defined in a separate line.
-For example:
-```
--url https://github.com/stretchr/testify -ms mo -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
--url https://github.com/PRML/PRMLT -ms du -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
-```
-2. Run the script in the project root folder to start the analysis:
-```.\run_analysis.sh```
-
-
 ## Run modes
 
 This version of STRAIT supports several different run modes. 
@@ -189,6 +166,29 @@ By default, the project URL is used as the snapshot name.
 In addition to the previously mentioned modes, certain other informative modes are also available.
 You can list all snapshots in the database, as well as list all snapshots for a certain URL. 
 Options for these are available in the options table.
+
+# Docker
+
+The tool can also be run in a Docker container. One of the benefits is that you do not need to manually run a client 
+server. The docker-compose file is by default using the batch analysis mode. To specify which projects should be 
+analyzed, you can edit the batchconfig.json file in the project root folder.
+
+**Setup**
+1. Jar file is created using the Maven package action (```mvn clean install```).
+2. Docker is running on your machine.
+3. Need to edit value of connection.url in [hibernate](`DataProcessing/src/main/resources/hibernate.cfg.xml`) to
+   point to the database: ```jdbc:derby://derby-db:1527/STRAITDB;create=true```.
+4. Run the analysis by typing the following command in the project root folder:
+```docker-compose up --build```
+
+By default the analysis in Docker runs with the following analysis options: ```-e, -fde, -fc, -fdu```
+
+* To change the analysis options you have one of two choices:
+  * Choice A: edit the docker-compose.yml file in the project root folder, specifically the line
+  ```command: [...]``` and then run analysis normally ```docker-compose up --build```
+  * Choice B: override the docker options from command line with docker-compose run, for example:
+  ```docker-compose run --rm java-app java -jar /app.jar -bcf batchConfig.json -e -fde -fc -fdu -ms li```
+
 
 # Table - options
 
