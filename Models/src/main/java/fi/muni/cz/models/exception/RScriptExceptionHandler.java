@@ -1,6 +1,5 @@
-package fi.muni.cz.models.utils;
+package fi.muni.cz.models.exception;
 
-import fi.muni.cz.models.exception.ModelException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -8,8 +7,10 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 /**
- * Utility class for handling R script execution and related exceptions. This class provides methods
- * for executing R scripts, processing their output, and handling errors in a standardized way.
+ * Exception handler for R script operations. Provides centralized exception handling for R code
+ * execution.
+ *
+ * @author Andrej Mrazik, 456651@muni.cz
  */
 public class RScriptExceptionHandler {
 
@@ -72,7 +73,7 @@ public class RScriptExceptionHandler {
     if (exitCode != 0) {
       System.err.println("R script execution failed with exit code: " + exitCode);
       System.err.println("R script output:");
-      System.err.println(output.toString());
+      System.err.println(output);
       throw new ModelException("R script execution failed with exit code: " + exitCode);
     }
 

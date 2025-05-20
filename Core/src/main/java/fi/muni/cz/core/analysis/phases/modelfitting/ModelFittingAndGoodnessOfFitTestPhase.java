@@ -41,7 +41,7 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
 
     for (DataPointCollection dataPointCollection : dto.getCumulativeIssueReportCollections()) {
 
-      float trainingDataPortion = 0.66f;
+      float trainingDataPortion = 0.5f;
       int trainingDataEndIndex =
           Math.round(trainingDataPortion * dataPointCollection.getDataPoints().size());
 
