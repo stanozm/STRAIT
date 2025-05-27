@@ -9,7 +9,6 @@ import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.factory.ModelFactory;
 import fi.muni.cz.models.Model;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +40,7 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
 
     for (DataPointCollection dataPointCollection : dto.getCumulativeIssueReportCollections()) {
 
-      float trainingDataPortion = 0.5f;
+      float trainingDataPortion = 0.66f;
       int trainingDataEndIndex =
           Math.round(trainingDataPortion * dataPointCollection.getDataPoints().size());
 
@@ -54,22 +53,21 @@ public class ModelFittingAndGoodnessOfFitTestPhase implements ReliabilityAnalysi
               .subList(trainingDataEndIndex, dataPointCollection.getDataPoints().size());
 
       try {
-        List<ModelResult> currentCollectionResults =
-            Collections.synchronizedList(new ArrayList<>());
+
         List<Model> models = getModels(dto, trainingData, testData);
-        models
-            .parallelStream()
-            .forEach(
-                model ->
-                    currentCollectionResults.add(
+        List<ModelResult> currentCollectionResults =
+            models.stream()
+                .map(
+                    model ->
                         performModelEstimationAndGoodnessofFitTest(
-                            model, testData.size(), getRoundingDecimals(dto.getConfiguration()))));
-        modelResults.add(
-            currentCollectionResults.stream()
+                            model, testData.size(), getRoundingDecimals(dto.getConfiguration())))
                 .sorted(Comparator.comparing(ModelResult::getModelName))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+
+        modelResults.add(currentCollectionResults);
       } catch (InvalidInputException e) {
-        e.printStackTrace();
+        System.err.println(
+            "Error during model fitting and goodness of fit test: " + e.getMessage());
       }
     }
 

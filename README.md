@@ -37,8 +37,7 @@ Follow the following installation and running instructions for the dependencies:
     * install.packages("rJava")
     * install.packages("nls2")
     * install.packages("broom")
-    * install.packages("remotes")
-    * remotes::install_github("onofriAndreaPG/aomisc")
+    * install.packages("statforbiology")
 5. Set the environment variables for R Project:
     *  R_HOME=Path-to-R-install-directory (e.g., R_HOME=C:\Program Files\R-3.5.)
     *  path=R_HOME\bin\x64
@@ -64,8 +63,7 @@ executed via terminal:
     * install.packages("rJava")
     * install.packages("nls2")
     * install.packages("broom")
-    * install.packages("remotes")
-    * remotes::install.packages("onofriAndreaPG/aomisc")
+    * install.packages("statforbiology")
 8. Set the R_HOME variable
 9. Make sure Apache Derby client server is running or run - *startNetworkServer* (not necessary if you are using the docker setup)
 
@@ -181,7 +179,7 @@ analyzed, you can edit the batchconfig.json file in the project root folder.
 2. Jar file is created using the Maven package action (```mvn clean install```).
 3. Docker is running on your machine.
 4. Run the analysis by typing the following command in the project root folder:
-```docker-compose up --abort-on-container-exit --exit-code-from service```
+```docker-compose up --abort-on-container-exit --exit-code-from java-app```
 
 By default the analysis in Docker runs with the following analysis options: ```-e, -fde, -fc, -fdu```
 
