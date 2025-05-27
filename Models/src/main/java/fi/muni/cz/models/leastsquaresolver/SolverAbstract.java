@@ -258,7 +258,7 @@ public abstract class SolverAbstract implements Solver {
               "Failed to extract BIC statistic for model - " + modelName);
 
       // Load aomisc library and extract R-squared
-      handler.loadLibrary(rEngine, "aomisc");
+      handler.loadLibrary(rEngine, "statforbiology");
 
       REXP pseudoRSquared =
           handler.safeEval(

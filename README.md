@@ -21,7 +21,7 @@ This can be done using the Maven package action.
 Before building, make sure that your environment fulfills the following requirements:
 
 * Java JDK version 21: [https://www.java.com/en/](https://www.java.com/en/)
-* R Project, version 4.3.1: [https://cloud.r-project.org/](https://cloud.r-project.org/)
+* R Project, version 4.4.1: [https://cloud.r-project.org/](https://cloud.r-project.org/)
 * Apache Derby DB, version 10.16.1.1: [https://db.apache.org/derby](https://db.apache.org/derby/papers/DerbyTut/install_software.html#derby)
 
 The tool has been tested to work with the versions mentioned above, but the version requirements may not be absolute.
@@ -37,7 +37,7 @@ Follow the following installation and running instructions for the dependencies:
     * install.packages("rJava")
     * install.packages("nls2")
     * install.packages("broom")
-    * install.packages("aomisc")
+    * install.packages("statforbiology")
 5. Set the environment variables for R Project:
     *  R_HOME=Path-to-R-install-directory (e.g., R_HOME=C:\Program Files\R-3.5.)
     *  path=R_HOME\bin\x64
@@ -63,7 +63,7 @@ executed via terminal:
     * install.packages("rJava")
     * install.packages("nls2")
     * install.packages("broom")
-    * install.packages("aomisc")
+    * install.packages("statforbiology")
 8. Set the R_HOME variable
 9. Make sure Apache Derby client server is running or run - *startNetworkServer* (not necessary if you are using the docker setup)
 
@@ -174,18 +174,18 @@ server. The docker-compose file is by default using the batch analysis mode. To 
 analyzed, you can edit the batchconfig.json file in the project root folder.
 
 **Setup**
-1. Jar file is created using the Maven package action (```mvn clean install```).
-2. Docker is running on your machine.
-3. Need to edit value of connection.url in [hibernate](`DataProcessing/src/main/resources/hibernate.cfg.xml`) to
+1. Need to edit value of connection.url in [hibernate](`DataProcessing/src/main/resources/hibernate.cfg.xml`) to
    point to the database: ```jdbc:derby://derby-db:1527/STRAITDB;create=true```.
+2. Jar file is created using the Maven package action (```mvn clean install```).
+3. Docker is running on your machine.
 4. Run the analysis by typing the following command in the project root folder:
-```docker-compose up --build```
+```docker-compose up --abort-on-container-exit --exit-code-from java-app```
 
 By default the analysis in Docker runs with the following analysis options: ```-e, -fde, -fc, -fdu```
 
 * To change the analysis options you have one of two choices:
   * Choice A: edit the docker-compose.yml file in the project root folder, specifically the line
-  ```command: [...]``` and then run analysis normally ```docker-compose up --build```
+  ```command: [...]```
   * Choice B: override the docker options from command line with docker-compose run, for example:
   ```docker-compose run --rm java-app java -jar /app.jar -bcf batchConfig.json -e -fde -fc -fdu -ms li```
 
