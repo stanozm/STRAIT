@@ -1,16 +1,18 @@
 services:
   java-app:
-    image: strait-service:latest
-    environment:
-      - PARAMS=${PARAMS}
+    build:
+      context: ./Core
+      dockerfile: Dockerfile
+    container_name: STRAIT-app
     volumes:
       - ./git_hub_authentication_file.properties:/app/git_hub_authentication_file.properties
       - ./output:/app/output
+      - .:/app
     depends_on:
-      - db
-    entrypoint: ["sh", "-c", "java -jar /app.jar $PARAMS"]
+      - derby-db
+    command: ["java", "-jar", "/app.jar", "-bcf", "batchConfig.json", "-e", "-fde", "-fc", "-fdu"]
 
-  db:
+  derby-db:
     image: az82/docker-derby
     container_name: derby-db
     ports:

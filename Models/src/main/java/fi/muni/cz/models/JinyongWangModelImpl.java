@@ -132,12 +132,12 @@ public class JinyongWangModelImpl extends ModelAbstract {
 
   @Override
   public String getTextFormOfTheFunction() {
-    return "μ(t) = a / (θ + e^(ωt)) * (e^(βt^d + ωt) - βd * sum_term - 1)";
+    return "μ(t) = a / (θ + e^(ωt)) * (e^(βt^d + ωt) <br>" + "- βd * sum_term - 1)";
   }
 
   @Override
   public String toString() {
-    return "JinyongWang model";
+    return "Jinyong Wang model";
   }
 
   @Override

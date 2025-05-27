@@ -58,8 +58,8 @@ public class PhamNordmannZhangModelImpl extends ModelAbstract {
 
   @Override
   public String getTextFormOfTheFunction() {
-    return "μ(t) = (a / (1 + β*e<html><sup>-b*t</sup></html>)) * (1 - e<html><sup>-b*t</sup></html>) * "
-        + "(1 - α/b) + (α*t)";
+    return "μ(t) = (a / (1 + β*e<html><sup>-b*t</sup></html>)) * (1 - e<html><sup>-b*t</sup></html>) <br>"
+        + "* (1 - α/b) + (α*t)";
   }
 
   @Override

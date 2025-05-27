@@ -1,80 +1,73 @@
 package fi.muni.cz.models.leastsquaresolver;
 
-import fi.muni.cz.models.exception.ModelException;
+import fi.muni.cz.models.exception.RJriExceptionHandler;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.REXP;
 import org.rosuda.JRI.Rengine;
 
-/** @author Andrej Mrazik, 456651@muni.cz */
+/**
+ * Pham-Zhang model least squares solver implementation.
+ *
+ * @author Andrej Mrazik, 456651@muni.cz
+ */
 public class PhamZhangLeastSquaresSolver extends SolverAbstract {
   private static final String MODEL_FUNCTION =
-      "((c + a) * (1 - exp(-b * xvalues))"
+      "(a * (1 - exp(-b * xvalues))"
           + " - (a * b * (exp(-alpha * xvalues) - exp(-b * xvalues)) / (b - alpha)))"
           + " / (1 + beta * exp(-b * xvalues))";
   private static final String MODEL_NAME = "modelPhamZhang";
+  private static final int PARAMETER_COUNT = 4;
+  private static final List<String> PARAMETER_NAMES = Arrays.asList("a", "b", "alpha", "beta");
 
   /**
-   * Initialize Rengine.
+   * Initialize Rengine and exception handler.
    *
    * @param rEngine Rengine.
+   * @param handler RJriExceptionHandler.
    */
-  public PhamZhangLeastSquaresSolver(Rengine rEngine) {
-    super(rEngine);
+  public PhamZhangLeastSquaresSolver(Rengine rEngine, RJriExceptionHandler handler) {
+    super(rEngine, handler);
   }
 
   @Override
-  public SolverResult optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData) {
-    initializeOptimizationInR(listOfData);
-    rEngine.eval(
-        "modelPhamZhang2 <- nls2(yvalues ~ "
-            + MODEL_FUNCTION
-            + ", "
-            + "start = data.frame("
-            + "a = c(100, 100000),b = c(0.0001, 1), c = c(0.01, 10), alpha = c(0.01, 100), "
-            + "beta = c(0.01, 100)), "
-            + "algorithm = \"brute-force\", control = list(warnOnly = TRUE, maxiter = 100000))");
-    REXP intermediate = rEngine.eval("coef(" + MODEL_NAME + "2)");
-    if (intermediate == null) {
-      throw new ModelException("Repository data not suitable for R evaluation (nls2).");
-    }
-    rEngine.eval(
-        String.format(
-            Locale.US,
-            "modelPhamZhang <- nls(yvalues ~ "
-                + MODEL_FUNCTION
-                + ", "
-                + "start = list(a = %.10f,b = %.10f, c = %.10f, alpha = %.10f, beta = %.10f), "
-                + "lower = list(a = 0, b = 0, c = 0, alpha = 0, beta = 0), "
-                + "control = list(warnOnly = TRUE, maxiter = 100000), "
-                + "algorithm = \"port\")",
-            intermediate.asDoubleArray()[0],
-            intermediate.asDoubleArray()[1],
-            intermediate.asDoubleArray()[2],
-            intermediate.asDoubleArray()[3],
-            intermediate.asDoubleArray()[4]));
-    REXP result = rEngine.eval("coef(" + MODEL_NAME + ")");
+  protected String getModelFunction() {
+    return MODEL_FUNCTION;
+  }
 
-    rEngine.eval("library(broom)");
-    REXP aic = rEngine.eval(String.format("glance(%s)$AIC", MODEL_NAME));
-    REXP bic = rEngine.eval(String.format("glance(%s)$BIC", MODEL_NAME));
+  @Override
+  protected String getModelName() {
+    return MODEL_NAME;
+  }
 
-    rEngine.eval("library(aomisc)");
-    REXP pseudoRSquared = rEngine.eval(String.format("R2nls(%s)$PseudoR2", MODEL_NAME));
+  @Override
+  protected int getParameterCount() {
+    return PARAMETER_COUNT;
+  }
 
-    rEngine.end();
-    if (result == null || result.asDoubleArray().length < 5) {
-      throw new ModelException("Repository data not suitable for R evaluation (nls).");
-    }
-    double[] d = result.asDoubleArray();
+  @Override
+  protected List<String> getParameterNames() {
+    return PARAMETER_NAMES;
+  }
 
-    SolverResult solverResult = new SolverResult();
-    solverResult.setParameters(new double[] {d[0], d[1], d[2], d[3], d[4]});
-    solverResult.setAic(aic.asDoubleArray()[0]);
-    solverResult.setBic(bic.asDoubleArray()[0]);
-    solverResult.setPseudoRSquared(pseudoRSquared.asDoubleArray()[0]);
+  @Override
+  protected String buildStartParametersDataFrame() {
+    return "a = c(100, 100000), "
+        + "b = c(0.0001, 1), "
+        + "alpha = c(0.01, 100), "
+        + "beta = c(0.01, 100)";
+  }
 
-    return solverResult;
+  @Override
+  protected String buildStartParametersList(REXP intermediate) {
+    double[] params = intermediate.asDoubleArray();
+    return String.format(
+        Locale.US,
+        "a = %.10f, b = %.10f, alpha = %.10f, beta = %.10f",
+        params[0],
+        params[1],
+        params[2],
+        params[3]);
   }
 }

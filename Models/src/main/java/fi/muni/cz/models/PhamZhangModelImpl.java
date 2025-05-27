@@ -32,14 +32,13 @@ public class PhamZhangModelImpl extends ModelAbstract {
   protected double getFunctionValue(Integer testPeriod) {
     double a = modelParameters.get(firstParameter);
     double b = modelParameters.get(secondParameter);
-    double c = modelParameters.get(thirdParameter);
-    double alpha = modelParameters.get(fourthParameter);
-    double beta = modelParameters.get(fifthParameter);
+    double alpha = modelParameters.get(thirdParameter);
+    double beta = modelParameters.get(fourthParameter);
 
     double expBTerm = Math.exp(-b * testPeriod);
     double expAlphaTerm = Math.exp(-alpha * testPeriod);
 
-    double numeratorPart1 = (c + a) * (1 - expBTerm);
+    double numeratorPart1 = a * (1 - expBTerm);
     double numeratorPart2 = (a * b * (expAlphaTerm - expBTerm)) / (b - alpha);
     double denominator = 1 + beta * expBTerm;
 
@@ -53,20 +52,20 @@ public class PhamZhangModelImpl extends ModelAbstract {
     map.put(secondParameter, params[1]);
     map.put(thirdParameter, params[2]);
     map.put(fourthParameter, params[3]);
-    map.put(fifthParameter, params[4]);
     modelParameters = map;
   }
 
   @Override
   protected int[] getInitialParametersValue() {
-    return new int[] {trainingIssueData.get(trainingIssueData.size() - 1).getSecond(), 1, 1, 1, 1};
+    return new int[] {trainingIssueData.get(trainingIssueData.size() - 1).getSecond(), 1, 1, 1};
   }
 
   @Override
   public String getTextFormOfTheFunction() {
-    return "μ(t) = ((C+a)"
-        + "∗(1−e<html><sup>−b∗t</sup></html>)"
+    return "μ(t) = (a∗(1−e<html><sup>−b∗t</sup></html>)"
+        + "<br>"
         + "−(a∗b∗(e<html><sup>−alpha∗t</sup></html>−e<html><sup>−b∗t</sup></html>)/(b−alpha)))"
+        + "<br>"
         + "/(1+beta∗e<html><sup>−b∗t</sup></html>)";
   }
 

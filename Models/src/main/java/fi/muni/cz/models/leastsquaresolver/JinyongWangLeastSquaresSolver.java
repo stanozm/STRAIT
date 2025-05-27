@@ -1,7 +1,10 @@
 package fi.muni.cz.models.leastsquaresolver;
 
+import static fi.muni.cz.models.exception.RScriptExceptionHandler.handleException;
+
 import fi.muni.cz.models.exception.ModelException;
-import fi.muni.cz.models.utils.RScriptExceptionHandler;
+import fi.muni.cz.models.exception.RJriExceptionHandler;
+import fi.muni.cz.models.exception.RScriptExceptionHandler;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,18 +17,17 @@ import org.apache.commons.math3.util.Pair;
 import org.rosuda.JRI.Rengine;
 
 /** @author Andrej Mrazik, 456651@muni.cz */
-public class JinyongWangLeastSquaresSolver extends SolverAbstract {
+public class JinyongWangLeastSquaresSolver implements Solver {
   private static final String MODEL_NAME = "jinyongWangModel";
   private static final String R_SCRIPT_RESOURCE = "/scripts/jinyong_wang_model.R"; // Resource path
 
   /**
-   * Initialize Rengine.
+   * Initialize Rengine and exception handler.
    *
    * @param rEngine Rengine.
+   * @param handler RJriExceptionHandler.
    */
-  public JinyongWangLeastSquaresSolver(Rengine rEngine) {
-    super(rEngine);
-  }
+  public JinyongWangLeastSquaresSolver(Rengine rEngine, RJriExceptionHandler handler) {}
 
   @Override
   public SolverResult optimize(int[] startParameters, List<Pair<Integer, Integer>> listOfData) {
@@ -166,28 +168,5 @@ public class JinyongWangLeastSquaresSolver extends SolverAbstract {
     solverResult.setPseudoRSquared(rSquared);
 
     return solverResult;
-  }
-
-  /**
-   * Handles exceptions by logging and re-throwing with appropriate type.
-   *
-   * @param e The exception to handle
-   * @throws ModelException Always throws a ModelException with the appropriate message
-   */
-  private void handleException(Exception e) throws ModelException {
-    if (e instanceof IOException) {
-      System.err.println("I/O error during R script execution: " + e.getMessage());
-      e.printStackTrace();
-      throw new ModelException("I/O error during R script execution: " + e.getMessage());
-    } else if (e instanceof InterruptedException) {
-      System.err.println("R script execution was interrupted: " + e.getMessage());
-      e.printStackTrace();
-      Thread.currentThread().interrupt(); // Restore interrupted status
-      throw new ModelException("R script execution was interrupted: " + e.getMessage());
-    } else {
-      System.err.println("Error during R script execution: " + e.getMessage());
-      e.printStackTrace();
-      throw new ModelException("Error during R script execution: " + e.getMessage());
-    }
   }
 }
