@@ -4,6 +4,7 @@ import fi.muni.cz.core.exception.InvalidInputException;
 import fi.muni.cz.core.executions.RunConfiguration;
 import fi.muni.cz.core.executions.StraitExecution;
 import fi.muni.cz.core.factory.ModelFactory;
+import fi.muni.cz.models.exception.RJriExceptionHandler;
 import java.time.Duration;
 import java.time.Instant;
 import org.rosuda.JRI.Rengine;
@@ -44,6 +45,7 @@ public class Core {
     Instant start = Instant.now();
 
     ModelFactory.setREngine(RENGINE);
+    ModelFactory.setHandler(new RJriExceptionHandler());
 
     RunConfiguration runConfiguration = PARSER.getRunConfiguration();
 

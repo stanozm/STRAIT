@@ -21,7 +21,7 @@ This can be done using the Maven package action.
 Before building, make sure that your environment fulfills the following requirements:
 
 * Java JDK version 21: [https://www.java.com/en/](https://www.java.com/en/)
-* R Project, version 4.3.1: [https://cloud.r-project.org/](https://cloud.r-project.org/)
+* R Project, version 4.4.1: [https://cloud.r-project.org/](https://cloud.r-project.org/)
 * Apache Derby DB, version 10.16.1.1: [https://db.apache.org/derby](https://db.apache.org/derby/papers/DerbyTut/install_software.html#derby)
 
 The tool has been tested to work with the versions mentioned above, but the version requirements may not be absolute.
@@ -37,7 +37,7 @@ Follow the following installation and running instructions for the dependencies:
     * install.packages("rJava")
     * install.packages("nls2")
     * install.packages("broom")
-    * install.packages("aomisc")
+    * install.packages("statforbiology")
 5. Set the environment variables for R Project:
     *  R_HOME=Path-to-R-install-directory (e.g., R_HOME=C:\Program Files\R-3.5.)
     *  path=R_HOME\bin\x64
@@ -63,7 +63,7 @@ executed via terminal:
     * install.packages("rJava")
     * install.packages("nls2")
     * install.packages("broom")
-    * install.packages("aomisc")
+    * install.packages("statforbiology")
 8. Set the R_HOME variable
 9. Make sure Apache Derby client server is running or run - *startNetworkServer* (not necessary if you are using the docker setup)
 
@@ -103,29 +103,6 @@ project hosted at GitHub may look like:
 ```java -jar strait.jar -url https://github.com/stretchr/testify -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2021-01-01T00:00:00```
 
 > With the *-url* option, it specifies the location of the project.  The option *-e* starts the execution of the SRGM analysis. No specific models are selected, so all the available SRGMs will be applied. The *-fde* will filter only defects from issue reports. With the option *-fc*, closed issues are only concidered. The *-fdu* option filters out duplicated issues. Furthermore, with *-ft* it limits the time period for which issue reports will be considered.
-
-### Docker setup
-
-The tool can also be run in a Docker container. One of the benefits is that you do not need to manually run a client server.
-
-**Setup**
-
-1. You need to have Docker installed and running on your machine.
-2. Build an image from the Dockerfile in the core module folder by running the following command:
-```docker build -t strait-service:latest Core```
-
-**Running the analysis**
-
-1. Edit the analysis.txt file in the project root folder to specify the analysis options the same way you would do in 
-the command line. You can run multiple analyses at the same time each defined in a separate line.
-For example:
-```
--url https://github.com/stretchr/testify -ms mo -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
--url https://github.com/PRML/PRMLT -ms du -e -fde -fc -fdu -ft 2018-01-01T00:00:00 2019-01-01T00:00:00
-```
-2. Run the script in the project root folder to start the analysis:
-```.\run_analysis.sh```
-
 
 ## Run modes
 
@@ -189,6 +166,29 @@ By default, the project URL is used as the snapshot name.
 In addition to the previously mentioned modes, certain other informative modes are also available.
 You can list all snapshots in the database, as well as list all snapshots for a certain URL. 
 Options for these are available in the options table.
+
+# Docker
+
+The tool can also be run in a Docker container. One of the benefits is that you do not need to manually run a client 
+server. The docker-compose file is by default using the batch analysis mode. To specify which projects should be 
+analyzed, you can edit the batchconfig.json file in the project root folder.
+
+**Setup**
+1. Need to edit value of connection.url in [hibernate](`DataProcessing/src/main/resources/hibernate.cfg.xml`) to
+   point to the database: ```jdbc:derby://derby-db:1527/STRAITDB;create=true```.
+2. Jar file is created using the Maven package action (```mvn clean install```).
+3. Docker is running on your machine.
+4. Run the analysis by typing the following command in the project root folder:
+```docker-compose up --abort-on-container-exit --exit-code-from java-app```
+
+By default the analysis in Docker runs with the following analysis options: ```-e, -fde, -fc, -fdu```
+
+* To change the analysis options you have one of two choices:
+  * Choice A: edit the docker-compose.yml file in the project root folder, specifically the line
+  ```command: [...]```
+  * Choice B: override the docker options from command line with docker-compose run, for example:
+  ```docker-compose run --rm java-app java -jar /app.jar -bcf batchConfig.json -e -fde -fc -fdu -ms li```
+
 
 # Table - options
 
